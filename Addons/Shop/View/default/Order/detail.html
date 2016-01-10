@@ -34,9 +34,9 @@
             </div>
             </volist>
             <div class="address_info">
-            	<p><span>收件人：</span>{$addressInfo.truename}</p>
+            	<p><span>收件人：</span>{$addressInfo.name}</p>
                 <p><span>联系方式：</span>{$addressInfo.mobile}</p>
-                <p><span>收货地址：</span>{$addressInfo.address}</p>
+                <p><span>收货地址：</span>{$addressInfo.province}-{$addressInfo.city}-{$addressInfo.area}-{$addressInfo.address}</p>
                 <p><span>付款方式: </span>{$info.common}</p>
                 <p><span>总价: </span>{$info.total_price}元</p>
             	<p><span>订单留言: </span>{$info.remark}</p>                

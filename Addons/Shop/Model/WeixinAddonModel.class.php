@@ -14,7 +14,7 @@ class WeixinAddonModel extends WeixinModel{
 			'Title' => '微商城演示',
 			'Description' => '点此进入',
 			'PicUrl' => 'http://img3.imgtn.bdimg.com/it/u=332202090,1013300913&fm=21&gp=0.jpg',
-			'Url' => addons_url('Shop://Wap/index/')
+			'Url' => addons_url ( 'Shop://Wap/index', array ('token' =>get_token())),
 		);
 		replyNews($articles);
 

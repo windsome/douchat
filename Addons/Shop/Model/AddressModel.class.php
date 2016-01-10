@@ -8,7 +8,7 @@ use Think\Model;
  * Shop模型
  */
 class AddressModel extends Model {
-	protected $tableName = 'shop_address';
+	protected $tableName = 'address';
 	function getInfo($id, $update = false, $data = array()) {
 		$key = 'Address_getInfo_' . $id;
 		$info = S ( $key );
