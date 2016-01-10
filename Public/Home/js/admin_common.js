@@ -198,19 +198,19 @@
 	// };
 
 	/**顶部警告栏*/
+	/**顶部警告栏*/
 	var content = $('#main');
-	var top_alert = $('#toast-container') ? $('#toast-container') : $('#top-alert');
+	var top_alert = $('#top-alert');
 	top_alert.find('.close').on('click', function () {
 		top_alert.removeClass('block').slideUp(200);
 		// content.animate({paddingTop:'-=55'},200);
 	});
 
     window.updateAlert = function (text,c) {
-
 		text = text||'default';
 		c = c||false;
 		if ( text!='default' ) {
-            $('.toast-message') ? top_alert.find('.toast-message').text(text) : top_alert.find('.alert-content').text(text);
+            top_alert.find('.alert-content').text(text);
 			if (top_alert.hasClass('block')) {
 			} else {
 				top_alert.addClass('block').slideDown(200);
@@ -223,21 +223,15 @@
 			}
 		}
 		if ( c!=false ) {
-			$('.toast') ? top_alert.find('.toast').removeClass('toast-error toast-warn toast-info toast-success').addClass(c) : top_alert.removeClass('alert-error alert-warn alert-info alert-success').addClass(c);
+            top_alert.removeClass('alert-error alert-warn alert-info alert-success').addClass(c);
 		}
 		setTimeout(function(){
-			if ($('#toast-container')) {
-				if($('#toast-container').is(":visible")){
-					$('#toast-container').find('.close').click();
-				}
-			} else {
-				if($('#top-alert').is(":visible")){
-					$('#top-alert').find('.close').click();
-				}
+			if($('#top-alert').is(":visible")){
+				$('#top-alert').find('.close').click();
 			}
-			
 		},2000)
 	};
+
 
     //按钮组
     (function(){
