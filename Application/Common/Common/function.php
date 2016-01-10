@@ -3665,7 +3665,20 @@ function sendCustomMessage($data){
  */
 function sendTemplateMessage($data){
 	$weObj = getWechatApiObj();
-  	return $weObj->sendTemplateMessage($data);
+  	$res = $weObj->sendTemplateMessage($data);
+  	
+  	$senddata = array(					// 记录模板消息发送结果
+		'openid' => $data['touser'],
+		'template_id' => $data['template_id'],
+		'MsgID' => $res['msgid'],
+		'message' => $data,
+		'sendstatus' => $res['errcode']==0 ? 0 : 1,
+		'token' => get_token(),
+		'ctime' => time(),
+	);
+	M ('tmplmsg')->add ( $senddata );
+
+	return $res;
 }
 
 function getRevTplMsgID(){
