@@ -1,0 +1,50 @@
+<include file="Public/mobile_head"/>	
+<link href="{:CUSTOM_TEMPLATE_PATH}Subcate/STV1/main.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+<div class="container">
+    <if condition="!empty($category)">
+    <div class="banner">
+    	<ul>
+            <volist name="category" id="vo">
+            	<li>
+                <a class="item" href="{$vo.url}" style="font-size:12px;">
+                   <img src="{$vo.icon}"/>
+                   <div class="item_content">
+                   	 <div class="item_t">
+                         <p class="name">
+                            {$vo.title}
+                        </p>
+                        <span class="time">{$vo.tv_time}</span>  
+                    </div>
+                     <p class="desc">
+                     	{$vo.desc}
+                     </p>
+                   </div>
+                </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+    </if>
+</div>
+<p class="copyright">{$system_copy_right}</p>
+<!-- 底部导航 -->
+{$footer_html}
+<!-- 统计代码 -->
+<notempty name="config.code">
+<p class="hide bdtongji">
+{$config.code}
+</p>
+<else />
+<p class="hide bdtongji">
+{$tongji_code}
+</p>
+</notempty>
+</body>
+<script type="text/javascript">
+$(function(){
+	$.WeiPHP.programBanner(false,5000);
+})
+
+</script>
+</html>

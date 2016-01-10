@@ -1,0 +1,118 @@
+<block name="header"></block>
+<block name="style">
+<style type="text/css">
+a{
+  text-decoration: none !important;
+}
+</style>
+</block>
+<!-- <php> //验证登录
+  if(!is_login()){
+  Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
+  redirect(U('home/user/login',array('from'=>4)));
+  } </php>
+ -->
+  <php>
+$m = strtolower(MODULE_NAME);
+$c = strtolower(CONTROLLER_NAME);
+$a = strtolower(ACTION_NAME);
+
+//验证登录
+if(!is_login()){
+   redirect(U('home/user/login'));
+}
+
+$ad = ucfirst ( parse_name ( $_REQUEST['_addons'], 1 ) );
+$navClass[$ad] = 'active';
+$navClass[$m.'_'.$c.'_'.$a] = 'active';
+$addonList = D ( 'Addons' )->getWeixinList (false, array(), true);
+
+$categorys = M ( 'addon_category' )->order ( 'sort asc, id desc' )->select ();
+foreach($categorys as &$cate){
+   foreach($addonList as $k=>$a){
+      if($cate['id']==intval($a['cate_id'])){
+           $cate['addons'][] = $a;
+           unset($addonList[$k]);
+      }
+   }
+}
+</php>
+<div id="main-container" class="admin_container">
+  
+    <div class="sidebar">
+
+     
+
+      <ul class="sidenav">
+
+        <li>
+          <a class="sidenav_parent" href="javascript:;"> 
+            <img src="https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_function.png"/>
+            管理</a>
+          <ul class="sidenav_sub">
+            
+              <li class="" data-id=""> <a href="{:U('Home/Public/lists')}">公众号管理</a><b class="active_arrow"></b></li>
+              <li class="" data-id=""> <a href="{:U('Home/WeixinMessage/lists')}">消息管理</a><b class="active_arrow"></b></li>
+              <li class="" data-id=""> <a href="{:U('Home/UserCenter/lists')}">用户管理</a><b class="active_arrow"></b></li>
+              <li class="" data-id=""> <a href="{:U('Home/Material/material_lists')}">素材管理</a><b class="active_arrow"></b></li>
+              <li class="" data-id=""> <a href="{:U('Home/Message/add')}">群发管理</a><b class="active_arrow"></b></li>
+            
+          </ul>
+        </li>  
+        
+        <volist name='categorys' id='ca'>
+        <if condition="$ca['addons'] neq ''">
+        <li>
+          <a class="sidenav_parent" href="javascript:;"> 
+            <img src="https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_function.png"/>
+            {$ca.title}</a>
+          <ul class="sidenav_sub">
+            <volist name='ca.addons' id='vo'>
+              <li class="{$vo.class}" data-id="{$vo.id}"> <a href="{$vo[addons_url]}">{$vo.title}</a><b class="active_arrow"></b></li>
+            </volist>
+          </ul>
+        </li>
+        </if>
+        </volist>
+
+        <li style="position: absolute;
+    bottom: 0px;
+    text-align: center;
+    border: 2px dashed #ccc;
+    width: 177px;
+    margin: 10px;">
+          <a class="addons_list" href="{:U('Home/Index/addons_list')}" style="border-bottom:none">应用管理</a>
+        </li>
+
+       <!--  <li>
+          <notempty name="addonList"><a class="sidenav_parent" href="javascript:;"> 
+            <img src="https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_function.png"/>
+            未分类</a></notempty>
+          <ul class="sidenav_sub">
+            <volist name='addonList' id='vo'>
+              <if condition="$vo['cate_id'] eq null" >
+              <li class="{$vo.class}" data-id="{$vo.id}"> <a href="{$vo.url}"> {$vo.title} </a><b class="active_arrow"></b></li>
+              </if>
+            </volist>
+          </ul>
+        </li> -->
+        
+      </ul>
+    </div>
+ 
+  <div class="main_body">
+    <block name="body"></block>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+       
+      // $("ul.nav li[class='active'] a").attr("target","_self");
+       
+      var now_url = "<?php echo GetCurUrl(); ?>";  // 获取当前浏览地址
+      // alert(now_url);
+      $(".sidenav_sub a[href='"+now_url+"']").parent().addClass("active");
+       
+    })
+</script>

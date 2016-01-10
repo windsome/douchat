@@ -1,0 +1,120 @@
+<extend name="Base/jssdk_common" />
+<block name="html">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>地址管理</title>
+        <link rel="stylesheet" href="__FUI__/css/frozen.css">
+        <style type="text/css">
+			.ui-footer{
+				line-height: 56px;
+				text-align: center;
+			}
+			.ui-footer a{
+				color: #333;
+				text-decoration: none;
+			}
+			.ui-checkbox{
+				position: relative;
+	  			top: 33px;
+	  			z-index: 999999;
+			}
+
+			footer{
+				background-color: #18b4ed !important;
+			}
+
+			footer a{
+				color: #fff !important;
+			}
+
+			footer i{
+				display: inline !important;
+			    font-size: 20px !important;
+			    color: #fff !important;
+			    margin-right: 5px;
+			}
+		</style>
+    </head>
+    <body>
+
+		<header class="ui-header ui-header-stable ui-border-b">
+		    <i class="ui-icon-return"></i><h1>我的地址</h1>
+		</header>
+
+		<section class="ui-container feedback-form">
+			<ul class="ui-list ui-list-link ui-border-tb">
+			   	<volist name="addList" id="vo">
+			    <li>
+			        <label class="ui-checkbox">
+		                <input type="checkbox" value="{$vo.id}" <if condition="$vo['is_default'] eq 1">checked</if>>
+		            </label>
+			        <div class="ui-list-info ui-border-t addressItem" data-href="{:U('add',array('id'=>$vo['id']))}">
+			            <h4 class="ui-nowrap">{$vo.name}，{$vo.mobile}</h4>
+			            <p class="ui-nowrap">{$vo.province}&nbsp;{$vo.city}&nbsp;{$vo.area}&nbsp;{$vo.address}</p>
+			        </div>
+			    </li>
+				</volist>
+			</ul>
+		</section>
+
+		<footer class="ui-footer ui-footer-stable ui-border-t">
+		    <i class="ui-icon-add"></i><a href="{:U('add')}">新增地址</a>
+		</footer>
+
+		<script type="text/javascript">
+			$(function(){
+
+				$(".ui-icon-return").tap(function(){
+					var return_url = "{$return_url}";
+					if (return_url) {
+						window.location.href = return_url;
+					} else {
+						closePage();
+					}
+				});
+
+				$("footer").tap(function(){
+					window.location.href = "{:U('add')}";
+				})
+
+				$(".addressItem").tap(function(){
+					var href = $(this).attr('data-href');
+					window.location.href = href;
+				});
+
+				$("input[type='checkbox']").tap(function(){
+					
+					var url = "{:U('setDefaultAddress','','')}";
+					var data = {
+						id : $(this).val()
+					};
+					
+					ajax(url,data,successFunc,errorFunc);
+
+				});
+			});
+
+			function successFunc(data) {
+				if (data.status == 1) {
+					if (data.return_url) {
+						window.location.href = data.return_url;
+					} else {
+						closePage();
+					}
+				} else {
+					alert(data.info);
+					window.location.href = '';
+				}
+			}
+
+			function errorFunc() {
+				alert("error");
+			}
+		</script>
+	</body>
+</html>
+</block>

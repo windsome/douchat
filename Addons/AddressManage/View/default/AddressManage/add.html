@@ -1,0 +1,270 @@
+<extend name="Base/jssdk_common" />
+<block name="html">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>地址管理</title>
+        <link rel="stylesheet" href="__FUI__/css/frozen.css">
+    	<style type="text/css">
+    		.feedback-form{
+        		margin-top: 10px;
+        	}
+        	.ui-form-textarea.ui-form-item{
+        		height: auto;
+        	}
+        	.ui-form-textarea.ui-form-item textarea{
+        		padding: 15px 0;
+        	}
+        	.ui-form-item .ui-select-group select{
+	            width: 72px;
+	            padding-top: 12px;
+	        }
+        	.ui-form-item-radio-first{
+        		float: left;
+        		margin-left: 80px;
+        	}
+        	input[type='text']{
+        		height: 44px;
+        	}
+        	.input-name{
+        		border-top: 1px solid #e0e0e0;
+        	}
+        	.clear{
+        		clear: both;
+        	}
+    	</style>
+    </head>
+    <body>
+
+		<header class="ui-header ui-header-stable ui-border-b">
+		    <i class="ui-icon-return"></i><h1>新增地址</h1>
+		</header>
+
+		<section class="ui-container feedback-form">
+
+			<div class="ui-selector-content" style="display:">
+              <div class="ui-form ui-border-t">
+                  <form>
+                      <input type="hidden" name="street" value="" />
+                      <input type="hidden" name="streetNumber" value="" />
+                      <input type="hidden" name="longitude" value="" />
+                      <input type="hidden" name="latitude" value="" />
+                      <input type="hidden" name="images"value="" />
+
+                      <div class="ui-form-item ui-border-b">
+                          <label>
+                              收货人
+                          </label>
+                          <input type="text" name="name" value="{$addInfo.name}" placeholder="姓名" verify-name="收货人姓名" verify-type="isnull">
+                          <a href="#" class="ui-icon-close">
+                          </a>
+                      </div>
+
+                      <div class="ui-form-item ui-border-b">
+                          <label>性别</label>
+                            <div class="ui-form-item ui-form-item-radio ui-border-b ui-form-item-radio-first">
+	            
+					            <label class="ui-radio" for="radio">
+					                <input type="radio" name="sex" <?php if (intval($addInfo['sex']) == 2) echo 'checked' ?> value="2">
+					            </label>
+					            <p>女士</p>
+					        </div>
+					        <div class="ui-form-item ui-form-item-radio ui-border-b">
+					            
+					            <label class="ui-radio" for="radio">
+					                <input type="radio" <?php if (!$addInfo['sex'] || intval($addInfo['sex']) == 1) echo 'checked' ?> name="sex" value="1">
+					            </label>
+					            <p>先生</p>
+					        </div>
+
+                  <input type="hidden" id="sex" value="1" />
+			            	
+			            	<div class="clear"></div>
+                      </div>
+
+                      <div class="ui-form-item ui-border-b">
+                          <label>
+                              手机号码
+                          </label>
+                          <input type="text" name="mobile" value="{$addInfo.mobile}" placeholder="11位手机号" verify-name="手机号码" verify-type="isnull isphone">
+                          <a href="#" class="ui-icon-close">
+                          </a>
+                      </div>
+
+                      <div class="ui-form-item ui-border-b">
+                          <label>地区信息</label>
+                          <div class="ui-select-group">
+                              <div class="ui-select">
+                                  <select id="s1" name="province">
+                                      <option></option>
+                                  </select>
+                              </div>
+                              <div class="ui-select">
+                                  <select id="s2" name="city">
+                                      <option></option>
+                                  </select>
+                              </div>
+                              <div class="ui-select">
+                                  <select id="s3" name="area">
+                                     <option></option> 
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="ui-form-item ui-border-b">
+                          <label>
+                              详细地址
+                          </label>
+                          <input type="text" name="address" value="{$addInfo.address}" placeholder="街道门牌信息" verify-name="详细地址" verify-type="isnull">
+                          <a href="#" class="ui-icon-close">
+                          </a>
+                      </div>
+
+                      <div class="ui-form-item ui-border-b">
+                          <label>
+                              邮政编码
+                          </label>
+                          <input type="text" name="postcode" value="{$addInfo.postcode}" placeholder="邮政编码" verify-name="邮政编码" verify-type="isnull">
+                          <a href="#" class="ui-icon-close">
+                          </a>
+                      </div>
+                      
+       
+                      <div class="ui-btn-wrap">
+                          
+                          <button class="ui-btn-lg ui-btn-primary" id="submit" type="button">
+                              保存
+                          </button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+
+		</section>
+
+		<script type="text/javascript">
+
+			$(function(){
+
+        $(".ui-icon-return").tap(function(){
+          window.location.href = "{:U('addList')}";
+        });
+
+        $("input[name='sex']").click(function(){
+            $("#sex").val($(this).val());
+        });
+
+        $("#submit").tap(function(){
+            if (!verify()) {
+              return false;
+            }
+
+            var name = $("input[name='name']");
+            var sex = $("#sex");
+            var mobile = $("input[name='mobile']");
+            var province = $("select[name='province']");
+            var city = $("select[name='city']");
+            var area = $("select[name='area']");
+            var address = $("input[name='address']");
+            var postcode = $("input[name='postcode']");
+
+            var url = "{:U('add','','')}";
+            var data = {
+              id : "{$id}",
+              name : name.val(),
+              sex : sex.val(),
+              mobile : mobile.val(),
+              province : province.val(),
+              city : city.val(),
+              area : area.val(),
+              address : address.val(),
+              postcode : postcode.val()
+            };
+
+            
+            // alert(data.name+data.sex+data.mobile+data.province+data.city+data.area+data.address+data.postcode);
+            ajax(url, data, successFunc, errorFunc);
+        });
+				setup();preselect('湖北省');promptinfo();
+			});
+
+      function successFunc(data) {
+        if (data.status == 1) {
+          alert(data.info);
+          window.location.href = "{:U('addList')}";
+        } else {
+          alert(data.info);
+          window.location.href = "";
+        }
+        
+      }
+
+      function errorFunc() {
+        alert("error");
+      }
+
+			wx.ready(function(){
+          getLocation(get_location_success, get_location_fail, '');
+      });
+
+      function get_location_success(data) {
+          // alert(data.latitude);
+          // alert(data.longitude);
+          // alert(11144);
+          // 百度地图API功能
+          // $("input[name='longitude']").val(data.longitude);
+          // $("input[name='latitude']").val(data.latitude);
+          getStreet(data.longitude, data.latitude, get_street_success);
+         // openLocation(data.latitude, data.longitude, '我的位置', '武汉大学', 28, 'http://idouly.com/wenda/');
+      }
+
+      function get_location_fail(data) {
+          alert('error');
+      }
+
+      function get_street_success(data) {
+          // alert(String(data).toString());
+          // alert(data.length);
+         
+          var province = $("#s1 option");
+          for (var i = 0, len = province.length; i < len; i++) {
+              if (province[i].value == data.province) {
+                  document.getElementById(s[0]).selectedIndex = i;
+                  change(1);
+                  break;
+              }
+          }
+
+          var city = $("#s2 option");
+          for (var i = 0, len = city.length; i < len; i++) {
+              if (city[i].value == data.city) {
+                  document.getElementById(s[1]).selectedIndex = i;
+                  change(2);
+                  break;
+              }
+          }
+
+          var area = $("#s3 option");
+          for (var i = 0, len = area.length; i < len; i++) {
+              if (area[i].value == data.district) {
+                  document.getElementById(s[2]).selectedIndex = i;
+                 
+                  break;
+              }
+          }
+
+         
+          
+          // $("input[name='address']").val(data.street+data.streetNumber);
+          // $("input[name='street']").val(data.street);
+          // $("input[name='streetNumber']").val(data.streetNumber);
+
+      }
+		</script>
+	</body>
+</html>
+</block>

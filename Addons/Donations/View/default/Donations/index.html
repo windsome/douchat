@@ -1,0 +1,190 @@
+<extend name="Base/jssdk_common" />
+<block name="html">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no" />
+        <title>捐赠我们</title>
+
+        <link rel="stylesheet" type="text/css" href="__WEUI__/css/weui.css">
+        <link rel="stylesheet" type="text/css" href="__WEUI__/css/weui.min.css">
+        <link rel="stylesheet" type="text/css" href="__WEUI__/css/example.css">
+        <script type="text/javascript" src="__WEUI__/js/example.js"></script>
+
+        <style type="text/css">
+
+            .page{
+                max-width: 640px;
+                margin: -10px auto 10px;
+            }
+
+            .page_title{
+                margin: 0px 5px !important;
+            }
+
+            .page_title .weui_btn{
+                float: left;
+                width: 30%;
+                margin: 5px;
+                line-height: 60px;
+            }
+
+            .clear{
+                clear: both;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <div class="page cell">
+            <div class="hd">
+                <h1 class="page_title">
+                    <notempty name="money">
+                    <volist name="money" id="vo">
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="{$vo.money}">{$vo.money}元</a>   
+                    </volist>
+                    <else />
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="5">5元</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="10">10元</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="20">20元</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="50">50元</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="100">100元</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" data-price="200">200元</a>
+                    </notempty>
+                </h1>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">自由捐</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" name="money" type="text" placeholder="请输入您要捐赠的金额">
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea rows="4" name="content" class="weui_textarea" placeholder="留下您想对我们说的话"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd weui_cell_primary">是否匿名</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch" type="checkbox" name="is_anonymous" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bd spacing">
+               
+                <div class="button_sp_area">
+                   
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary" id="donate">我要捐赠</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_default" id="view">查看捐赠</a>
+                   
+                </div>
+            </div>
+        </div>
+
+    <script type="text/javascript">
+        $(function(){
+
+            $(".weui_switch").click(function(){
+                if ($(this).val() == '0') {
+                    $(this).val('1');
+                } else {
+                    $(this).val('0');
+                }
+            });
+
+            $("#view").click(function(){
+                var url = "{:U('donations_list')}";
+                window.location.href = url;
+            });
+
+            $(".page_title .weui_btn").click(function(){
+                var price = $(this).attr('data-price'); // 支付金额
+                var orderid = new Date().getTime();     // 订单号
+                var params = new Array();
+                params['price'] = price;
+                params['orderid'] = orderid;
+                params['content'] = '加油哦';
+                pay(price,orderid,params,payok,paycancel,payfail);                     // 发起支付
+            });
+
+            $("#donate").click(function(){
+                var money = $("input[name='money']");
+                var content = $("textarea[name='content']");
+                var is_anonymous = $("input[name='is_anonymous']");
+               
+                if ( money.val() == '' ) {
+                    alert("请输入您要捐赠的金额");
+                    money.focus();
+                    return false;
+                }
+
+                var reg = new RegExp("^[0-9]+(.[0-9]{2})?$");
+                if ( !reg.test(money.val()) ) {
+                    alert("请输入正确的捐赠金额");
+                    money.focus();
+                    return false;
+                }
+
+                var price = parseFloat(money.val()); // 支付金额
+                var orderid = new Date().getTime();     // 订单号
+                var params = new Array();
+                params['price'] = price;
+                params['orderid'] = orderid;
+                params['content'] = content.val();
+                params['is_anonymous'] = is_anonymous.val();
+                pay(price,orderid,params,payok,paycancel,payfail);     
+            });
+
+        });
+
+        function payok(params){
+            $.ajax({
+                url : "{:U('payok','','')}",
+                type : "post",
+                dataType : "json",
+                data : {
+                    price : params['price'],
+                    orderid : params['orderid'],
+                    content : params['content'],
+                    is_anonymous : params['is_anonymous']
+                },
+                success : function(data){
+                    var url = "{:U('pay_ok_info')}";
+                    window.location.href = url;
+                },
+                error : function(){
+                    alert("error");
+                }
+            });
+        }
+
+        function paycancel(params){
+            
+        }
+
+        function payfail(){
+            alert("支付失败");
+        }
+            
+    </script>
+
+    </body>
+</html>
+</block>

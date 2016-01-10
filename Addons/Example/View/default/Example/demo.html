@@ -1,0 +1,211 @@
+<extend name="Base/jssdk_common" />
+<block name="html">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>功能演示</title>
+        <link rel="stylesheet" href="__FUI__/css/frozen.css">
+    </head>
+    <body ontouchstart="">
+       
+        <section class="ui-selector">
+          <header class="ui-border-b">
+            <h3>功能列表</h3>
+          </header>
+          <div class="ui-selector-content" style="display:">
+            <ul>
+                <li class="ui-selector-item">
+                <h3 class="ui-border-b">
+                  <p>微信支付</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="wechat_pay_jsapi">JSAPI支付</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item">
+                <h3 class="ui-border-b">
+                  <p>基础接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4>判断是否支持指定JS接口</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item  active">
+                <h3 class="ui-border-b">
+                  <p>分享接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareTimeline">分享到朋友圈</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareAppMessage">分享给朋友</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareQQ">分享到手机QQ</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareQZone">分享到QQ空间</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item">
+                <h3 class="ui-border-b"><i class="arrow"></i>
+                  <p>图像接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="chooseImage">拍照或从手机相册中选图</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="previewImage">预览图片</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="uploadImage">上传图片</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="downloadImage">下载图片</h4></div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <script src="__FUI__/lib/zepto.min.js"></script>
+        <script src="__FUI__/js/frozen.js"></script>
+        <script>
+        (function (){
+           $(".ui-selector-item").on("click",function(){
+                $(".ui-selector-item").removeClass("active");
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                } else {
+                    $(this).addClass("active");
+                }
+           })
+        })();
+        </script>
+
+        <script>
+
+        $("#wechat_pay_jsapi").click(function(){
+            var price = 0.01; // 支付金额
+            var orderid = new Date().getTime();     // 订单号
+            var params = new Array();
+            params['price'] = price;
+            params['orderid'] = orderid;
+            params['content'] = '加油哦';
+            pay(price,orderid,params,payok,paycancel,payfail);                     // 发起支付
+        });
+
+
+        function payok(params){
+            alert("支付成功，订单号是："+params['orderid']);
+            // TODO
+        }
+
+        function paycancel(params){
+            alert("支付取消")
+        }
+
+        function payfail(params){
+            alert("支付失败");
+        }
+
+
+        // jssdk注册成功后执行
+          wx.ready(function () {
+                $("#onMenuShareTimeline").on("click", function(){
+                    onMenuShareTimeline('分享到朋友圈', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+                    alert("注册分享到朋友圈")
+                });
+                
+                $("#onMenuShareAppMessage").on("click", function(){
+                    onMenuShareAppMessage('分享给朋友', '这是发送给朋友的内容', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', 'music', '', su, ca);
+                    alert("注册分享给朋友")
+                });
+
+                $("#onMenuShareQQ").on("click", function(){
+                    onMenuShareQQ('分享到手机QQ', '这是从微信端分享过来的内容', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+                    alert("注册分享到手机QQ")
+                });
+
+                $("#onMenuShareQZone").on("click", function(){
+                    onMenuShareQZone('分享到QQ空间', '这是从微信端分享过来的内容', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+                    alert("注册分享到QQ空间")
+                });
+
+                $("#chooseImage").on("click",function(){
+                    
+                   uploadImages(5, downMediaSuccess, downMediaError);
+                })
+          });
+
+        // jssdk注册失败时执行
+
+        wx.error(function(){
+            alert("error");
+        });
+
+        function su(){
+            alert("ok");
+        }
+
+        function ca(){
+            alert("err");
+        }
+
+        // 下载图片成功
+        function downMediaSuccess(data) {
+          alert(data['cover_id']+data['picture_url']);
+          //$(".img").attr("src",data['picture_url']);
+        }
+
+        function downMediaError() {
+          alert("error");
+        }
+
+
+        </script>
+
+    </body>
+</html>
+</block>

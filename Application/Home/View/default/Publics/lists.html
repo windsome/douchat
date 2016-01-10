@@ -1,0 +1,120 @@
+<extend name="Base/common" />
+<block name="body">
+ <div class="wrap" style="clear:both;">
+	<include file="Addons/_nav" />
+    <div class="tab-content"> 
+      <!-- 数据列表 -->
+      <div style="overflow:hidden; zoom:1;">
+      <h3 style=" float:left;margin-bottom:15px;"><img style="vertical-align:middle; height:30px" src="__IMG__/weixin.png"/> 我创建的公众号</h3>
+      <div style="margin:0 0 15px 0; float:right">
+        <a class="btn" href="{:U('auto_bind_0')}">+新增公众号</a>
+      </div>
+      </div>
+      <div class="data-table" style="margin:0;">
+      <notempty name="list_data[1]">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                <th width="8%">公众号ID</th>
+                <th  width="16%">公众号名称</th>
+                <th  width="16%">公众号类型</th>
+                <th  width="15%">Token</th>
+                <th  width="10%">管理员数</th>
+                <th  width="35%">操作</th>
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+            <volist name="list_data[1]" id="data">
+              <tr>
+                <td>{$data.id}</td>
+                <td>{$data.public_name}</td>
+                <td><?php
+
+                switch ($data['type']) {
+                  case 0:
+                    echo '普通订阅号';
+                    break;
+                  case 1:
+                    echo '认证订阅号';
+                    break;
+                  case 2:
+                    echo '普通服务号';
+                    break;
+                  case 3:
+                    echo '认证服务号';
+                    break;
+                  default:
+                    break;
+                }
+
+
+                 ?></td>
+                <td>{$data.token}</td>
+                <td>{$data.count}</td>
+                <td>
+                <a href="{:U('Home/Index/main',array('publicid'=>$data[id]))}" target="_self">进入管理</a>&nbsp;&nbsp;&nbsp;
+                <a href="{:U('Home/PublicLink/lists',array('mp_id'=>$data[id]))}" target="_self">管理员配置</a>&nbsp;&nbsp;&nbsp;
+                <a href="{:U('mp_interface',array('id'=>$data[id]))}" target="_self">接口配置</a>&nbsp;&nbsp;&nbsp;
+                <a href="{:U('step_0',array('id'=>$data[id]))}" target="_self">编辑</a>&nbsp;&nbsp;&nbsp;
+                <a href="{:U('del',array('id'=>$data[id]))}" class="confirm">删除</a> </td>
+              </tr>
+              </volist>
+            </tbody>
+          </table>
+          
+        </div>
+        <else />
+        <div style="padding:100px; text-align:center;"><img style="vertical-align:middle;" src="__IMG__/weixin.png"/>  你还没有创建公众号</div>
+        
+        </notempty>
+      </div>
+      
+      <!--
+      	<a class="btn" href="{:U('add')}">+新增公众号</a>
+      -->
+      <notempty name="list_data[0]">
+       <h3 style="margin:15px 0;"><img style="vertical-align:middle; height:25px" src="__IMG__/user_icon.png"/> 我加入的公众号</h3>
+      <div class="data-table" style="margin:0">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                <th width="8%">公众号ID</th>
+                <th  width="32%">公众号名称</th>
+                <th  width="15%">Token</th>
+                <th  width="10%">管理员数</th>
+                <th  width="35%">操作</th>
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+            <volist name="list_data[0]" id="data">
+              <tr>
+                <td>{$data.id}</td>
+                <td>{$data.public_name}</td>
+                <td>{$data.token}</td>
+                <td>{$data.count}</td>
+                <td><a href="{:U('Home/Public/main',array('public_id'=>$data[id]))}" target="_self">进入管理</a></td>
+              </tr>
+              </volist>
+            </tbody>
+          </table>
+        </div>
+      </notempty>
+      </div>
+    </section>
+    </div>
+
+    <script type="text/javascript">
+      $(function(){
+        var url = "{:U('Home/Public/lists')}";
+        $(".sidenav_sub a[href='"+url+"']").parent().addClass("active");
+      })
+    </script>
+</block>
