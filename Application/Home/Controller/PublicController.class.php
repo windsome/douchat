@@ -370,7 +370,7 @@ class PublicController extends HomeController {
 			$mp_data['qrcode_url'] = $mpInfo['qrcode'];
 			$mp_data['public_name'] = $mpInfo['name'];
 			$mp_data['wechat'] = $mpInfo['mp_number'];
-			$mp_data['mp_token'] = get_rand_char(32);	// 生成32位随机字符串用于做接口验证
+			
 			$mp_data['mp_username'] = $_POST['mp_username'];
 			$mp_data['mp_password'] = $_POST['mp_password'];
 			$mp_data['interface_url'] = U('home/weixin/index');
@@ -394,6 +394,7 @@ class PublicController extends HomeController {
 			// $Model = $this->checkAttr ( $Model, $model ['id'] );
 			$mp_info = $Model->where(array('public_id'=>$mpInfo['origin_id']))->find();
 			if (!$mp_info) {
+				$mp_data['mp_token'] = get_rand_char(32);	// 生成32位随机字符串用于做接口验证
 				if ($Model->create () && $id = $Model->add ($mp_data)) {
 					// 增加公众号与用户的关联关系
 					$data ['uid'] = $this->mid;
