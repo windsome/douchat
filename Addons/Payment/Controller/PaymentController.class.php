@@ -173,7 +173,9 @@ class PaymentController extends BaseController {
 // 			if ($_POST['wx_cert_pem']){
 // 			    $this->uploadCert($_POST['wx_cert_pem']);
 // 			}
-			
+			foreach ($_POST as $k => &$v) {
+				$v = trim($v);
+			}
 			
 			$Model = D ( parse_name ( get_table_name ( $this->model ['id'] ), 1 ) );
 			if ($isadd == 1) {
