@@ -22,8 +22,7 @@ class KeywordKFController extends BaseController{
 		&nbsp;&nbsp;&nbsp;&nbsp;1、一旦接入人工客服后,该用户发送的消息自动转发到多客服，关键词回复，所有插件不再应答。<br/>
 		&nbsp;&nbsp;&nbsp;&nbsp;2、当接入的用户和客服交流时间超过2个小时，将自动结束人工客服，切换回关键词回复，插件自动应答。<br/>
 		&nbsp;&nbsp;&nbsp;&nbsp;3、为使更多用户能被客服接待，客服人员应在多客服客户端中配置自动结束会话时间，最短时间为5分钟，到时将自动关闭会话，切换回关键词回复，插件自动应答。<br/>
-		&nbsp;&nbsp;&nbsp;&nbsp;4、当设置的关键字被停用后，用户发送包含此关键字将不再自动转人工客服。<br/>
-		&nbsp;&nbsp;&nbsp;&nbsp;5、让客服及时与用户互动，发现用户问题解决不再需要人工客服时，及时关掉会话。';
+		&nbsp;&nbsp;&nbsp;&nbsp;4、当设置的关键字被停用后，用户发送包含此关键字将不再自动转人工客服。<br/>';
 		$this->assign ( 'normal_tips', $normal_tips );
 				
 		$token = get_token();
