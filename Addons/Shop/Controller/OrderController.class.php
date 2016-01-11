@@ -189,7 +189,8 @@ class OrderController extends BaseController {
 		$orderDao = D ( 'Addons://Shop/Order' );
 		$orderInfo = $orderDao->getInfo ( $id );
 		$address_id = $orderInfo ['address_id'];
-		$addressInfo = D ( 'Addons://Shop/Address' )->getInfo ( $address_id );
+
+		$addressInfo = D ( 'Addons://Shop/Address' )->getInfo ( $address_id,true );
 		
 		$orderInfo ['goods'] = json_decode ( $orderInfo ['goods_datas'], true );
 		// dump ( $orderInfo );
