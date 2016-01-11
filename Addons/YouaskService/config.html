@@ -1,8 +1,7 @@
 <div class="tools">           
   <span class="btn" onClick="change(1)">多客服开关</span>
   <span class="btn" onClick="change(2)">多客服配置</span>
-  <span class="btn" onClick="change(4)">用户查询在线客服列表</span>
-  <span class="btn" onClick="change(3)">图灵机器人配置</span    
+  <span class="btn" onClick="change(4)">用户查询在线客服列表</span> 
 </div>
 <div class="form-item cf showdiv showdiv1">
   <label class="item-label"> 开启微信人工客服: </label>
@@ -21,9 +20,27 @@
 <!--客服在线时的自定义回复内容-->
 <div class="offline showdiv showdiv2">
 <div class="form-item cf">
-  <label class="item-label"> 转人工客服: <span class="check-tips">设置用户手动转人工客服关键词，自动分配客服</span></label> 
+  <label class="item-label"> 转人工客服: <span class="check-tips">转人工客服关键词，支持多个关键词，关键词之间用 “|” 隔开</span></label> 
   <div class="controls">
     <input type="text" name="config[zrg]" class="text input-large" value="{$data.config.zrg.value}">
+  </div>
+</div>
+<div class="form-item cf">
+  <label class="item-label"> 接入客服会话后自动回复: <span class="check-tips">配置参数：[name] 自动替换当前接入客服的昵称</span></label> 
+  <div class="controls">
+    <input type="text" name="config[jrkf]" class="text input-large" value="{$data.config.jrkf.value}">
+  </div>
+</div>
+<div class="form-item cf">
+  <label class="item-label"> 转接客服会话后的自动回复: <span class="check-tips">配置参数：[name] 自动替换当前接入客服的昵称</span></label> 
+  <div class="controls">
+    <input type="text" name="config[zjkf]" class="text input-large" value="{$data.config.zjkf.value}">
+  </div>
+</div>
+<div class="form-item cf">
+  <label class="item-label"> 关闭客服会话后的自动回复: <span class="check-tips">用户主动或者客服关闭会话后的自动回复</span></label> 
+  <div class="controls">
+    <input type="text" name="config[gbkf]" class="text input-large" value="{$data.config.gbkf.value}">
   </div>
 </div>
 <div class="form-item cf">
@@ -54,13 +71,13 @@
 </div>
 
 <div class="form-item cf">
-  <label class="item-label"> 客服模式: <span class="check-tips">启用多客服模式只能客服结束会话或者2小时内无互动才能关闭会话</span></label>
+  <label class="item-label"> 客服模式: <span class="check-tips">启用多客服模式只能客服结束会话或者2小时内无互动才能关闭会话，或者设定自定义菜单退出客服,见说明</span></label>
   <div class="controls">
       <div class="check-item">
       <input type="radio" name="config[model]" value="1" class="regular-radio" id="config[model]_1" >
       <label for="config[model]_1"></label>多客服
       </div>
-    <div class="check-item">
+    <div class="check-item hidden">
       <input type="radio" name="config[model]" value="0" class="regular-radio" id="config[model]_0" >
       <label for="config[model]_0"></label>系统处理(暂时无效)
       </div>
@@ -68,156 +85,12 @@
 </div>
 
 <div class="form-item cf">
-  <label class="item-label"> 退出工客服: <span class="check-tips">设置用户手动退出人工客服关键词(系统处理模式有效)</span></label> 
+  <label class="item-label"> 退出人工客服: <span class="check-tips">设置用户手动退出人工客服关键词</span></label> 
   <div class="controls">
     <input type="text" name="config[tcrg]" class="text input-large" value="{$data.config.tcrg.value}">
   </div>
 </div>
 </div><!--客服在线自定义回复配置-结束-->
-
-
-<!--开启微信客服时的自定义回复内容-->
-<div class="offline showstate showstate1">
-<div class="form-item cf">
-  <label class="item-label"> 未识别回复内容--类型: <span class="check-tips">开启微信客服，关闭智能聊天，或者智能聊天无返回时，未识别回复自定义内容</span></label>
-  <div class="controls">
-      <div class="check-item">
-      <input type="radio" name="config[type2]" value="1" class="regular-radio" id="config[type2]_1" onClick="changeOption2()">
-      <label for="config[type2]_1"></label>文本
-      </div>
-    <div class="check-item">
-      <input type="radio" name="config[type2]" value="3" class="regular-radio" id="config[type2]_3" onClick="changeOption2()">
-      <label for="config[type2]_3"></label>图文
-      </div>
-  </div>
-</div>
-
-<div class="form-item cf show2 show23">
-  <label class="item-label"> 标题: </label>
-  <div class="controls">
-    <input type="text" name="config[title2]" class="text input-large" value="{$data.config.title2.value}">
-  </div>
-</div>
-<div class="form-item cf show2 show23 show21">
-  <label class="item-label"> 内容: </label>
-  <div class="controls">
-    <label class="textarea input-large">
-      <textarea name="config[description2]">{$data.config.description2.value}</textarea>
-    </label>
-  </div>
-  
-</div>
-
-<div class="form-item cf show2 show23">
-  <label class="item-label"> 图片: <span class="check-tips">图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200</span> </label>
-  
-                          <div class="controls uploadrow2" title="点击修改图片" rel="pic_url2">
-                            <input type="file" id="upload_picture_pic_url2">
-                            
-                            <input type="hidden" name="config[pic_url2]" id="cover_id_pic_url2" value="{$data.config.pic_url2.value}"/>
-                            <div class="upload-img-box">
-                              <notempty name="data.config.pic_url2.value">
-                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data.config.pic_url2.value|get_cover_url}"/></div>
-                                <em class="edit_img_icon">&nbsp;</em>
-                              </notempty>
-                            </div>
-                          </div>
-
-</div>
-<div class="form-item cf show2 show23">
-  <label class="item-label"> 链接: <span class="check-tips">点击图文消息跳转链接</span> </label>
-  <div class="controls">
-    <input type="text" name="config[url2]" class="text input-large" value="{$data.config.url2.value}">
-  </div>
-</div>
-</div>
-
-<!--关闭微信客服时的自定义回复内容-->
-<div class="offline showstate showstate0">
-
-<div class="form-item cf">
-  <label class="item-label"> 未识别回复内容--类型:<span class="check-tips">关闭微信客服，关闭智能聊天，或者智能聊天无返回时，未识别回复自定义内容</span> </label>
-  <div class="controls">
-    	<div class="check-item">
-      <input type="radio" name="config[type]" value="1" class="regular-radio" id="config[type]_1" onClick="changeOption1()">
-      <label for="config[type]_1"></label>文本
-      </div>
-    <div class="check-item">
-      <input type="radio" name="config[type]" value="3" class="regular-radio" id="config[type]_3" onClick="changeOption1()">
-      <label for="config[type]_3"></label>图文
-      </div>
-  </div>
-</div>
-
-<div class="form-item cf show1 show13">
-  <label class="item-label"> 标题: </label>
-  <div class="controls">
-    <input type="text" name="config[title]" class="text input-large" value="{$data.config.title.value}">
-  </div>
-</div>
-<div class="form-item cf show1 show13 show11">
-  <label class="item-label"> 内容: </label>
-  <div class="controls">
-    <label class="textarea input-large">
-      <textarea name="config[description]">{$data.config.description.value}</textarea>
-    </label>
-  </div>
-</div>
-
-<div class="form-item cf show1 show13">
-  <label class="item-label"> 图片: <span class="check-tips">图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200</span> </label>
-  
-                          <div class="controls uploadrow2" title="点击修改图片" rel="pic_url">
-                            <input type="file" id="upload_picture_pic_url">
-                            
-                            <input type="hidden" name="config[pic_url]" id="cover_id_pic_url" value="{$data.config.pic_url.value}"/>
-                            <div class="upload-img-box">
-                              <notempty name="data.config.pic_url.value">
-                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data.config.pic_url.value|get_cover_url}"/></div>
-                                <em class="edit_img_icon">&nbsp;</em>
-                              </notempty>
-                            </div>
-                          </div>
-
-</div>
-<div class="form-item cf show1 show13">
-  <label class="item-label"> 链接: <span class="check-tips">点击图文消息跳转链接</span> </label>
-  <div class="controls">
-    <input type="text" name="config[url]" class="text input-large" value="{$data.config.url.value}">
-  </div>
-</div>
-
-</div><!--客服不在线自定义回复配置-结束-->
-
-<!--图灵机器人配置开始-->
-<div class="tuling showdiv showdiv3">
-<div class="form-item cf">
-  <label class="item-label"> 开启智能聊天(图灵机器人):<span class="check-tips">开启后，若图灵机器人返回为空，或者关闭后未识别关键词会回复未识别回复内容</span> </label>
-  <div class="controls">
-      <div class="check-item">
-      <input type="radio" name="config[model3]" value="1" class="regular-radio" id="config[model3]_1" >
-      <label for="config[model3]_1"></label>开启
-      </div>
-    <div class="check-item">
-      <input type="radio" name="config[model3]" value="0" class="regular-radio" id="config[model3]_0" >
-      <label for="config[model3]_0"></label>关闭
-      </div>
-  </div>
-</div>
-
-<div class="form-item cf">
-  <label class="item-label"> 图灵机器人KEY: </label>
-  <div class="controls">
-    <input type="text" name="config[tuling_key]" class="text input-large" value="{$data.config.tuling_key.value}">
-  </div>
-</div>
-<div class="form-item cf">
-  <label class="item-label"> 图灵机器人地址: </label>
-  <div class="controls">
-    <input type="text" name="config[tuling_url]" class="text input-large" value="{$data.config.tuling_url.value}">
-  </div>
-</div>
-</div><!--图灵机器人配置结束-->
 
 <!--回复客服列表设置开始-->
 <div class=" showdiv showdiv4">
@@ -225,7 +98,7 @@
 <div class="offline" >
 
 <div class="form-item cf">
-  <label class="item-label"> 查询在线客服列表关键词: <span class="check-tips">有客服在线才会回复，否则回复客服不在线自定义回复内容,在线客服列表在内容顶部和底部内容区中间显示(系统处理)</span></label>
+  <label class="item-label"> 查询在线客服列表关键词: <span class="check-tips">只有设置了关键词指定客服或者指定客服分组有在线的才会显示，支持多个关键词查询，关键词之间用 “|” 隔开</span></label>
   <div class="controls">
     <input type="text" name="config[cxkey]" class="text input-large" value="{$data.config.cxkey.value}">
   </div>
@@ -295,8 +168,8 @@
 
 <script type="text/javascript">
 $(function(){
-	 initUploadImg();
-	 })
+   initUploadImg();
+   })
 //导航菜单切换选项
 function change(type){
   $(".showdiv").each(function(){
@@ -329,28 +202,7 @@ function changeOption(){
     $(this).show();
   });
 }
-//关闭微信客服，未识别回复类型选项
-function changeOption1(){
-  $(".show1").each(function(){
-    $(this).hide(); 
-  });
-  
-  var val = $("input[name='config[type]']:checked").val();
-  $('.show1'+val).each(function(){
-    $(this).show();
-  });
-}
-//开启微信客服，未识别回复类型选项
-function changeOption2(){
-  $(".show2").each(function(){
-    $(this).hide();
-  });
-  
-  var val = $("input[name='config[type2]']:checked").val();
-  $('.show2'+val).each(function(){
-    $(this).show();
-  });
-}
+
 
 $(function(){
   //客服是否在线状态处理
@@ -358,14 +210,11 @@ $(function(){
   $("input[name='config[state]'][value="+state+"]").attr("checked",true); 
  
   //客服不在线回复内容类型处理
-	var type = "{$data.config.type.value|intval}";	
-	$("input[name='config[type]'][value="+type+"]").attr("checked",true); 
+  var type = "{$data.config.type.value|intval}";  
+  $("input[name='config[type]'][value="+type+"]").attr("checked",true); 
 
-  //客服在线回复内容类型处理
-  var type2 = "{$data.config.type2.value|intval}";  
-  $("input[name='config[type2]'][value="+type2+"]").attr("checked",true); 
 
-  //客服在线回复内容类型处理
+  //客服查询在线客服列表回复内容类型处理
   var type3 = "{$data.config.type3.value|intval}";  
   $("input[name='config[type3]'][value="+type3+"]").attr("checked",true); 
 
@@ -377,12 +226,8 @@ $(function(){
   var model2 = "{$data.config.model2.value|intval}";
   $("input[name='config[model2]'][value="+model2+"]").attr("checked",true); 
 
-  //开启智能聊天处理
-  var model3 = "{$data.config.model3.value|intval}";  
-  $("input[name='config[model3]'][value="+model3+"]").attr("checked",true); 
-
   change(1);
-	changeOption();
+  changeOption();
   changeOption1();
   changeOption2();
 
