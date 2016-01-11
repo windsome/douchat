@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 01 月 10 日 09:18
+-- 生成日期: 2016 年 01 月 11 日 01:55
 -- 服务器版本: 5.5.20
 -- PHP 版本: 5.3.10
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `dc_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='行为日志表' AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='行为日志表' AUTO_INCREMENT=5 ;
 
 --
 -- 转存表中的数据 `dc_action_log`
@@ -86,7 +86,8 @@ CREATE TABLE IF NOT EXISTS `dc_action_log` (
 INSERT INTO `dc_action_log` (`id`, `action_id`, `user_id`, `action_ip`, `model`, `record_id`, `remark`, `status`, `create_time`) VALUES
 (1, 12, 1, 0, 'user', 1, 'admin在2015-12-18 22:54登录了后台', 1, 1450450499),
 (2, 12, 1, 0, 'user', 1, 'admin在2016-01-10 17:11登录了后台', 1, 1452417078),
-(3, 8, 1, 0, 'attribute', 12362, '操作url：/douchat_beta/index.php?s=/Admin/Attribute/update.html', 1, 1452417198);
+(3, 8, 1, 0, 'attribute', 12362, '操作url：/douchat_beta/index.php?s=/Admin/Attribute/update.html', 1, 1452417198),
+(4, 12, 1, 0, 'user', 1, 'Array在2016-01-11 09:53登录了后台', 1, 1452477231);
 
 -- --------------------------------------------------------
 
@@ -111,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `dc_addons` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `sti` (`status`,`is_show`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信插件表' AUTO_INCREMENT=217 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信插件表' AUTO_INCREMENT=218 ;
 
 --
 -- 转存表中的数据 `dc_addons`
@@ -135,7 +136,8 @@ INSERT INTO `dc_addons` (`id`, `name`, `title`, `description`, `status`, `config
 (213, 'Leaflets', '微信宣传页', '微信公众号二维码推广页面，用作推广或者制作广告易拉宝，可以发布到QQ群微博博客论坛等等...', 1, '{"title":"\\u8c46\\u4fe1\\u5b98\\u65b9\\u5fae\\u4fe1\\u516c\\u4f17\\u53f7","img":"","info":"\\u8c46\\u4fe1\\u662f\\u4e00\\u4e2a\\u4f18\\u96c5\\u7684\\u5fae\\u4fe1\\u516c\\u4f17\\u53f7\\u5f00\\u53d1\\u6846\\u67b6\\uff0c\\u4ea7\\u54c1\\u7406\\u5ff5\\u662f\\u201c\\u9ad8\\u5ea6\\u5c01\\u88c5\\u3001\\u7075\\u6d3b\\u8c03\\u7528\\u201d","copyright":"\\u00a92015 \\u8c46\\u4fe1\\u7248\\u6743\\u6240\\u6709"}', '凡星', '1.0', 1451825189, 0, 0, 4, 1),
 (214, 'AddressManage', '地址管理', '通用地址管理插件', 1, 'null', '艾逗笔', '1.0', 1452417210, 1, 0, 2, 1),
 (215, 'Payment', '支付通', '微信支付,财富通,支付宝', 1, '{"isopen":"1","isopenload":"1","isopenwx":"1"}', '拉帮姐派(陌路生人)', '0.1', 1452417237, 1, 0, 2, 1),
-(216, 'Idioms', '成语接龙', 'weiphp成语接龙插件，当用户在微信中回复“成语接龙”时开始成语接龙游戏', 1, 'null', '艾逗笔', '1.0', 1452417267, 0, 0, 4, 1);
+(216, 'Idioms', '成语接龙', 'weiphp成语接龙插件，当用户在微信中回复“成语接龙”时开始成语接龙游戏', 1, 'null', '艾逗笔', '1.0', 1452417267, 0, 0, 4, 1),
+(217, 'Tuling', '图灵机器人', '使用图灵机器人接口实现微信端智能聊天，支持语音识别', 1, '{"tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api","rand_reply":"\\r\\n\\u6211\\u4eca\\u5929\\u7d2f\\u4e86\\uff0c\\u660e\\u5929\\u518d\\u966a\\u4f60\\u804a\\u5929\\u5427\\r\\n\\u54c8\\u54c8~~\\r\\n\\u4f60\\u8bdd\\u597d\\u591a\\u554a\\uff0c\\u4e0d\\u8ddf\\u4f60\\u804a\\u4e86\\r\\n\\u867d\\u7136\\u4e0d\\u61c2\\uff0c\\u4f46\\u89c9\\u5f97\\u4f60\\u8bf4\\u5f97\\u5f88\\u5bf9"}', '艾逗笔', '2.0', 1452477316, 0, 0, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -390,7 +392,7 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (76, 'headface_url', '公众号头像', 'varchar(255) NULL', 'picture', '', '', 1, '', 6, 0, 1, 1429847363, 1391576300, '', 3, '', 'regex', '', 3, 'function'),
 (77, 'area', '地区', 'varchar(50) NULL', 'string', '', '', 0, '', 6, 0, 1, 1392946934, 1391576435, '', 3, '', 'regex', '', 3, 'function'),
 (78, 'addon_config', '插件配置', 'text NULL', 'textarea', '', '', 0, '', 6, 0, 1, 1391576537, 1391576537, '', 3, '', 'regex', '', 3, 'function'),
-(79, 'addon_status', '插件状态', 'text NULL', 'textarea', '', '', 0, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n', 6, 0, 1, 1391576571, 1391576571, '', 3, '', 'regex', '', 3, 'function'),
+(79, 'addon_status', '插件状态', 'text NULL', 'textarea', '', '', 0, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 6, 0, 1, 1391576571, 1391576571, '', 3, '', 'regex', '', 3, 'function'),
 (12114, 'qrcode_url', '二维码地址', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448957495, 1448957495, '', 3, '', 'regex', '', 3, 'function'),
 (80, 'type', '公众号类型', 'char(10) NULL', 'radio', '0', '', 1, '0:普通订阅号\r\n1:认证订阅号/普通服务号\r\n2:认证服务号', 6, 0, 1, 1416904702, 1393718575, '', 3, '', 'regex', '', 3, 'function'),
 (81, 'appid', 'AppID', 'varchar(255) NULL', 'string', '', '应用ID', 1, '', 6, 0, 1, 1416904750, 1393718735, '', 3, '', 'regex', '', 3, 'function'),
@@ -405,12 +407,12 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (90, 'public_copy_right', '版权信息', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1431141576, 1431141576, '', 3, '', 'regex', '', 3, 'function'),
 (91, 'domain', '自定义域名', 'varchar(30) NULL', 'string', '', '', 0, '', 6, 0, 1, 1439698931, 1439698931, '', 3, '', 'regex', '', 3, 'function'),
 (92, 'title', '等级名', 'varchar(50) NULL', 'string', '', '', 1, '', 7, 0, 1, 1393724854, 1393724854, '', 3, '', 'regex', '', 3, 'function'),
-(93, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n', 7, 0, 1, 1393731903, 1393725072, '', 3, '', 'regex', '', 3, 'function'),
+(93, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 7, 0, 1, 1393731903, 1393725072, '', 3, '', 'regex', '', 3, 'function'),
 (12113, 'mp_token', '公众号接入验证Token', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956397, 1448956397, '', 3, '', 'regex', '', 3, 'function'),
 (94, 'uid', '管理员UID', 'int(10) NULL ', 'admin', '', '', 1, '', 8, 1, 1, 1447215599, 1398933236, '', 3, '', 'regex', '', 3, 'function'),
 (95, 'mp_id', '公众号ID', 'int(10) unsigned NOT NULL ', 'num', '', '', 4, '', 8, 1, 1, 1398933300, 1398933300, '', 3, '', 'regex', '', 3, 'function'),
 (96, 'is_creator', '是否为创建者', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:不是\r\n1:是', 8, 0, 1, 1398933380, 1398933380, '', 3, '', 'regex', '', 3, 'function'),
-(97, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n', 8, 0, 1, 1398933475, 1398933475, '', 3, '', 'regex', '', 3, 'function'),
+(97, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 8, 0, 1, 1398933475, 1398933475, '', 3, '', 'regex', '', 3, 'function'),
 (12111, 'mp_username', '公众号登陆用户名', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956330, 1448956330, '', 3, '', 'regex', '', 3, 'function'),
 (12112, 'mp_password', '公众号登陆密码', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956378, 1448956378, '', 3, '', 'regex', '', 3, 'function'),
 (98, 'is_use', '是否为当前管理的公众号', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:不是\r\n1:是', 8, 0, 1, 1398996982, 1398996975, '', 3, '', 'regex', '', 3, 'function'),
@@ -1190,7 +1192,7 @@ INSERT INTO `dc_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remar
 (44, 'DEFAULT_PUBLIC_GROUP_ID', 0, '公众号默认等级ID', 3, '', '前台新增加的公众号的默认等级，值为0表示不做权限控制，公众号拥有全部插件的权限', 1393759885, 1393759981, 1, '0', 2),
 (45, 'SYSTEM_UPDATE_REMIND', 4, '系统升级提醒', 4, '0:关闭\r\n1:开启', '开启后官方有新升级信息会及时在后台的网站设置页面头部显示升级提醒', 1393764263, 1393764263, 1, '0', 5),
 (46, 'SYSTEM_UPDATRE_VERSION', 0, '系统升级最新版本号', 4, '', '记录当前系统的版本号，这是与官方比较是否有升级包的唯一标识，不熟悉者只勿改变其数值', 1393764702, 1394337646, 1, '1.0.20160101', 0),
-(47, 'FOLLOW_YOUKE_UID', 0, '粉丝游客ID', 0, '', '', 1398927704, 1398927704, 1, '-11883', 0),
+(47, 'FOLLOW_YOUKE_UID', 0, '粉丝游客ID', 0, '', '', 1398927704, 1398927704, 1, '-11884', 0),
 (48, 'DEFAULT_PUBLIC', 0, '注册后默认可管理的公众号ID', 3, '', '可为空。配置用户注册后即可管理的公众号ID，多个时用英文逗号分割', 1398928794, 1398929088, 1, '', 3),
 (49, 'DEFAULT_PUBLIC_CREATE_MAX_NUMB', 0, '默认用户最多可创建的公众号数', 3, '', '注册用户最多的创建数，也可以在用户管理里对每个用户设置不同的值', 1398949652, 1398950115, 1, '5', 4),
 (50, 'COPYRIGHT', 1, '版权信息', 1, '', '', 1401018910, 1401018910, 1, '武汉市艾豆网络科技有限公司所有', 3),
@@ -1547,7 +1549,7 @@ INSERT INTO `dc_hooks` (`id`, `name`, `description`, `type`, `update_time`, `add
 (13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam'),
 (14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, 'Editor'),
 (16, 'app_begin', '应用开始', 2, 1384481614, ''),
-(17, 'weixin', '微信插件必须加载的钩子', 1, 1388810858, 'Hitegg,Diy,RedBag,WeMedia,ShopCoupon,Card,SingIn,Seckill,WeiSite,AutoReply,CustomMenu,YouaskService,Tmplmsg,SceneQrcode,UserCenter,Shop,Example,Donations,Extensions,Forms,Dg,Suggestions,Leaflets,AddressManage,Payment,Idioms'),
+(17, 'weixin', '微信插件必须加载的钩子', 1, 1388810858, 'Hitegg,Diy,RedBag,WeMedia,ShopCoupon,Card,SingIn,Seckill,WeiSite,AutoReply,CustomMenu,YouaskService,Tmplmsg,SceneQrcode,UserCenter,Shop,Example,Donations,Extensions,Forms,Dg,Suggestions,Leaflets,AddressManage,Payment,Idioms,Tuling'),
 (18, 'cascade', '级联菜单', 1, 1398694587, 'Cascade'),
 (19, 'page_diy', '万能页面的钩子', 1, 1399040364, 'Diy'),
 (20, 'dynamic_select', '动态下拉菜单', 1, 1435223189, 'DynamicSelect'),
