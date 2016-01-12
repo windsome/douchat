@@ -8,6 +8,11 @@ class WeixinAddonModel extends WeixinModel {
 	var $config = array ();
 	function reply($dataArr, $keywordArr = array()) {
 		$this->config = getAddonConfig ( 'Tuling' ); // 获取后台插件的配置参数
+
+        //开启上送地理位置后，打开微信公众号就会自动回复，需要屏蔽掉 reportLocation
+		if ($dataArr['Content'] == 'reportLocation') {
+			exit();
+		}
 		
 		$content = $this -> turingAPI($dataArr['Content']);
 		if ($content) {
