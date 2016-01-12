@@ -1039,6 +1039,66 @@ function get_cover_url($cover_id) {
 	
 	return SITE_URL . $url;
 }
+
+/**
+ * 获取图片素材封面图片
+ *
+ * @param int $id        	
+ * @param string $field        	
+ * @return 完整的数据 或者 指定的$field字段值
+ * @author huajie <banhuajie@163.com>
+ */
+function get_material_icover($id) {
+	$map['id'] = $id;
+	$cover_id = M ( 'material_image' )->where ( $map )->getField ( 'cover_id' );
+	$info = get_cover ( $cover_id );
+	
+	if ($info ['url'])
+		return $info ['url'];
+	
+	$url = $info ['path'];
+	if (empty ( $url ))
+		return '';
+	
+	return SITE_URL . $url;
+}
+
+/**
+ * 获取图文素材封面图片
+ *
+ * @param int $id        	
+ * @param string $field        	
+ * @return 完整的数据 或者 指定的$field字段值
+ * @author huajie <banhuajie@163.com>
+ */
+function get_material_ncover($id) {
+	$map['id'] = $id;
+	$cover_id = M ( 'material_news' )->where ( $map )->getField ( 'cover_id' );
+	$info = get_cover ( $cover_id );
+	
+	if ($info ['url'])
+		return $info ['url'];
+	
+	$url = $info ['path'];
+	if (empty ( $url ))
+		return '';
+	
+	return SITE_URL . $url;
+}
+/**
+ * 获取图文素材标题
+ *
+ * @param int $id        	
+ * @param string $field        	
+ * @return 完整的数据 或者 指定的$field字段值
+ * @author huajie <banhuajie@163.com>
+ */
+function get_material_ntitle($id) {
+	$map['id'] = $id;
+	$title = M ( 'material_news' )->where ( $map )->getField ( 'title' );
+	if ($title) 
+	return $title;
+}
 // 兼容旧方法
 function get_picture_url($cover_id) {
 	return get_cover_url ( $cover_id );
@@ -1082,6 +1142,28 @@ function get_file_url($id) {
 		return '';
 	
 	return SITE_URL . '/Uploads/Download/' . $info ['savepath'] . $info ['savename'];
+}
+/* 获取语音,视频素材地址  */
+function get_material_file($id) {
+	$map['id'] = $id;
+	$file_id = M ( 'material_file' )->where ( $map )->getField ( 'file_id' );
+
+	$url = get_file_url ( $file_id );
+	
+	return $url;
+}
+/* 获取语音,视频素材 cTmie */
+function get_material_cTime($id) {
+	$map['id'] = $id;
+	$cTime = M ( 'material_file' )->where ( $map )->getField ( 'cTime' );	
+	$cTime = date("Y-m-d H:i",$cTime);
+	return $cTime;
+}
+/* 获取语音,视频素材 title  */
+function get_material_vtitle($id) {
+	$map['id'] = $id;
+	$title = M ( 'material_file' )->where ( $map )->getField ( 'title' );	
+	return $title;
 }
 /**
  * 检查$pos(推荐位的值)是否包含指定推荐位$contain
