@@ -1,5 +1,15 @@
 <?php
 return array (
+		'state' => array (
+				'title' => '开启图灵:',
+				'type' => 'radio',
+				'options'=>array(
+					'1'=>'开启',
+					'0'=>'关闭',
+				),
+				'value' => '0',
+				'tip' => '开启图灵机器人功能' 
+		),
 		'tuling_key' => array ( // 配置在表单中的键名 ,这个会是config[random]
 				'title' => '图灵机器人KEY:', // 表单的文字
 				'type' => 'text', // 表单的类型：text、textarea、checkbox、radio、select等
