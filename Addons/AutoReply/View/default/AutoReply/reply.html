@@ -130,7 +130,7 @@ background-color: #eaeaea;">
                         <a class="delete" href="javascript:;" style="left: 310px;display: inline;">删除</a>
                     </div>
                       <div style="display:none" class="appmsg_area" id="video_area">
-                        <input type="hidden" name="video_id" value="<?php echo $data['video_id'] ? $data['video'] : 0; ?>"/>
+                        <input type="hidden" name="video_id" value="<?php echo $data['video_id'] ? $data['video_id'] : 0; ?>"/>
                         <a class="select_appmsg select_video" href="javascript:;" onClick="$.WeiPHP.openSelectAppMsg('{:U('/Home/Material/video_data')}',selectVideoCallback,'选择视频素材')">选择视频素材</a>
                         <notempty name="data.video_id">
                               <div class="video_wrap_video">
