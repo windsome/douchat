@@ -211,52 +211,52 @@ class WeixinAddonModel extends WeixinModel{
 		}
 	}
 
-	public function templatesendjobfinish($data){
-		replyText(json_encode($data));
-	}
+	//public function templatesendjobfinish($data){
+	//	replyText(json_encode($data));
+	//}
 
 	// 用户发送图片消息处理钩子
-	public function image($data){
-		replyImage($data['MediaId']);
-	}
+	//public function image($data){
+	//	replyImage($data['MediaId']);
+	//}
 
 	// 用户发送语音消息处理钩子
-	public function voice($data){
-		replyText("你发送的语音内容是:".$data['Recognition']);
-	}
+	//public function voice($data){
+	//	replyText("你发送的语音内容是:".$data['Recognition']);
+	//}
 
 	// 用户发送短视频消息处理钩子
-	public function shortvideo($data){
-		replyText(json_encode($data));
-	}
+	//public function shortvideo($data){
+	//	replyText(json_encode($data));
+	//}
 
 	// 用户发送短视频消息处理钩子
 	// TODO
-	public function video($data){
-		replyText(json_encode($data));
-	}
+	//public function video($data){
+		//replyText(json_encode($data));
+	//}
 
 	// 用户发送链接消息处理钩子
-	public function link($data){
-		replyText("你发的链接\n标题为：".$data['Title']."\n描述为：".$data['Description']."\n链接地址为：".$data['Url']);
-	}
+	//public function link($data){
+	//	replyText("你发的链接\n标题为：".$data['Title']."\n描述为：".$data['Description']."\n链接地址为：".$data['Url']);
+	//}
 
 	// 用户发送位置消息处理钩子
-	public function location($data){
-		replyText("你发的位置所处的\n经度为：".$data['Location_Y']."\n纬度为：".$data['Location_X']."\n位置名为：".$data['Label']);
-	}
+	//public function location($data){
+	//	replyText("你发的位置所处的\n经度为：".$data['Location_Y']."\n纬度为：".$data['Location_X']."\n位置名为：".$data['Label']);
+	//}
 
 	// 用户上报地理位置事件处理钩子
-	public function reportLocation($data){
-		$revEventGeo = getRevEventGeo();
-		replyText(json_encode($revEventGeo));
-	}
+	//public function reportLocation($data){
+	//	$revEventGeo = getRevEventGeo();
+	//	replyText(json_encode($revEventGeo));
+	//}
 
 	// 用户点击菜单事件处理钩子
-	public function click($data){
-		$revEvent = getRevEvent();
+	//public function click($data){
+	//	$revEvent = getRevEvent();
 		// replyText(json_encode($revEvent));
-	}
+	//}
 
 	// 用户扫码带参数二维码处理钩子
 	// public function scan($data) {
@@ -270,28 +270,28 @@ class WeixinAddonModel extends WeixinModel{
 
 	// 用户扫码推事件处理钩子
 	// TODO
-	public function scancode_push($data){
-		$revScanInfo = getRevScanInfo();
+	//public function scancode_push($data){
+	//	$revScanInfo = getRevScanInfo();
 		//replyText(json_encode($revScanInfo));
-		replyText(json_encode($data));
-	}
+	//	replyText(json_encode($data));
+	//}
 
 	// 用户扫码带提示事件处理钩子
-	public function scancode_waitmsg($data){
-		$revScanInfo = getRevScanInfo();
+	//public function scancode_waitmsg($data){
+	//	$revScanInfo = getRevScanInfo();
 		//replyText(json_encode($revScanInfo));
-		replyText(json_encode($data));
-	}
+	//	replyText(json_encode($data));
+	//}
 
-	public function pic_photo_or_album($data){
-		$revSendPicsInfo = getRevSendPicsInfo();
+	//public function pic_photo_or_album($data){
+	//	$revSendPicsInfo = getRevSendPicsInfo();
 		//replyText(json_encode($data));
-		replyText(json_encode($revSendPicsInfo));
-	}
+	//	replyText(json_encode($revSendPicsInfo));
+	//}
 
-	public function location_select($data){
-		$revSendGeoInfo = getRevSendGeoInfo();
-		replyText($revSendGeoInfo);
-	}
+	//public function location_select($data){
+	//	$revSendGeoInfo = getRevSendGeoInfo();
+	//	replyText($revSendGeoInfo);
+	//}
 }
         	
