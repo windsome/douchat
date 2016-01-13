@@ -528,12 +528,12 @@ function time_offset($time = NULL) {
 	return $min . ':' . $mod;
 }
 // 获取用户信息
-function getUserInfo($uid, $update = false, $field = '') {
-	if (!is_numeric($uid)) {	// 如果传过来的是openid
-		$uid = getUidByOpenid($uid);
+function getUserInfo($user, $field = '', $update = false) {
+	if (!is_numeric($user)) {	// 如果传过来的是openid
+		$user = getUidByOpenid($user);
 	}
 	
-	$info = D ( 'Common/User' )->getUserInfo ( $uid, $update );
+	$info = D ( 'Common/User' )->getUserInfo ( $user, $update );
 	// dump ( $info );
 	return empty ( $field ) ? $info : $info [$field];
 }
