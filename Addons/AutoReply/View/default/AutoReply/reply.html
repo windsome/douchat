@@ -302,6 +302,32 @@ $(function(){
   }});
   $('.uploadify-button').css('background-color','#ccc')
 })
+
+//初始化默认显示当前使用中的素材
+$(function(){
+
+   var type = '{$data.msg_type}';
+      switch ( type ) {
+
+        case 'image':
+          $('.msg_tab .image').click();
+          break;
+        case 'news':
+          $('.msg_tab .appmsg').click();
+          break;
+        case 'voice':
+          $('.msg_tab .voice').click();
+          break;
+        case 'video':
+          $('.msg_tab .video').click();
+          break;
+        default:
+          break;
+          
+      }
+
+})
+
 $('.msg_tab .txt').click(function(){
   //纯文本
   $(this).addClass('current').siblings().removeClass('current');
@@ -325,7 +351,7 @@ $('.msg_tab .image').click(function(){
   $('#image_material').show();
 })
 $('.msg_tab .voice').click(function(){
-  //图片消息
+  //语音消息
   $(this).addClass('current').siblings().removeClass('current');
   $('input[name="msg_type"]').val('voice');
   $('#voice_area').show().siblings().hide();
@@ -333,7 +359,7 @@ $('.msg_tab .voice').click(function(){
   $('#image_material').hide();
 })
 $('.msg_tab .video').click(function(){
-  //图片消息
+  //视频消息
   $(this).addClass('current').siblings().removeClass('current');
   $('input[name="msg_type"]').val('video');
   $('#video_area').show().siblings().hide();
@@ -369,6 +395,7 @@ $('#video_area .delete').click(function(){
   $('#video_area .delete').hide();
   $('input[name="video_id"]').val(0);
 })
+
 function selectAppMsgCallback(_this){
   $('.appmsg_wrap').html($(_this).html()).show();
   $('#appmsg_area .select_appmsg').hide();
@@ -443,6 +470,7 @@ function selectUser(name){
   })
 }
 
+//点击语音文件播放语音，不信试试
 function playSound(id,obj){
   var audio = document.getElementById(id);
   if(audio.paused){
