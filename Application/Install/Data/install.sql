@@ -1668,7 +1668,7 @@ CREATE TABLE IF NOT EXISTS `dc_manager_menu` (
 --
 
 INSERT INTO `dc_manager_menu` (`id`, `menu_type`, `pid`, `title`, `url_type`, `addon_name`, `url`, `target`, `is_hide`, `sort`, `uid`) VALUES
-(1, 0, '', '首页', 1, '', 'home/index/main', '_blank', 0, 1, 1),
+(1, 0, '', '豆信官网', 1, '', 'http://idouly.com/', '_blank', 0, 1, 1),
 (2, 0, '', '应用商城', 1, '', 'http://idouly.com/wenda/?/shop/', '_blank', 0, 2, 1),
 (3, 0, '', '交流社区', 1, '', 'http://idouly.com/wenda/?/question/', '_blank', 0, 3, 1),
 (4, 0, '', '开发手册', 1, '', 'http://doc.idouly.com/', '_blank', 0, 4, 1);
