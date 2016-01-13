@@ -136,7 +136,11 @@ background-color: #eaeaea;">
                               <div class="video_wrap_video">
                                 <p class="title">{$data.video_id|get_material_vtitle}</p>
                                 <p class="ctime colorless">{$data.video_id|get_material_cTime}</p>
-                                <video src="{$data.video_id|get_material_file}" controls="controls">您的浏览器不支持 video 标签。</video>
+                                <video src="{$data.video_id|get_material_file}" controls="controls"> 
+                                 <source src="movie.ogg" type="video/ogg"> 
+                                 <source src="{$data.video_id|get_material_file}" type="video/mp4"> <!-- MPEG4 类型：for safali & ie9 -->
+                                 您的浏览器不支持 video 标签。                                 
+                                </video>
                               </div>
                              <a class="delete" href="javascript:;"  style="left: 310px;display: inline;">删除</a>
                         </notempty>
@@ -356,14 +360,14 @@ $('#voice_area .delete').click(function(){
   $('#voice_area .voice_wrap_voice').html('').hide();
   $('#voice_area .select_appmsg').show();
   $('#voice_area .delete').hide();
-  $('input[name="voice"]').val(0);
+  $('input[name="voice_id"]').val(0);
 })
 $('#video_area .delete').click(function(){
   $('#video_area .video_wrap').html('').hide();
   $('#video_area .video_wrap_video').html('').hide();
   $('#video_area .select_appmsg').show();
   $('#video_area .delete').hide();
-  $('input[name="video"]').val(0);
+  $('input[name="video_id"]').val(0);
 })
 function selectAppMsgCallback(_this){
   $('.appmsg_wrap').html($(_this).html()).show();
