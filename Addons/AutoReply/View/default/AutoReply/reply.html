@@ -2,25 +2,32 @@
 <block name="body">
 <style text='text/css'>
 .image_material{
-    border: 1px dashed #ddd;
-    width: 308px;
-    height: 196px;
-     background: #eee;
-    text-align: center;
-    color: #333;
-    display: block;
-    float: left;
+  border: 1px dashed #ddd;
+  width: 308px;
+  height: 196px;
+  background: #eee;
+  text-align: center;
+  color: #333;
+  display: block;
+  float: left;
   margin-left:10px;
-   display:none;
-   position:relative;
+  display:none;
+  position:relative;
 }
 .image_material .select_image{line-height: 196px; display:block; height:200px;}
-.image_material .delete{ position:absolute; bottom:3px; left:3px; display:none}
+.image_material .delete{ position:absolute; bottom:3px; left:3px;}
 .appmsg_area{ position:relative;}
 .appmsg_area .delete{ position:absolute; bottom:10px; left:10px; z-index:1000; margin:10px;}
 .appmsg_area .select_video{  height: 240px;line-height: 240px;}
+.image_wrap_img{ position: absolute;left: -2px;top: -2px; width:314px;height: 200px;}
+.image_wrap_img img{ position: absolute;left: 16px;top: 10px; width:280px;height: 160px;}
+.appmsg_wrap_img{ position: absolute;left: 6px;top: 6px; width:298px;height: 188px;z-index: 1000;padding: 5px;background: white;  border: 1px dashed #ddd;}
+.appmsg_wrap_img img{ position: absolute;left: 13px;top: 35px; width:280px;height: 150px;}
 .voice_wrap{ width:308px;}
 .video_wrap{ width:222px;}
+.video_wrap_video{ position: absolute;left: 6px;top: 6px; width:298px;height: 230px;z-index: 1000;padding: 5px;background: white;  border: 1px dashed #ddd;}
+.video_wrap_video video{width: 295px}
+.voice_wrap_voice{ position: absolute;left: 6px;top: 6px; width:298px;height: 188px;z-index: 1000;padding: 5px;background: white;  border: 1px dashed #ddd;}
 #video_area{ height:250px}
 </style>
   <div class="span9 page_message">
@@ -66,7 +73,14 @@ background-color: #eaeaea;">
                     <textarea name="content" placeholder="请输入要发送的文本"  id='message_text'>{$data.content}</textarea>
                     <div style="display:none" class="appmsg_area" id="appmsg_area">
                         <input type="hidden" name="appmsg_id" value="<?php echo $data['group_id'] ? $data['group_id'] : 0; ?>"/>
-                        <a class="select_appmsg" href="javascript:;" onClick="$.WeiPHP.openSelectAppMsg('{:U('/Home/Material/material_data')}',selectAppMsgCallback)">选择图文</a>
+                         <a class="select_appmsg" href="javascript:;" onClick="$.WeiPHP.openSelectAppMsg('{:U('/Home/Material/material_data')}',selectAppMsgCallback)">选择图文</a>
+                        <notempty name="data.group_id">
+                              <div class="appmsg_wrap_img">
+                                <span>{$data.group_id|get_material_ntitle}</span>
+                                <img src="{$data.group_id|get_material_ncover}"/>
+                              </div>
+                              <a class="delete" href="javascript:;" style="left: 310px;display:block">删除</a>
+                        </notempty>
                         <div class="appmsg_wrap"></div>
                         <a class="delete" href="javascript:;" style="left: 310px;">删除</a>
                     </div>
@@ -75,15 +89,26 @@ background-color: #eaeaea;">
                       <div class="uploadrow2" rel="image" title="点击修改图片" style="float:left; width:308px;">
                             <input type="file" id="upload_picture_image">
                             <input type="hidden" name="image" id="cover_id_image" value="<?php echo $data['image_id'] ? $data['image_id'] : 0; ?>"/>
-                            <div class="upload-img-box" style="display:none;">
-                                <div class="upload-pre-item2"><img width="100" height="100" src=""/></div>
+                            <notempty name="data.image_id">
+                              <div class="upload-img-box">
+                                    <img width="100%" height="100%" src="{$data.image_id|get_cover_url}"/>
+                              </div>
+                            </notempty>
+                            <div class="upload-img-box">
+                                    <img width="100%" height="100%" src=""/>
                             </div>
                         </div>
                         <div class='image_material' id='image_material'>
                             <input type="hidden" name="image_material" id="cover_id_image" value="<?php echo $data['image_material'] ? $data['image_material'] : 0; ?>"/>
                             <a class="select_image" href="javascript:;"  onClick="$.WeiPHP.openSelectAppMsg('{:U('/Home/Material/picture_data')}',selectImageCallback,'选择图片素材')">从素材库选择图片</a>
                             <div class="image_wrap"></div>
-                            <a class="delete" href="javascript:;" style="left: 15px;" >删除</a>
+                            <notempty name="data.image_material">
+                                <div class="image_wrap_img">
+                                  <img src="{$data.image_material|get_material_icover}"/>
+                                </div>
+                              <a class="delete" href="javascript:;" style="left: 15px;display:inline;" >删除</a>
+                            </notempty>
+                            <a class="delete" href="javascript:;" style="left: 15px;display:none;" >删除</a>
                          </div>
                     </div>
                      
@@ -91,13 +116,36 @@ background-color: #eaeaea;">
                         <input type="hidden" name="voice_id" value="<?php echo $data['voice_id'] ? $data['voice_id'] : 0; ?>"/>
                         <a class="select_appmsg" href="javascript:;" onClick="$.WeiPHP.openSelectAppMsg('{:U('/Home/Material/voice_data')}',selectVoiceCallback,'选择语音素材')">选择语音素材</a>
                         <div class="voice_wrap"></div>
+                        <notempty name="data.voice_id">
+                              <div class="voice_wrap_voice" onClick="playSound('sound_{$vo.id}',this);">
+                                    <img class="icon_sound" src="__IMG__/icon_sound.png"/>
+                                    <p class="audio_name">{$data.voice_id|get_material_vtitle}
+                                      <span class="fr colorless">未知时长</span>
+                                    </p>
+                                    <p class="ctime colorless">{$data.voice_id|get_material_cTime}</p>
+                                    <audio id="sound_{$vo.id}" src="{$data.voice_id|get_material_file}"></audio>
+                              </div>
+                             <a class="delete" href="javascript:;"  style="left: 310px;display: inline;">删除</a>
+                        </notempty>
                         <a class="delete" href="javascript:;" style="left: 310px;display: inline;">删除</a>
                     </div>
                       <div style="display:none" class="appmsg_area" id="video_area">
-                        <input type="hidden" name="video_id" value="<?php echo $data['video_id'] ? $data['video'] : 0; ?>"/>
+                        <input type="hidden" name="video_id" value="<?php echo $data['video_id'] ? $data['video_id'] : 0; ?>"/>
                         <a class="select_appmsg select_video" href="javascript:;" onClick="$.WeiPHP.openSelectAppMsg('{:U('/Home/Material/video_data')}',selectVideoCallback,'选择视频素材')">选择视频素材</a>
+                        <notempty name="data.video_id">
+                              <div class="video_wrap_video">
+                                <p class="title">{$data.video_id|get_material_vtitle}</p>
+                                <p class="ctime colorless">{$data.video_id|get_material_cTime}</p>
+                                <video src="{$data.video_id|get_material_file}" controls="controls"> 
+                                 <source src="movie.ogg" type="video/ogg"> 
+                                 <source src="{$data.video_id|get_material_file}" type="video/mp4"> <!-- MPEG4 类型：for safali & ie9 -->
+                                 您的浏览器不支持 video 标签。                                 
+                                </video>
+                              </div>
+                             <a class="delete" href="javascript:;"  style="left: 310px;display: inline;">删除</a>
+                        </notempty>
                         <div class="video_wrap"></div>
-                        <a class="delete" href="javascript:;"  style="left: 310px;">删除</a>
+                        <a class="delete" href="javascript:;"  style="left: 310px;display: none;">删除</a>
                     </div>
                  </label>
                  
@@ -295,27 +343,31 @@ $('.msg_tab .video').click(function(){
 
 $('#appmsg_area .delete').click(function(){
   $('#appmsg_area .appmsg_wrap').html('').hide();
+  $('#appmsg_area .appmsg_wrap_img').html('').hide();
   $('#appmsg_area .select_appmsg').show();
   $('#appmsg_area .delete').hide();
   $('input[name="appmsg_id"]').val(0);
 })
 $('.image_material .delete').click(function(){
   $('.image_wrap').html('').hide();
+  $('.image_wrap_img').html('').hide();
   $('.select_image').show();
   $('.image_material .delete').hide();
   $('input[name="image_material"]').val(0);
 })
 $('#voice_area .delete').click(function(){
   $('#voice_area .voice_wrap').html('').hide();
+  $('#voice_area .voice_wrap_voice').html('').hide();
   $('#voice_area .select_appmsg').show();
   $('#voice_area .delete').hide();
-  $('input[name="voice"]').val(0);
+  $('input[name="voice_id"]').val(0);
 })
 $('#video_area .delete').click(function(){
   $('#video_area .video_wrap').html('').hide();
+  $('#video_area .video_wrap_video').html('').hide();
   $('#video_area .select_appmsg').show();
   $('#video_area .delete').hide();
-  $('input[name="video"]').val(0);
+  $('input[name="video_id"]').val(0);
 })
 function selectAppMsgCallback(_this){
   $('.appmsg_wrap').html($(_this).html()).show();
@@ -389,6 +441,22 @@ function selectUser(name){
       $('#'+name).text(nameArr.toString());
     }
   })
+}
+
+function playSound(id,obj){
+  var audio = document.getElementById(id);
+  if(audio.paused){
+    audio.play();
+    $(obj).find('img').attr('src',IMG_PATH+'/icon_sound_play.gif');
+    audio.addEventListener('ended', function () {  
+//      alert('over');
+      $(obj).find('img').attr('src',IMG_PATH+'/icon_sound.png');
+    }, false);
+    return;
+  }
+  audio.pause();
+  $(obj).find('img').attr('src',IMG_PATH+'/icon_sound.png');
+  
 }
 </script> 
 </block>

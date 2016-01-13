@@ -164,7 +164,8 @@ class WeixinAddonModel extends WeixinModel{
 	}
 
 	public function voice($data) {
-		$data['Content'] = '点歌' . substr($data['Recognition'],0,strlen($data['Recognition'])-3); 
+		//点个插件voice 接收语音时，不要加上“点歌”，否者语音的话，后面的插件无法再识别语言（多客服）
+		$data['Content'] = substr($data['Recognition'],0,strlen($data['Recognition'])-3); 
 		
 		$config = getAddonConfig('Dg');
 		// replyText($config['keyword']);

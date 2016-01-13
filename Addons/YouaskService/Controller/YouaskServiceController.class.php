@@ -266,9 +266,8 @@ class YouaskServiceController extends BaseController{
 						$ids 
 				) 
 		);
-		$map ['token'] = get_token ();		
-		
-		if ($Model->where ( $map )->data (array("isdelete"=>1))->save()) {
+		$map ['token'] = get_token ();
+		if ($Model->where ( $map )->delete ()) {
 			$this->success ( '删除成功' );
 		} else {
 			$this->error ( '删除失败！' );
@@ -306,16 +305,12 @@ class YouaskServiceController extends BaseController{
 	
 	function config() {
 		// 使用提示
-		$normal_tips = '微信客服是指微信公众平台自带的多客服系统，只有认证服务号才有此功能。<br/>
-开启微信客服状态，注意：<br/>
+		$normal_tips = '微信客服是指微信公众平台自带的多客服系统，只有认证号才有此功能。<br/>
+注意：<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;1、转接人工客服：用户发送设定的关键词转人工客服或者指定客服,如果客服不在将回复设定内容,反之接入人工客服后,所有关键词和插件回复将无效，当接入的用户和客服交流时间超过2个小时，将自动结束人工客服，客服关闭会话后，结束人工客服;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;2、开启智能聊天；如果用户未接入人工客服，未识别内容将转到智能聊天进行回复;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;3、关闭智能聊天,或者智能聊天无返回：未识别内容将会回复下方设定的自定义文本或者图文回复内容;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;4、开启多客服助手接待：开启后，客服账号绑定微信后，手机在线时可接入接待，否则手机在线无法接入;<br/>
-关闭微信客服状态，注意：<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;2、开启智能聊天；未识别内容将转到智能聊天进行回复;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;3、关闭智能聊天,或者智能聊天无返回：未识别内容将会回复下方设定的自定义文本或者图文回复内容;<br/>
-根据需要设定相关的模式即可，更人性化的智能客服！';
+&nbsp;&nbsp;&nbsp;&nbsp;2、开启多客服助手接待：开启后，客服账号绑定微信后，手机在线时可接入接待，否则手机在线无法接入;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;3、设定用户主动退出客服：在自定义菜单建立自定义主动推事件，关键词设定与配置文件手动退出客服关键词一致即可;<br/>
+';
 		$this->assign ( 'normal_tips', $normal_tips );
 		
 		if (IS_POST) {

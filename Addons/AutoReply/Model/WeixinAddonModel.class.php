@@ -40,12 +40,18 @@ class WeixinAddonModel extends WeixinModel {
 			foreach ( $list as $k => $vo ) {
 				if ($k > 8)
 					continue;
-				
+
+				if ( empty($vo ['url']) ) {
+					$url = $this->_getNewsUrl ( $vo, $param ) ;
+				}else{
+					$url = $vo ['url'];
+				}
+
 				$articles [] = array (
 						'Title' => $vo ['title'],
 						'Description' => $vo ['intro'],
 						'PicUrl' => get_cover_url ( $vo ['cover_id'] ),
-						'Url' => $this->_getNewsUrl ( $vo, $param ) 
+						'Url' => $url
 				);
 			}
 			
