@@ -372,7 +372,7 @@ class PublicController extends HomeController {
 			$mp_data['wechat'] = $mpInfo['mp_number'];
 			
 			$mp_data['mp_username'] = $_POST['mp_username'];
-			$mp_data['mp_password'] = $_POST['mp_password'];
+			$mp_data['mp_password'] = md5($_POST['mp_password']);
 			$mp_data['interface_url'] = U('home/weixin/index');
 			$mp_data['type'] = intval($mpInfo['type']);
 
