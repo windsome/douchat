@@ -895,6 +895,30 @@ function simpleColorPicker(_this,callback){
 			}
 		})
 	}
+
+	/* 插件config页面选择图片素材专用 */
+	function openImageMsg(dataUrl,callback,title,inputname){
+		var $contentHtml = $('<div class="appmsg_dialog" style="padding:10px; max-height:560px;overflow-y:auto;overflow-x:hidden;"><ul class="mt_10"><center><br/><br/><br/><img src="'+IMG_PATH+'/loading.gif"/></center></ul></div>');
+		$.Dialog.open(title?title:"选择图文素材",{width:1000,height:640},$contentHtml);
+		$.ajax({
+			url:dataUrl,
+			data:{'type':'ajax'},
+			dataType:'html',
+			success:function(data){
+				$data = $(data);
+				$('ul',$contentHtml).html($data);
+				$data.find('.material_list').masonry({
+					// options
+					itemSelector : '.appmsg_li'
+					//columnWidth : 308
+				  });
+				$('li',$contentHtml).on('click',function(){
+					callback(this,inputname);
+				});
+			}
+		})
+	}
+
 	/* 选择图文素材 */
 	function openSelectAppMsg(dataUrl,callback,title){
 		var $contentHtml = $('<div class="appmsg_dialog" style="padding:10px; max-height:560px;overflow-y:auto;overflow-x:hidden;"><ul class="mt_10"><center><br/><br/><br/><img src="'+IMG_PATH+'/loading.gif"/></center></ul></div>');
@@ -1197,7 +1221,8 @@ function simpleColorPicker(_this,callback){
 		selectSingleUser:selectSingleUser,
 		selectMutiUser:selectMutiUser,
 		openSubmitDialog:openSubmitDialog,
-		openSelectLists:openSelectLists
+		openSelectLists:openSelectLists,
+		openImageMsg:openImageMsg
 		
 	}
 	$.extend({WeiPHP:WeiPHP});
