@@ -514,11 +514,21 @@ class MaterialController extends HomeController {
 	    $map ['manager_id'] = $this->mid;
 	    $map['is_use']=1;
 	    $map ['token'] = get_token ();
-	    $list = M ( 'material_image' )->where ( $map )->field ( 'id,cover_url' )->order ( 'id desc' )->selectPage ( 39 );
+	    $list = M ( 'material_image' )->where ( $map )->field ( 'id,cover_url,cover_id' )->order ( 'id desc' )->selectPage ( 39 );
 	    $this->assign ( $list );
 	    $this->display ();
 	}
-	
+
+	function picture_config() {
+// 	    $this->assign ( 'normal_tips', '温馨提示：图片大小不超过5M,    格式: bmp, png, jpeg, jpg, gif' );
+	    $map ['manager_id'] = $this->mid;
+	    $map['is_use']=1;
+	    $map ['token'] = get_token ();
+	    $list = M ( 'material_image' )->where ( $map )->field ( 'id,cover_url,cover_id' )->order ( 'id desc' )->selectPage ( 39 );
+	    $this->assign ( $list );
+	    $this->display ();
+	}
+
 	// 上传图片素材
 	function syc_image_to_wechat() {
 		// 上传本地素材
