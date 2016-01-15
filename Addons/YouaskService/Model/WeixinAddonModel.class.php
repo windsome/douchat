@@ -305,6 +305,10 @@ class WeixinAddonModel extends WeixinModel{
 		$access_token = $this->getaccess_token();	
 		$openid = get_openid();
         
+        //$sss = getKFSession($openid);
+
+        //$res = $this->replyText ( $sss );
+
 		$url_get = 'https://api.weixin.qq.com/customservice/kfsession/getsession?access_token='.$access_token.'&openid='.$openid;				
 		$json = $this->curlGet($url_get);	
 
@@ -404,6 +408,12 @@ class WeixinAddonModel extends WeixinModel{
         //未开启图灵机器人的时候，转到未识别回复
         if ($config["state"] == 0 && $dataArr['Content'] != 'reportLocation') {
 		   	$info = M('auto_reply')->where(array('token'=>get_token(),'reply_scene'=>1))->find();
+
+		     if (empty($info['content']) && $info['group_id'] ==0
+		      && $info['image_id'] ==0 && $info['image_material'] ==0 
+		      && $info['voice_id'] ==0 && $info['video_id'] ==0) {
+		     	$res = $this->replyText ( "所有插件无触发，请设置自定义回复中的消息自动回复内容(未识别回复)！" );
+		     }
 
 		     // 加载自动回复处理并反馈信息
 		     require_once ONETHINK_ADDON_PATH . 'AutoReply' . '/Model/WeixinAddonModel.class.php';
