@@ -1,6 +1,70 @@
 <extend name="Base/common" />
 
 <block name="body">
+<style text='text/css'>
+.image_material{
+    border: 1px dashed #ddd;
+    width: 80px;
+    height: 198px;
+    background: #eee;
+    text-align: center;
+    color: #333;
+    display: block;
+    float: left;
+    margin-left:10px;
+    position:relative;
+}
+.image_material a:hover{
+    background: #fff;
+}
+.image_material .select_image{
+	border: 1px dashed #ddd;
+	display: block;
+	width: 78px;
+	height: 160px;
+	line-height: 160px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background: #eee;
+}
+.image_material .delete{
+	border: 1px dashed #ddd;
+	display: block;
+	width: 78px;
+	height: 36px;
+	line-height: 36px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	background: #eee;
+}
+.upload-img-box .appmsg_item{
+	padding: 0px;
+	width: 306px;
+	height: 198px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+.uploadrow2{
+	border: 1px dashed #ddd;
+	width: 306px;
+	height: 198px;
+	background: #eee;
+	z-index: 888;
+}
+.uploadrow2 .upload-img-box .upload-pre-item2 img,
+.uploadrow2 .upload-img-box .upload-pre-item2{
+    width: 306px;
+	height: 198px;
+}
+.upload-img-box,
+.upload-img-box img{
+	width: 306px;
+	height: 198px;
+}
+</style>
 <div class="span9 page_message">
 	<section id="contents">
       <include file="Addons/_nav" />
@@ -69,17 +133,20 @@
 							</div>
 							</case>
                             <case value="picture">
-                               <div class="controls uploadrow2" title="点击修改图片" rel="{$o_key}">
+                               <div class="controls uploadrow2  pull-left" title="点击修改图片" rel="{$o_key}">
                                   <input type="file" id="upload_picture_{$o_key}">
                                   <input type="hidden" name="config[{$o_key}]" id="cover_id_{$o_key}" value="{$form['value']}"/>
-                                  <div class="upload-img-box">
+                                  <div class="upload-img-box cover_id_{$o_key}">
                                     <notempty name="form['value']">
-                                   
-                                      <div class="upload-pre-item2"><img width="100" height="100" src="{$form['value']|get_cover_url}"/></div>
+                                      <img src="{$form['value']|get_cover_url}"/>
                                       <em class="edit_img_icon">&nbsp;</em>
                                     </notempty>
-                                    
                                   </div>
+
+                              </div>
+                              <div class='image_material' id='image_material'>
+                                  <a class="select_image" href="javascript:;"  onClick="$.WeiPHP.openImageMsg('{:U('/Home/Material/picture_config')}',selectImageCallback,'选择图片素材','{$o_key}')">选择素材库</a>
+                                  <a class="delete" onClick="delImage('{$o_key}')" href="javascript:;">清除图片</a>
                               </div>
                     		</case>
                     		
@@ -281,11 +348,28 @@
 <block name="script">
 <script type="text/javascript" charset="utf-8">
 	$(function(){
-		//初始化上传图片插件
-		initUploadImg();
+  //初始化上传图片插件
+  initUploadImg({width:308,height:200,callback:function(){
+  }});
 		initUploadFile();
 		//支持tab
 		showTab();
 	})
+
+
+//选取图片素材后的返回处理
+function selectImageCallback(_this,inpuname){
+
+  $('.cover_id_'+inpuname).html($(_this).html()).show();
+  $('.image_material .delete').show();
+
+  $('input[name="config['+inpuname+']"]').val($(_this).data('cover_id'));
+  $.Dialog.close();
+}
+//清除图片
+function delImage(inputname){
+  $('.uploadrow2 .cover_id_'+inputname).html('').hide();
+  $('input[name="config['+inputname+']"]').val(0);
+}
 </script>
 </block>
