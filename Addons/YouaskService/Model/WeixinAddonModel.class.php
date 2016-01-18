@@ -94,13 +94,18 @@ class WeixinAddonModel extends WeixinModel{
 		$zrgkf = in_array($content,$zrg);
 
 		if( $zrgkf ){		
-     
+                //判断是否已经接入客服
+			    $kf_account = $this->cxkfstate();
+			    $kfname = $this->get_kfname($kf_account);
+
+			    if ($kfname!=null) {
+			    	$res = $this->replyText ('您正在被客服【'.$kfname.'】接入中，无法接入其他客服');
+			    }
 			    //判断是否有在线的客服,电脑优先，只有手机在线的被屏蔽掉
 			    $zxlists = $this->kfzxstate($config["state"],$config['model2']);
 
 			    $len = sizeof($zxlists);
 
-			    //$res = $this->replyText ($zxlists[0].'+'.$zxlists[1].'+'.$zxlists[2].'+'.$zxlists[3]);
 			    if($len !=0){
 
 				    //随机生成一个在线客服，再指定
@@ -115,9 +120,7 @@ class WeixinAddonModel extends WeixinModel{
 			exit();
 
 		}	
-
-   
-	 
+ 
 	    //查询匹配方式
         $keywords=M('youaskservice_keyword');
 		$keywordsValue = $keywords->where(" token='".$token."' and instr('".$content."',msgkeyword) >0 ")->order("id desc")->select();           
@@ -149,6 +152,15 @@ class WeixinAddonModel extends WeixinModel{
 			}
 			
 			if($ispass){
+
+				//判断用户是否已经接入客服，返回提醒
+			    $kf_account = $this->cxkfstate();
+			    $kfname = $this->get_kfname($kf_account);
+
+			    if ($kfname!=null) {
+			    	$res = $this->replyText ('您正在被客服【'.$kfname.'】接入中，无法接入其他客服');
+			    }
+
 				if($v["zdtype"] == 0){
 					$zxlists = $this->kfzxstate($config["state"],$config['model2']);
 
@@ -235,7 +247,6 @@ class WeixinAddonModel extends WeixinModel{
         $map['msgstate'] = 1;
 		$keywordsValue = $keywords->where($map)->order("id desc")->select();
 
-         //$res = $this->replyText ('测试');
         foreach($keywordsValue as $v){
 
 				if($v["zdtype"] == 0){
@@ -266,13 +277,10 @@ class WeixinAddonModel extends WeixinModel{
         	exit();
         }
 
-        //$res = $this->replyText ('测试');
         //重建索引0，1，2...
         array_splice($zxkglist,0,0); 
-
         $zxkf_array = implode("\n        ",$zxkglist);
 
-        //$res = $this->replyText ($zxkf_array);
         $description = $config ['description_head']."\n"."\n        ".$zxkf_array."\n"."\n".$config ['description_foot'];
 		  switch ($config ['type3']) {
 			case '3' :
@@ -292,29 +300,32 @@ class WeixinAddonModel extends WeixinModel{
     }
 
     //获取客服昵称
-    public function get_kfname($kf_account){
+    private function get_kfname($kf_account){
     	$map['userName'] = $kf_account;
     	$name = M ( 'youaskservice_user' )->where ( $map )->getField ( 'name' );
         return $name;
     }
 
-    //关闭人工客服
-	public function gbkf(){
+    //查询用户会话状态
+	public function cxkfstate(){
 		header("Content-type: text/html; charset=utf-8"); 
 				
 		$access_token = $this->getaccess_token();	
 		$openid = get_openid();
         
-        //$sss = getKFSession($openid);
-
-        //$res = $this->replyText ( $sss );
-
 		$url_get = 'https://api.weixin.qq.com/customservice/kfsession/getsession?access_token='.$access_token.'&openid='.$openid;				
 		$json = $this->curlGet($url_get);	
-
 		$json = json_decode($json,true);
-
 		$kf_account = $json['kf_account'];
+
+		return $kf_account;
+	}
+
+    //关闭人工客服
+	public function gbkf(){
+		header("Content-type: text/html; charset=utf-8"); 		
+		$openid = get_openid();
+		$kf_account = $this->cxkfstate();
 
 		if ($kf_account  == null) {
 			$res = $this->replyText ('您未接入任何客服！');	
@@ -328,7 +339,6 @@ class WeixinAddonModel extends WeixinModel{
 	    	);
 
 	    $postdata = json_encode($postdata);
-	    
 		$access_token = $this->getaccess_token();
 		$url_post = 'https://api.weixin.qq.com/customservice/kfsession/close?access_token='.$access_token;				
 		$json = $this->curlGet($url_post, $method = 'post', $data = $postdata);	
@@ -401,8 +411,7 @@ class WeixinAddonModel extends WeixinModel{
     //多客服关闭或者没有反应的时候转到图灵机器人
 	public function zjtuling($dataArr, $keywordArr = array()){
 
-	    // 未识别的之后，则默认使用图灵机器人插件
-        
+	    // 以上插件未识别之后，则默认使用图灵机器人插件
         $config = getAddonConfig ( 'Tuling' ); // 获取后台插件的配置参数	
 
         //未开启图灵机器人的时候，转到未识别回复
@@ -430,6 +439,7 @@ class WeixinAddonModel extends WeixinModel{
 
 	}
 
+    //处理语音钩子
 	public function voice($data) {
 		$this->reply ($data, $keywordArr = array());
 	}
