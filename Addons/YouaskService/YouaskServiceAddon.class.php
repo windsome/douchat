@@ -13,7 +13,7 @@ use Common\Controller\Addon;
         public $info = array(
             'name'=>'YouaskService',
             'title'=>'多客服',
-            'description'=>'一个支持指定客服，未识别回复，智能聊天(图灵机器人)的微信客服系统',
+            'description'=>'微信多客服管理，智能化控制',
             'status'=>1,
             'author'=>'梦醒',
             'version'=>'0.1',

@@ -528,12 +528,12 @@ function time_offset($time = NULL) {
 	return $min . ':' . $mod;
 }
 // 获取用户信息
-function getUserInfo($user, $field = '', $update = false) {
-	if (!is_numeric($user)) {	// 如果传过来的是openid
-		$user = getUidByOpenid($user);
+function getUserInfo($uid, $update = false, $field = '') {
+	if (!is_numeric($uid)) {	// 如果传过来的是openid
+		$uid = getUidByOpenid($uid);
 	}
 	
-	$info = D ( 'Common/User' )->getUserInfo ( $user, $update );
+	$info = D ( 'Common/User' )->getUserInfo ( $uid, $update );
 	// dump ( $info );
 	return empty ( $field ) ? $info : $info [$field];
 }
@@ -1654,48 +1654,18 @@ function get_token_type($token = '') {
 // 获取access_token，自动带缓存功能
 function get_access_token($token = '') {
 	empty ( $token ) && $token = get_token ();
-	$key = 'access_token_' . $token;
-	$res = S ( $key );
-	if ($res !== false)
-		return $res;
 	
 	$info = get_token_appinfo ( $token );
-	if (empty ( $info ['appid'] ) || empty ( $info ['secret'] )) {
-		return 0;
-	}
-	
-	$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $info ['appid'] . '&secret=' . $info ['secret'];
-	$tempArr = json_decode ( http_get ( $url ), true );
-	if (@array_key_exists ( 'access_token', $tempArr )) {
-		S ( $key, $tempArr ['access_token'], 7200 );
-		return $tempArr ['access_token'];
-	} else {
-		return 0;
-	}
+		
+	return get_access_token_by_apppid ( $info ['appid'], $info ['secret'] );
 }
 // 获取access_token，自动带缓存功能
 function get_tv_access_token($uid = '') {
 	empty ( $uid ) && $uid = session ( 'mid' );
-	$key = 'tv_access_token_' . $uid;
-	$res = S ( $key );
-	if ($res !== false && $res != 0)
-		return $res;
 	
 	$info = get_userinfo ( $uid );
-	if (empty ( $info ['GammaAppId'] ) || empty ( $info ['GammaSecret'] )) {
-		return 0;
-	}
-	
-	$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $info ['GammaAppId'] . '&secret=' . $info ['GammaSecret'];
-	$tempArr = json_decode ( file_get_contents ( $url ), true );
-	if (@array_key_exists ( 'access_token', $tempArr )) {
-		S ( $key, $tempArr ['access_token'], $tempArr ['expires_in'] );
-		return $tempArr ['access_token'];
-	} else {
-		return 0;
-	}
+	return get_access_token_by_apppid ( $info ['GammaAppId'], $info ['GammaSecret'] );
 }
-
 function get_access_token_by_apppid($appid, $secret) {
 	if (empty ( $appid ) || empty ( $secret )) {
 		return 0;
@@ -1709,7 +1679,7 @@ function get_access_token_by_apppid($appid, $secret) {
 	$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $appid . '&secret=' . $secret;
 	$tempArr = json_decode ( file_get_contents ( $url ), true );
 	if (@array_key_exists ( 'access_token', $tempArr )) {
-		S ( $key, $tempArr ['access_token'], $tempArr ['expires_in'] );
+		S ( $key, $tempArr ['access_token'], $tempArr ['expires_in'] - 60 );
 		return $tempArr ['access_token'];
 	} else {
 		return 0;
