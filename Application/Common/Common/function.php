@@ -3844,6 +3844,42 @@ function transferCustomerService($customer_account = ''){
     $weObj->transfer_customer_service($customer_account)->reply();
 }
 
+/**
+ * 获取客服列表
+ * @author 艾逗笔<765532665@qq.com>
+ */
+function getCustomServiceKFlist() {
+	$weObj = getWechatApiObj();
+	return $weObj->getCustomServiceKFlist();
+}
+
+/**
+ * 获取在线客服列表
+ * @author 艾逗笔<765532665@qq.com>
+ */
+function getCustomServiceOnlineKFlist() {
+	$weObj = getWechatApiObj();
+	return $weObj->getCustomServiceOnlineKFlist();
+}
+
+/**
+ * 获取客服会话状态
+ * @author 艾逗笔<765532665@qq.com>
+ */
+function getKFSession($openid) {
+	$weObj = getWechatApiObj();
+	return $weObj->getKFSession($openid);
+}
+
+/**
+ * 关闭客服会话
+ * @author 艾逗笔<765532665@qq.com>
+ */
+function closeKFSession($openid,$kf_account,$text='') {
+	$weObj = getWechatApiObj();
+	return $weObj->closeKFSession($openid,$kf_account,$text='');
+}
+
 // 发送客服消息
 // 2015-4-20 by 艾逗笔
 function sendMsg($openid, $token ,$msg){

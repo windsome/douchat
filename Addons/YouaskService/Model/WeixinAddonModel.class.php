@@ -208,10 +208,11 @@ class WeixinAddonModel extends WeixinModel{
 		//$res = $this->replyText ($model);
 		header("Content-type: text/html; charset=utf-8"); 
 				
-		$access_token = $this->getaccess_token();	
-		$url_get = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token='.$access_token;				
-		$json = $this->curlGet($url_get);			
-		$json =json_decode($json);
+		// $access_token = $this->getaccess_token();	
+		// $url_get = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token='.$access_token;				
+		// $json = $this->curlGet($url_get);			
+		// $json =json_decode($json);
+		$json =json_decode(json_encode(getCustomServiceOnlineKFlist()));
 		
 		$kf_onlinelists = $json->kf_online_list;
 
@@ -310,12 +311,13 @@ class WeixinAddonModel extends WeixinModel{
 	public function cxkfstate(){
 		header("Content-type: text/html; charset=utf-8"); 
 				
-		$access_token = $this->getaccess_token();	
+		// $access_token = $this->getaccess_token();	
 		$openid = get_openid();
         
-		$url_get = 'https://api.weixin.qq.com/customservice/kfsession/getsession?access_token='.$access_token.'&openid='.$openid;				
-		$json = $this->curlGet($url_get);	
-		$json = json_decode($json,true);
+		// $url_get = 'https://api.weixin.qq.com/customservice/kfsession/getsession?access_token='.$access_token.'&openid='.$openid;				
+		// $json = $this->curlGet($url_get);	
+		// $json = json_decode($json,true);
+		$json = getKFSession($openid);
 		$kf_account = $json['kf_account'];
 
 		return $kf_account;
@@ -338,10 +340,11 @@ class WeixinAddonModel extends WeixinModel{
 	    	"text" => '用户主动关闭会话！'
 	    	);
 
-	    $postdata = json_encode($postdata);
-		$access_token = $this->getaccess_token();
-		$url_post = 'https://api.weixin.qq.com/customservice/kfsession/close?access_token='.$access_token;				
-		$json = $this->curlGet($url_post, $method = 'post', $data = $postdata);	
+	 //    $postdata = json_encode($postdata);
+		// $access_token = $this->getaccess_token();
+		// $url_post = 'https://api.weixin.qq.com/customservice/kfsession/close?access_token='.$access_token;				
+		// $json = $this->curlGet($url_post, $method = 'post', $data = $postdata);	
+		$json = json_decode(json_encode(closeKFSession($postdata['openid'],$postdata['kf_account'],$postdata['text'])));
 
 		if (!$json->errmsg) {
 			exit();

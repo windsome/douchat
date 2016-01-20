@@ -54,10 +54,12 @@ class YouaskServiceController extends BaseController{
 		
 		$this->assign ( 'list_grids', $list_grids );
 		
-		$access_token = $this->getaccess_token();	
-		$url_get = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token='.$access_token;				
-		$json = $this->curlGet($url_get);		
-		$json =json_decode($json);
+		// $access_token = $this->getaccess_token();	
+		// $url_get = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token='.$access_token;				
+		// $json = $this->curlGet($url_get);		
+		// $json =json_decode($json);
+		$json =json_decode(json_encode(getCustomServiceOnlineKFlist()));
+		// dump($json);die;
 		
 		$kf_onlinelists = $json->kf_online_list;
 		//补充昵称		
@@ -76,10 +78,12 @@ class YouaskServiceController extends BaseController{
 		header("Content-type: text/html; charset=utf-8"); 
 		$token = get_token();
 	
-		$access_token = $this->getaccess_token();
-		$url_get = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token='.$access_token;				
-		$json = $this->curlGet($url_get);		
-		$json =json_decode($json);		
+		// $access_token = $this->getaccess_token();
+		// $url_get = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token='.$access_token;				
+		// $json = $this->curlGet($url_get);		
+		// $json =json_decode($json);		
+		$json =json_decode(json_encode(getCustomServiceKFlist()));
+		// dump($json);die;
 		if (!$json->errmsg) {
             
         } else {
