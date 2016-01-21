@@ -4296,7 +4296,7 @@ function get_weixinmenu_title($id) {
  */
 function get_weixinmenu_time($id) {
     $map ['token'] = get_token ();
-    $map ['menu_id'] = $id;
+    $map ['menuid'] = $id;
 	$cTime = M ( 'custom_menu_type' )->where ( $map )->getField ('cTime');
 	$cTime = time_format($cTime, $format = 'Y-m-d H:i');
 	return  $cTime;
