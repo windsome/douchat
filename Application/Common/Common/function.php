@@ -4286,7 +4286,7 @@ function get_menu_isshow($show) {
  */
 function get_weixinmenu_title($id) {
     $map ['token'] = get_token ();
-    $map ['menu_id'] = $id;
+    $map ['menuid'] = $id;
 	$title = M ( 'custom_menu_type' )->where ( $map )->getField ('title');
 	return  $title;
 }
