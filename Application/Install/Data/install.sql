@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 01 月 11 日 01:55
+-- 生成日期: 2016 年 01 月 21 日 03:36
 -- 服务器版本: 5.5.20
 -- PHP 版本: 5.3.10
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `dc_addons` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `sti` (`status`,`is_show`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信插件表' AUTO_INCREMENT=218 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信插件表' AUTO_INCREMENT=219 ;
 
 --
 -- 转存表中的数据 `dc_addons`
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `dc_addons` (
 INSERT INTO `dc_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`, `type`, `cate_id`, `is_show`) VALUES
 (198, 'WeiSite', '微官网', '微3G网站、支持分类管理，文章管理、底部导航管理、微信引导信息配置，微网站统计代码部署。同时支持首页多模板切换、信息列表多模板切换、信息详情模板切换、底部导航多模板切换。并配置有详细的模板二次开发教程', 1, '{"title":"\\u70b9\\u51fb\\u8fdb\\u5165\\u9996\\u9875","cover":"","info":"","background":"","code":"","template_index":"ColorV1","template_footer":"V1","template_lists":"V1","template_detail":"V1"}', '艾逗笔', '1.0', 1450450573, 0, 0, 3, 1),
 (199, 'AutoReply', '自动回复', '实现配置关键词，用户回复此关键词后自动回复对应的文件，图文，图片信息', 1, 'null', '艾逗笔', '1.0', 1450450576, 1, 0, 1, 1),
-(200, 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', 1, 'null', '艾逗笔', '1.0', 1450450579, 1, 0, 1, 1),
+(218, 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', 1, 'null', '艾逗笔', '1.0', 1453347048, 1, 0, 1, 1),
 (201, 'YouaskService', '多客服', '一个支持指定客服，未识别回复，智能聊天(图灵机器人)的微信客服系统', 1, '{"state":"0","zrg":"\\u4eba\\u5de5\\u5ba2\\u670d","kfbz":"\\u60a8\\u597d\\uff0c\\u5ba2\\u670d\\u5de5\\u4f5c\\u65f6\\u95f4\\uff1a\\u5468\\u4e00\\u81f3\\u5468\\u4e948:00-17:00","zdkfbz":"\\u60a8\\u597d\\uff0c\\u60a8\\u6307\\u5b9a\\u7684\\u5ba2\\u670d\\u6682\\u65f6\\u4e0d\\u5728\\u7ebf\\uff0c\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u5ba2\\u670d,\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868\\uff0c\\u8bf7\\u56de\\u590d\\u201c\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u201d","model":"1","model2":"2","model3":"0","tcrg":"\\u9000\\u51fa\\u4eba\\u5de5\\u5ba2\\u670d","type":"1","title":"","description":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5173\\u95ed\\uff01\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u65b9\\u5f0f\\u8ddf\\u6211\\u4eec\\u8054\\u7cfb\\uff01","pic_url":"","url":"","type2":"1","title2":"","description2":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5f00\\u542f\\uff0c\\u6709\\u4ec0\\u4e48\\u95ee\\u9898\\u53ef\\u8f6c\\u4eba\\u5de5\\u5ba2\\u670d\\u3002\\u8f93\\u5165\\u76f8\\u5173\\u7684\\u5173\\u952e\\u8bcd\\u6307\\u5b9a\\u76f8\\u5173\\u5ba2\\u670d\\uff01","pic_url2":"","url2":"","cxkey":"\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d","type3":"1","title3":"\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868","pic_url3":"","description_head":"\\u5ba2\\u670d\\u5217\\u8868\\u9876\\u90e8\\u5185\\u5bb9\\u533a","description_foot":"\\u5ba2\\u670d\\u5217\\u8868\\u5e95\\u90e8\\u5185\\u5bb9\\u533a","tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api"}', '梦醒', '0.1', 1451825104, 1, 0, 2, 1),
 (202, 'Tmplmsg', '模板消息', '通用的模板消息发送插件', 1, 'null', '艾逗笔', '1.0', 1451825112, 1, 0, 2, 1),
 (204, 'SceneQrcode', '场景二维码', '设置不同的场景生成对应的二维码，用于营销推广、用户绑定、数据统计等场景。', 1, 'null', '艾逗笔', '1.0', 1451825121, 1, 0, 2, 1),
@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `dc_attribute` (
   `auto_type` varchar(25) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `model_id` (`model_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='模型属性表' AUTO_INCREMENT=12405 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='模型属性表' AUTO_INCREMENT=12430 ;
 
 --
 -- 转存表中的数据 `dc_attribute`
@@ -392,7 +392,7 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (76, 'headface_url', '公众号头像', 'varchar(255) NULL', 'picture', '', '', 1, '', 6, 0, 1, 1429847363, 1391576300, '', 3, '', 'regex', '', 3, 'function'),
 (77, 'area', '地区', 'varchar(50) NULL', 'string', '', '', 0, '', 6, 0, 1, 1392946934, 1391576435, '', 3, '', 'regex', '', 3, 'function'),
 (78, 'addon_config', '插件配置', 'text NULL', 'textarea', '', '', 0, '', 6, 0, 1, 1391576537, 1391576537, '', 3, '', 'regex', '', 3, 'function'),
-(79, 'addon_status', '插件状态', 'text NULL', 'textarea', '', '', 0, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 6, 0, 1, 1391576571, 1391576571, '', 3, '', 'regex', '', 3, 'function'),
+(79, 'addon_status', '插件状态', 'text NULL', 'textarea', '', '', 0, '198:微官网\r\n199:自动回复\r\n218:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 6, 0, 1, 1391576571, 1391576571, '', 3, '', 'regex', '', 3, 'function'),
 (12114, 'qrcode_url', '二维码地址', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448957495, 1448957495, '', 3, '', 'regex', '', 3, 'function'),
 (80, 'type', '公众号类型', 'char(10) NULL', 'radio', '0', '', 1, '0:普通订阅号\r\n1:认证订阅号/普通服务号\r\n2:认证服务号', 6, 0, 1, 1416904702, 1393718575, '', 3, '', 'regex', '', 3, 'function'),
 (81, 'appid', 'AppID', 'varchar(255) NULL', 'string', '', '应用ID', 1, '', 6, 0, 1, 1416904750, 1393718735, '', 3, '', 'regex', '', 3, 'function'),
@@ -407,12 +407,12 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (90, 'public_copy_right', '版权信息', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1431141576, 1431141576, '', 3, '', 'regex', '', 3, 'function'),
 (91, 'domain', '自定义域名', 'varchar(30) NULL', 'string', '', '', 0, '', 6, 0, 1, 1439698931, 1439698931, '', 3, '', 'regex', '', 3, 'function'),
 (92, 'title', '等级名', 'varchar(50) NULL', 'string', '', '', 1, '', 7, 0, 1, 1393724854, 1393724854, '', 3, '', 'regex', '', 3, 'function'),
-(93, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 7, 0, 1, 1393731903, 1393725072, '', 3, '', 'regex', '', 3, 'function'),
+(93, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n218:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 7, 0, 1, 1393731903, 1393725072, '', 3, '', 'regex', '', 3, 'function'),
 (12113, 'mp_token', '公众号接入验证Token', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956397, 1448956397, '', 3, '', 'regex', '', 3, 'function'),
 (94, 'uid', '管理员UID', 'int(10) NULL ', 'admin', '', '', 1, '', 8, 1, 1, 1447215599, 1398933236, '', 3, '', 'regex', '', 3, 'function'),
 (95, 'mp_id', '公众号ID', 'int(10) unsigned NOT NULL ', 'num', '', '', 4, '', 8, 1, 1, 1398933300, 1398933300, '', 3, '', 'regex', '', 3, 'function'),
 (96, 'is_creator', '是否为创建者', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:不是\r\n1:是', 8, 0, 1, 1398933380, 1398933380, '', 3, '', 'regex', '', 3, 'function'),
-(97, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n200:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 8, 0, 1, 1398933475, 1398933475, '', 3, '', 'regex', '', 3, 'function'),
+(97, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n218:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 8, 0, 1, 1398933475, 1398933475, '', 3, '', 'regex', '', 3, 'function'),
 (12111, 'mp_username', '公众号登陆用户名', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956330, 1448956330, '', 3, '', 'regex', '', 3, 'function'),
 (12112, 'mp_password', '公众号登陆密码', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956378, 1448956378, '', 3, '', 'regex', '', 3, 'function'),
 (98, 'is_use', '是否为当前管理的公众号', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:不是\r\n1:是', 8, 0, 1, 1398996982, 1398996975, '', 3, '', 'regex', '', 3, 'function'),
@@ -711,18 +711,17 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (12152, 'voice_id', '语音id', 'int(10) NULL', 'num', '0', '', 0, '', 1239, 0, 1, 1449152539, 1449150873, '', 3, '', 'regex', '', 3, 'function'),
 (12153, 'video_id', '视频id', 'int(10) NULL', 'num', '0', '', 0, '', 1239, 0, 1, 1449152532, 1449150935, '', 3, '', 'regex', '', 3, 'function'),
 (12154, 'reply_scene', '回复场景（0：关注时回复；1：默认回复；2：关键词回复）', 'int(10) NULL', 'num', '', '', 1, '', 1239, 0, 1, 1449154529, 1449154529, '', 3, '', 'regex', '', 3, 'function'),
-(12155, 'sort', '排序号', 'tinyint(4) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1240, 0, 1, 1394523288, 1394519175, '', 3, '', 'regex', '', 3, 'function'),
-(12156, 'pid', '一级菜单', 'int(10) NULL', 'select', '0', '如果是一级菜单，选择“无”即可', 1, '0:无', 1240, 0, 1, 1416810279, 1394518930, '', 3, '', 'regex', '', 3, 'function'),
-(12157, 'title', '菜单名', 'varchar(50) NOT NULL', 'string', '', '可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。', 1, '', 1240, 1, 1, 1408951570, 1394518988, '', 3, '', 'regex', '', 3, 'function'),
-(12158, 'keyword', '关联关键词', 'varchar(100) NULL', 'string', '', '', 1, '', 1240, 0, 1, 1416812109, 1394519054, '', 3, '', 'regex', '', 3, 'function'),
-(12159, 'url', '关联URL', 'varchar(255) NULL ', 'string', '', '', 1, '', 1240, 0, 1, 1394519090, 1394519090, '', 3, '', 'regex', '', 3, 'function'),
-(12160, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1240, 0, 1, 1394526820, 1394526820, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12161, 'type', '类型', 'varchar(30) NULL', 'bool', 'click', '', 1, 'click:点击推事件|keyword@show,url@hide\r\nview:跳转URL|keyword@hide,url@show\r\nscancode_push:扫码推事件|keyword@show,url@hide\r\nscancode_waitmsg:扫码带提示|keyword@show,url@hide\r\npic_sysphoto:弹出系统拍照发图|keyword@show,url@hide\r\npic_photo_or_album:弹出拍照或者相册发图|keyword@show,url@hide\r\npic_weixin:弹出微信相册发图器|keyword@show,url@hide\r\nlocation_select:弹出地理位置选择器|keyword@show,url@hide\r\nnone:无事件的一级菜单|keyword@hide,url@hide', 1240, 0, 1, 1416812039, 1416810588, '', 3, '', 'regex', '', 3, 'function'),
-(12162, 'from_type', '配置动作', 'char(50) NULL', 'select', '-1', '', 1, '0:站内信息|keyword@hide,url@hide,type@hide,sucai_type@hide,addon@show,jump_type@show\r\n1:站内素材|keyword@hide,url@hide,type@hide,sucai_type@show,addon@hide,jump_type@hide\r\n9:自定义|keyword@show,url@hide,type@show,addon@hide,sucai_type@hide,jump_type@hide\r\n-1:请选择|keyword@hide,url@hide,type@hide,addon@hide,sucai_type@hide,jump_type@hide', 1240, 0, 1, 1447318552, 1447208677, '', 3, '', 'regex', '', 3, 'function'),
-(12163, 'addon', '选择插件', 'char(50) NULL', 'select', '0', '', 1, '0:请选择', 1240, 0, 1, 1447208750, 1447208750, '', 3, '', 'regex', '', 3, 'function'),
-(12164, 'target_id', '选择内容', 'int(10) NULL', 'num', '', '', 4, '0:请选择', 1240, 0, 1, 1447208825, 1447208825, '', 3, '', 'regex', '', 3, 'function'),
-(12165, 'sucai_type', '素材类型', 'char(50) NULL', 'select', '0', '', 1, '0:请选择\r\n1:图文\r\n2:文本\r\n3:图片\r\n4:语音\r\n5:视频', 1240, 0, 1, 1447208890, 1447208890, '', 3, '', 'regex', '', 3, 'function'),
-(12166, 'jump_type', '推送类型', 'char(10) NULL', 'radio', '0', '', 1, '1:URL|keyword@hide,url@show\r\n0:关键词|keyword@show,url@hide', 1240, 0, 1, 1447208981, 1447208981, '', 3, '', 'regex', '', 3, 'function'),
+(12415, 'sucai_type', '素材类型', 'char(50) NULL', 'select', '0', '', 1, '0:请选择\r\n1:图文\r\n2:文本\r\n3:图片\r\n4:语音\r\n5:视频', 1268, 0, 1, 1447208890, 1447208890, '', 3, '', 'regex', '', 3, 'function'),
+(12414, 'target_id', '选择内容', 'int(10) NULL', 'num', '', '', 4, '0:请选择', 1268, 0, 1, 1447208825, 1447208825, '', 3, '', 'regex', '', 3, 'function'),
+(12413, 'addon', '选择插件', 'char(50) NULL', 'select', '0', '', 1, '0:请选择', 1268, 0, 1, 1447208750, 1447208750, '', 3, '', 'regex', '', 3, 'function'),
+(12412, 'from_type', '配置动作', 'char(50) NULL', 'select', '-1', '', 1, '0:站内信息|keyword@hide,url@hide,type@hide,sucai_type@hide,addon@show,jump_type@show\r\n1:站内素材|keyword@hide,url@hide,type@hide,sucai_type@show,addon@hide,jump_type@hide\r\n9:自定义|keyword@show,url@hide,type@show,addon@hide,sucai_type@hide,jump_type@hide\r\n-1:请选择|keyword@hide,url@hide,type@hide,addon@hide,sucai_type@hide,jump_type@hide', 1268, 0, 1, 1447318552, 1447208677, '', 3, '', 'regex', '', 3, 'function'),
+(12408, 'keyword', '关联关键词', 'varchar(100) NULL', 'string', '', '', 1, '', 1268, 0, 1, 1416812109, 1394519054, '', 3, '', 'regex', '', 3, 'function'),
+(12409, 'url', '关联URL', 'varchar(255) NULL ', 'string', '', '', 1, '', 1268, 0, 1, 1394519090, 1394519090, '', 3, '', 'regex', '', 3, 'function'),
+(12410, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1268, 0, 1, 1394526820, 1394526820, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12411, 'type', '类型', 'varchar(30) NULL', 'bool', 'click', '', 1, 'click:点击推事件|keyword@show,url@hide\r\nview:跳转URL|keyword@hide,url@show\r\nscancode_push:扫码推事件|keyword@show,url@hide\r\nscancode_waitmsg:扫码带提示|keyword@show,url@hide\r\npic_sysphoto:弹出系统拍照发图|keyword@show,url@hide\r\npic_photo_or_album:弹出拍照或者相册发图|keyword@show,url@hide\r\npic_weixin:弹出微信相册发图器|keyword@show,url@hide\r\nlocation_select:弹出地理位置选择器|keyword@show,url@hide\r\nnone:无事件的一级菜单|keyword@hide,url@hide', 1268, 0, 1, 1416812039, 1416810588, '', 3, '', 'regex', '', 3, 'function'),
+(12407, 'title', '菜单名', 'varchar(50) NOT NULL', 'string', '', '可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。', 1, '', 1268, 1, 1, 1408951570, 1394518988, '', 3, '', 'regex', '', 3, 'function'),
+(12405, 'sort', '排序号', 'tinyint(4) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1268, 0, 1, 1394523288, 1394519175, '', 3, '', 'regex', '', 3, 'function'),
+(12406, 'pid', '一级菜单', 'int(10) NULL', 'select', '0', '如果是一级菜单，选择“无”即可', 1, '0:无', 1268, 0, 1, 1416810279, 1394518930, '', 3, '', 'regex', '', 3, 'function'),
 (12167, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1241, 0, 1, 1404485505, 1404475530, '', 3, '', 'regex', 'get_token', 3, 'function'),
 (12168, 'groupname', '分组名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1241, 0, 1, 1404475556, 1404475556, '', 3, '', 'regex', '', 3, 'function'),
 (12169, 'groupdata', '分组数据源', 'text NULL', 'textarea', '', '', 0, '', 1241, 0, 1, 1404476127, 1404476127, '', 3, '', 'regex', '', 3, 'function'),
@@ -908,9 +907,9 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (12355, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1263, 0, 1, 1396690911, 1396690911, '', 3, '', 'regex', 'get_token', 1, 'function'),
 (12356, 'cTime', '创建时间', 'int(10) NOT NULL', 'datetime', '', '', 0, '', 1264, 0, 1, 1393234678, 1393234678, '', 3, '', 'regex', 'time', 1, 'function'),
 (12357, 'content', '内容', 'text NOT NULL', 'textarea', '', '', 1, '', 1264, 1, 1, 1393234583, 1393234583, '', 3, '', 'regex', '', 3, 'function'),
-(12358, 'uid', '用户ID', 'int(10) NOT NULL', 'num', '0', '', 0, '', 1264, 0, 1, 1393234534, 1393234534, '', 3, '', 'regex', 'get_mid', 1, 'function');
+(12358, 'uid', '用户ID', 'int(10) NOT NULL', 'num', '0', '', 0, '', 1264, 0, 1, 1393234534, 1393234534, '', 3, '', 'regex', 'get_mid', 1, 'function'),
+(12359, 'nickname', '用户昵称', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1264, 0, 1, 1400687052, 1400687052, '', 3, '', 'regex', '', 3, 'function');
 INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
-(12359, 'nickname', '用户昵称', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1264, 0, 1, 1400687052, 1400687052, '', 3, '', 'regex', '', 3, 'function'),
 (12360, 'mobile', '手机号', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1264, 0, 1, 1400687075, 1400687075, '', 3, '', 'regex', '', 3, 'function'),
 (12361, 'token', 'Token', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1264, 0, 1, 1400687900, 1400687900, '', 3, '', 'regex', 'get_token', 1, 'function'),
 (12362, 'public_count', '可创建公众号数', 'int(10) NULL', 'num', '', '', 1, '', 1, 0, 1, 1452417198, 1452417198, '', 3, '', 'regex', '', 3, 'function'),
@@ -955,7 +954,21 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (12401, 'wecha_id', 'OpenID', 'varchar(200) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596530, 1420596530, '', 3, '', 'regex', '', 3, 'function'),
 (12402, 'paytype', '支付方式', 'varchar(30) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596929, 1420596929, '', 3, '', 'regex', '', 3, 'function'),
 (12403, 'showwxpaytitle', '是否显示标题', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:不显示\r\n1:显示', 1267, 0, 1, 1420596980, 1420596980, '', 3, '', 'regex', '', 3, 'function'),
-(12404, 'status', '支付状态', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:未支付\r\n1:已支付\r\n2:支付失败', 1267, 0, 1, 1420597026, 1420597026, '', 3, '', 'regex', '', 3, 'function');
+(12404, 'status', '支付状态', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:未支付\r\n1:已支付\r\n2:支付失败', 1267, 0, 1, 1420597026, 1420597026, '', 3, '', 'regex', '', 3, 'function'),
+(12416, 'jump_type', '推送类型', 'char(10) NULL', 'radio', '0', '', 1, '1:URL|keyword@hide,url@show\r\n0:关键词|keyword@show,url@hide', 1268, 0, 1, 1447208981, 1447208981, '', 3, '', 'regex', '', 3, 'function'),
+(12417, 'menu_id', '对应菜单ID，禁止修改', 'int(10) NULL', 'num', '', '', 1, '', 1268, 0, 1, 1453345667, 1453345667, '', 3, '', 'regex', '', 3, 'function'),
+(12418, 'title', '菜单标题', 'varchar(255) NULL', 'string', '', '用于区分菜单类型', 1, '', 1269, 1, 1, 1453098869, 1453098869, '', 3, '', 'regex', '', 3, 'function'),
+(12419, 'type', '菜单类型', 'char(50) NULL', 'select', '0', '菜单类型', 1, '0:默认菜单\r\n1:个性菜单', 1269, 1, 1, 1453098999, 1453098999, '', 3, '', 'regex', '', 3, 'function'),
+(12420, 'group_id', '用户分组id', 'varchar(255) NULL', 'string', '', '', 1, '', 1269, 0, 1, 1453305419, 1453099301, '', 3, '', 'regex', '', 3, 'function'),
+(12421, 'sex', '性别', 'char(50) NULL', 'select', '', '', 1, '1:男\r\n2:女', 1269, 0, 1, 1453099368, 1453099368, '', 3, '', 'regex', '', 3, 'function'),
+(12422, 'country', '国家信息', 'varchar(255) NULL', 'string', '', '国家信息', 1, '', 1269, 0, 1, 1453099469, 1453099469, '', 3, '', 'regex', '', 3, 'function'),
+(12423, 'province', '省份信息', 'varchar(255) NULL', 'string', '', '省份信息', 1, '', 1269, 0, 1, 1453099495, 1453099495, '', 3, '', 'regex', '', 3, 'function'),
+(12424, 'city', '城市信息', 'varchar(255) NULL', 'string', '', '城市信息', 1, '', 1269, 0, 1, 1453099551, 1453099551, '', 3, '', 'regex', '', 3, 'function'),
+(12425, 'client_platform_type', '手机操作系统类型', 'char(50) NULL', 'select', '', '手机操作系统类型', 1, '1:IOS\r\n2:Android\r\n3:Others', 1269, 0, 1, 1453099676, 1453099676, '', 3, '', 'regex', '', 3, 'function'),
+(12426, 'menuid', '微信端菜单ID', 'varchar(255) NULL', 'string', '', '', 1, '', 1269, 0, 1, 1453307372, 1453100271, '', 3, '', 'regex', '', 3, 'function'),
+(12427, 'token', 'Token', 'varchar(255) NULL', 'string', '', 'Token', 0, '', 1269, 0, 1, 1453116330, 1453116321, '', 3, '', 'regex', '', 3, 'function'),
+(12428, 'cTime', '菜单发布时间', 'int(10) NULL', 'datetime', '', '菜单发布时间', 1, '', 1269, 0, 1, 1453116920, 1453116525, '', 3, '', 'regex', '', 3, 'function'),
+(12429, 'show', '是否发布', 'char(50) NULL', 'select', '0', '是否发布', 1, '0:未发布\r\n1:已发布', 1269, 0, 1, 1453306537, 1453219041, '', 3, '', 'regex', '', 3, 'function');
 
 -- --------------------------------------------------------
 
@@ -1322,6 +1335,30 @@ CREATE TABLE IF NOT EXISTS `dc_custom_menu` (
   `target_id` int(10) DEFAULT NULL COMMENT '选择内容',
   `sucai_type` char(50) DEFAULT '0' COMMENT '素材类型',
   `jump_type` char(10) DEFAULT '0' COMMENT '推送类型',
+  `menu_id` int(10) DEFAULT NULL COMMENT '对应菜单ID，禁止修改',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `dc_custom_menu_type`
+--
+
+CREATE TABLE IF NOT EXISTS `dc_custom_menu_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(255) DEFAULT NULL COMMENT '菜单标题',
+  `type` char(50) DEFAULT '0' COMMENT '菜单类型',
+  `group_id` varchar(255) DEFAULT NULL COMMENT '用户分组id',
+  `sex` char(50) DEFAULT NULL COMMENT '性别',
+  `country` varchar(255) DEFAULT NULL COMMENT '国家信息',
+  `province` varchar(255) DEFAULT NULL COMMENT '省份信息',
+  `city` varchar(255) DEFAULT NULL COMMENT '城市信息',
+  `client_platform_type` char(50) DEFAULT NULL COMMENT '手机操作系统类型',
+  `menuid` varchar(255) DEFAULT NULL COMMENT '微信端菜单ID',
+  `token` varchar(255) DEFAULT NULL COMMENT 'Token',
+  `cTime` int(10) DEFAULT NULL COMMENT '菜单发布时间',
+  `show` char(50) DEFAULT '0' COMMENT '是否发布',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
 
@@ -1549,7 +1586,7 @@ INSERT INTO `dc_hooks` (`id`, `name`, `description`, `type`, `update_time`, `add
 (13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam'),
 (14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, 'Editor'),
 (16, 'app_begin', '应用开始', 2, 1384481614, ''),
-(17, 'weixin', '微信插件必须加载的钩子', 1, 1388810858, 'Hitegg,Diy,RedBag,WeMedia,ShopCoupon,Card,SingIn,Seckill,WeiSite,AutoReply,CustomMenu,YouaskService,Tmplmsg,SceneQrcode,UserCenter,Shop,Example,Donations,Extensions,Forms,Dg,Suggestions,Leaflets,AddressManage,Payment,Idioms,Tuling'),
+(17, 'weixin', '微信插件必须加载的钩子', 1, 1388810858, 'Hitegg,Diy,RedBag,WeMedia,ShopCoupon,Card,SingIn,Seckill,WeiSite,AutoReply,YouaskService,Tmplmsg,SceneQrcode,UserCenter,Shop,Example,Donations,Extensions,Forms,Dg,Suggestions,Leaflets,AddressManage,Payment,Idioms,Tuling,CustomMenu'),
 (18, 'cascade', '级联菜单', 1, 1398694587, 'Cascade'),
 (19, 'page_diy', '万能页面的钩子', 1, 1399040364, 'Diy'),
 (20, 'dynamic_select', '动态下拉菜单', 1, 1435223189, 'DynamicSelect'),
@@ -1974,7 +2011,7 @@ CREATE TABLE IF NOT EXISTS `dc_model` (
   `addon` varchar(50) DEFAULT NULL COMMENT '所属插件',
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统模型表' AUTO_INCREMENT=1268 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统模型表' AUTO_INCREMENT=1270 ;
 
 --
 -- 转存表中的数据 `dc_model`
@@ -2017,7 +2054,7 @@ INSERT INTO `dc_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, 
 (1237, 'weisite_slideshow', '幻灯片', 0, '', 1, '["title","img","url","is_show","sort"]', '1:基础', '', '', '', '', 'title:标题\r\nimg:图片\r\nurl:链接地址\r\nis_show|get_name_by_status:显示\r\nsort:排序\r\nids:操作:[EDIT]&module_id=[pid]|编辑,[DELETE]|删除', 20, 'title', '', 1396098264, 1408323347, 1, 'MyISAM', NULL),
 (1238, 'weisite_footer', '底部导航', 0, '', 1, '["pid","title","url","sort"]', '1:基础', '', '', '', '', 'title:菜单名\r\nicon:图标\r\nurl:关联URL\r\nsort:排序号\r\nids:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1396507698, 1, 'MyISAM', NULL),
 (1239, 'auto_reply', '自动回复', 0, '', 1, '["keyword","content","group_id","image_id","reply_scene"]', '1:基础', '', '', '', '', 'keyword:关键词\r\nmsg_type:回复类型\r\ncontent:文本\r\ngroup_id:图文\r\nimage_id:图片\r\nid:操作:add&id=[id]|编辑,[DELETE]|删除', 10, 'keyword:请输入关键词', '', 1439194522, 1449200272, 1, 'MyISAM', 'AutoReply'),
-(1240, 'custom_menu', '自定义菜单', 0, '', 1, '["pid","title","from_type","type","jump_type","addon","sucai_type","keyword","url","sort"]', '1:基础', '', '', '', '', 'title:10%菜单名\r\nkeyword:10%关联关键词\r\nurl:50%关联URL\r\nsort:5%排序号\r\nid:10%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1447317015, 1, 'MyISAM', 'CustomMenu'),
+(1268, 'custom_menu', '自定义菜单', 0, '', 1, '["pid","title","from_type","type","jump_type","addon","sucai_type","keyword","url","sort"]', '1:基础', '', '', '', '', 'title:10%菜单名\r\nkeyword:10%关联关键词\r\nurl:50%关联URL\r\nsort:5%排序号\r\nid:10%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1447317015, 1, 'MyISAM', 'CustomMenu'),
 (1241, 'youaskservice_group', '你问我答-客服分组', 0, '', 1, '["groupname"]', '1:基础', '', '', '', '', 'id:编号\r\ngroupname:分组名称\r\ntoken:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'groupname', '', 1404475456, 1404491410, 1, 'MyISAM', 'YouaskService'),
 (1242, 'youaskservice_keyword', '你问我答-关键词指配', 0, '', 1, '["msgkeyword","msgkeyword_type","zdtype","msgstate"]', '1:基础', '', '', '', '', 'id:编号\r\nmsgkeyword:关键字\r\nkf_explain:客服说明\r\nmsgkeyword_type|get_name_by_status:匹配类型\r\nmsgkfaccount:指定的接待客服或分组\r\nmsgstate|get_name_by_status:状态\r\nzdtype:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'msgkeyword', '', 1404399143, 1450018481, 1, 'MyISAM', 'YouaskService'),
 (1243, 'youaskservice_user', '你问我答-客服工号', 0, '', 1, '["name","userName","userPwd","state","kfid"]', '1:基础', '', '', '', '', 'kfid:客服编号\r\nname:客服昵称\r\nuserName:客服帐号\r\ntoken:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'name', 'userName', 1403947253, 1450018368, 1, 'MyISAM', 'YouaskService'),
@@ -2043,7 +2080,8 @@ INSERT INTO `dc_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, 
 (1264, 'suggestions', '建议意见', 0, '', 1, '{"1":["content","nickname","mobile"]}', '1:基础', '', '', '', '', 'nickname:昵称\r\ncontent:内容\r\nmobile:联系方式\r\ncTime|time_format:创建时间\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'content', '', 1393234169, 1400687145, 1, 'MyISAM', NULL),
 (1265, 'address', '用户地址表', 0, '', 1, '["name","sex","mobile","address","country","province","city","area","is_default","postcode"]', '1:基础', '', '', '', '', 'openid|get_nickname:用户昵称\r\nname:用户姓名\r\nsex|getSex:用户性别\r\nmobile:用户手机号\r\nprovince:所在省份\r\ncity:所在城市\r\narea:所在地区\r\naddress:详细地址\r\npostcode:邮政编码\r\nis_default|getYesOrNo:是否默认\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'name', '', 1447736688, 1452331063, 1, 'MyISAM', ''),
 (1266, 'payment_set', '支付配置', 0, '', 1, '["wxappid","wxappsecret","wxpaysignkey","zfbname","pid","key","partnerid","partnerkey","wappartnerid","wappartnerkey","quick_security_key","quick_merid","quick_merabbr","wxmchid"]', '1:基础', '', '', '', '', '', 10, '', '', 1406958084, 1439364636, 1, 'MyISAM', NULL),
-(1267, 'payment_order', '订单支付记录', 0, '', 1, '["from","orderName","single_orderid","price","token","wecha_id","paytype","showwxpaytitle","status"]', '1:基础', '', '', '', '', '', 20, '', '', 1420596259, 1423534012, 1, 'MyISAM', NULL);
+(1267, 'payment_order', '订单支付记录', 0, '', 1, '["from","orderName","single_orderid","price","token","wecha_id","paytype","showwxpaytitle","status"]', '1:基础', '', '', '', '', '', 20, '', '', 1420596259, 1423534012, 1, 'MyISAM', NULL),
+(1269, 'custom_menu_type', '自定义菜单类型', 0, '', 1, '["title","type","group_id","sex","country","province","city","client_platform_type","menuid","cTime","show"]', '1:基础', '', '', '', '', 'type:菜单类型\r\ntitle:菜单标题\r\nmenuid:微信端菜单ID\r\nsex:性别筛选\r\nshow:是否发布\r\ngroup_id:用户分组\r\ncountry:国家信息\r\nprovince:省份信息\r\ncity:城市信息\r\nclient_platform_type:手机操作系统\r\nid:操作:[EDIT]&[id]|编辑,[DELETE]&id=[id]|删除', 20, 'title', '', 1453098567, 1453281147, 1, 'MyISAM', 'CustomMenu');
 
 -- --------------------------------------------------------
 
@@ -2779,6 +2817,7 @@ CREATE TABLE IF NOT EXISTS `dc_user` (
   `public_count` int(10) DEFAULT NULL COMMENT '可创建公众号数',
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
 
 -- --------------------------------------------------------
 
