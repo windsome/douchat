@@ -1,0 +1,184 @@
+<extend name="Base/common" />
+<block name="body">
+
+  <style type="text/css">
+    #menu_data .select{width: 120px;}
+    #menu_data .btn{margin-bottom: 10px;}
+  </style>
+
+  <div class="span9 page_message">
+    <section id="contents"> 
+      <include file="Addons/_nav" />  
+      <div class="table-bar">
+        <div class="fl">
+          <empty name="model.extend">
+      <div class="tools">           
+        <a class="btn add_menu" href="javascript:;" onclick="add_menu();">添加菜单</a>
+        <php> $del_url || $del_url = U('del?model='.$model['id']);</php><button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删 除</button>
+      </div>
+          </empty>
+        </div>
+        <!-- 高级搜索 -->
+        <if condition="$search_button">
+        <div class="search-form fr cf">
+          <div class="sleft">
+            <php> $search_url || $search_url = addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/menu_lists',array('type'=>$type));</php>
+            <php>empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';</php>
+            <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="输入菜单标题">
+            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        </if>
+      </div>
+
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="controls" id="menu_data">
+          <php> $post_url || $post_url = U('menu_lists?model='.$model['id'], $get_param);</php>
+          <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+              <input type="text" name="title" class="text input-small" id="title" placeholder="输入菜单标题" value="">
+              <input type="text" name="type" class="text hidden" id="type"  value="{$type}">
+              <if condition="$type eq 1"> 
+                <select class="select" name="sex" id="sex">
+                  <option value=''>性别</option>
+                  <option value='1'>男</option>
+                  <option value='2'>女</option>
+                </select>
+                <select class="select" name="group_id" id="group_id">
+                  <option value=''>用户分组</option>
+                  <volist name="auth_group" id="data">
+                  <option value="{$data.wechat_group_id}">{$data.title}</option>
+                  </volist>
+                </select>
+                <select class="select" name="country" id="country">
+                  <option value=''>国家</option>
+                  <option value='中国'>中国</option>
+                </select>
+                <select class="select" name="province" id="s1">
+                  <option></option>
+                </select>
+                <select class="select" name="city" id="s2">
+                  <option></option>
+                </select>
+                <select class="select" name="client_platform_type" id="client_platform_type">
+                  <option value=''>手机系统</option>
+                  <option value='1'>IOS</option>
+                  <option value='2'>Android</option>
+                  <option value='3'>Others</option>
+                </select>
+               </if>
+                <input class="btn  ajax-post" id="submit" type="submit" target-form="form-horizontal" value="保存" />
+          </form>
+        </div>
+        <div class="table-striped">
+          <table cellpadding="0" cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                  <th class="row-selected row-selected"> 
+                    <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                    <label for="checkAll"></label>
+                  </th>
+                  <th>标题</th>
+                  <th>性别</th>
+                  <th>用户分组</th>
+                  <th>国家</th>
+                  <th>省份</th>
+                  <th>城市</th>
+                  <th>手机系统</th>
+                  <th>发布状态</th>
+                  <th>发布时间</th>
+                  <th>操作</th>
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              <volist name="lists" id="vo">
+                <tr>
+                  <td>
+                    <input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
+                    <label for="check_{$vo.id}"></label>
+                  </td>
+                  <td>
+                      <span>{$vo.title}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.sex|get_Sex}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.group_id|get_group_title}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.country}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.province}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.city}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.client_platform_type|get_platform}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.show|get_menu_isshow}</span>
+                  </td>
+                  <td>
+                      <span>{$vo.cTime|time_format}</span>
+                  </td>
+                  <td>
+                    <if condition="$type eq 1"> 
+                      <a href="{:U('addon/CustomMenu/CustomMenu/special_lists',array('menu_id'=>$vo[id]))}">预览编辑</a>
+                    <else/>
+                      <a href="{:U('addon/CustomMenu/CustomMenu/lists',array('menu_id'=>$vo[id]))}">预览编辑</a>
+                    </if>
+                      <a href="{:U('del',array('id'=>$vo[id]))}">删除</a>
+                  </td>
+                </tr>
+              </volist>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="page"> {$_page|default=''} </div>
+    </section>
+  
+  </div>
+</block>
+<block name="script">   
+  <script type="text/javascript" src="__JS__/geo_menu.js"></script>
+  <script type="text/javascript">
+$(function(){
+  //搜索功能
+  $("#search").click(function(){
+    var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+    window.location.href = url;
+  });
+
+  //回车自动提交
+  $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+  }); 
+  //初始化隐藏添加菜单表格
+  $('#menu_data').hide();
+
+});
+
+function add_menu(){
+        $('#menu_data').show();
+        setup();
+        preselect('省份');
+}
+</script> 
+</block>

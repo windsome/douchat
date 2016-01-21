@@ -2,9 +2,12 @@
 <block name="body">
   <style type="text/css">
   td{ font-size:14px;}
+  .data-top{padding-left: 30px;}
   .data-top .btn{margin-bottom: 10px;}
-  .data-top #title{width: 200px;}
-  .data-top label{font-size: 16px;content: #666;font-weight: bold;}
+  .data-top select{width: 120px;}
+  .data-top #menu_list{width: 300px;}
+  .data-top p{line-height: 50px;}
+  .data-top p span{font-size: 14px;}
   #phone{ position:relative; margin:0 0; width:400px; height:698px; background:url(__PUBLIC__/Home/images/preview_phone_short.jpg) no-repeat center 0;}
   #frame{ position:absolute; left:0; margin:100px 0 0 40px; width:320px; border:2px solid #333; background:#666; height:487px;width:320px; overflow:hidden;}
   .wx_menu{ position:absolute; bottom:0; left:0; right:0; height:50px; background:#fff;}
@@ -43,7 +46,58 @@
         </div>
         </if>
       </div>
-         
+
+      <div class="data-top">
+        <p>
+          <select class="select" name="menu_list" id="menu_list">
+            <volist name="menulists" id="vo">
+               <option url="{:U('addon/CustomMenu/CustomMenu/special_lists',array('menu_id'=>$vo[id]))}" value='{$vo.id}'>
+                {$vo.title} --- {$vo.show|get_menu_isshow}</option>
+            </volist>
+            <empty name="menulists">
+               <option  value='{$menu_info.id}'>{$menu_info.title} --- {$menu_info.show|get_menu_isshow}</option>
+            </empty>
+           </select>
+        </p>
+        <p>
+          <strong>状态：</strong>{$menu_info.show|get_menu_isshow}
+          <php> $post_url || $post_url = U('update');</php>
+          <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+              <input type="text" name="menu_id" class="text hidden" id="title" value="{$menu_info.id}">
+              <input type="text" name="type" class="text hidden" id="title" value="{$menu_info.type}">
+              <input type="text" name="title" class="text input-small" id="title" placeholder="输入菜单标题" value="{$menu_info.title}">
+                <select class="select" name="sex" id="sex">
+                  <option value=''>性别</option>
+                  <option value='1'>男</option>
+                  <option value='2'>女</option>
+                </select>
+                <select class="select" name="group_id" id="group_id">
+                  <option value=''>用户分组</option>
+                  <volist name="auth_group" id="data">
+                  <option value="{$data.wechat_group_id}">{$data.title}</option>
+                  </volist>
+                </select>
+                <select class="select" name="country" id="country">
+                  <option value=''>国家</option>
+                  <option value='中国'>中国</option>
+                </select>
+                <select class="select" name="province" id="s1">
+                  <option></option>
+                </select>
+                <select class="select" name="city" id="s2">
+                  <option></option>
+                </select>
+                <select class="select" name="client_platform_type" id="client_platform_type">
+                  <option value=''>手机系统</option>
+                  <option value='1'>IOS</option>
+                  <option value='2'>Android</option>
+                  <option value='3'>Others</option>
+                </select>
+                <input class="btn  ajax-post" id="submit" type="submit" target-form="form-horizontal" value="修改" />
+          </form>
+        </p>
+      </div>
+          
       <!-- 数据列表 -->
       <div class="data-table" style="margin-top:40px; overflow:hidden">
         <div class="" style="float:left;">
@@ -77,24 +131,14 @@
             </div>
         </div>
         <div class="table-striped" style="float:right; width:540px">
-          <div class="data-top">
-          <php> $post_url || $post_url = U('update');</php>
-          <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
-              <label>状态：</label>
-              <span>{$menu_info.show|get_menu_isshow}</span>&nbsp;&nbsp;&nbsp;
-              <input type="text" name="menu_id" class="text hidden" id="menu_id" value="{$menu_info.id}">
-              <input type="text" name="type" class="text hidden" id="title" value="{$menu_info.type}">
-              <input type="text" name="title" class="text input-small" id="title" placeholder="输入菜单标题" value="{$menu_info.title}">
-              <input class="btn  ajax-post" id="submit" type="submit" target-form="form-horizontal" value="修改" />
-          </form>
-      </div>
-
           <table cellpadding="0" cellspacing="1">
             <!-- 表头 -->
             <thead>
               <tr>
-                  <th><a href="{:U('add',array('menu_id'=>$menu_info['id']))}">+添加</a></th>
-                    <th>操作</th>
+                  <th>
+                    <a href="{:U('special_add',array('menu_id'=>$menu_info['id']))}">+添加</a>
+                  </th>
+                  <th>操作</th>
               </tr>
             </thead>
             
@@ -116,8 +160,8 @@
                      </eq>
                   </td>
                   <td>
-                      <a href="{:U('edit',array('menu_id'=>$menu_info['id'] , 'id'=>$data[id]))}">编辑</a>
-                      <a href="{:U('del',array('id'=>$data[id]))}">删除</a>
+                      <a href="{:U('special_edit',array('menu_id'=>$menu_info['id'] , 'id'=>$data[id]))}">编辑</a>
+                      <a href="{:U('special_del',array('id'=>$data[id]))}">删除</a>
                   </td>
                 </tr>
               </volist>
@@ -127,15 +171,25 @@
         </div>
       </div>
        <div class="form-item form_bh" style="margin:20px;">
-          <button style="padding:12px 40px;" class="btn ajax-post confirm" type="button" target-form="ids" url="{:addons_url('CustomMenu://CustomMenu/send_menu',array('menu_id'=>$menu_info['id'] , 'model'=>$model['name']))}">{$submit_name|default='发布'}</button>
+          <button style="padding:12px 40px;" class="btn ajax-post confirm" type="button" target-form="ids" url="{:addons_url('CustomMenu://CustomMenu/send_special_menu',array('menu_id'=>$menu_info['id'] , 'model'=>$model['name']))}">{$submit_name|default='发布'}</button>
         </div>
       <div class="page"> {$_page|default=''} </div>
     </section>
   </div>
 </block>
 <block name="script"> 
+  <script type="text/javascript" src="__JS__/geo_menu.js"></script>
   <script type="text/javascript">
 $(function(){
+  //初始化省市三级联动,个性菜单筛选条件
+  setup();
+  preselect('{$menu_info.province}');
+  $("#sex").val('{$menu_info.sex}');
+  $("#country").val('{$menu_info.country}');
+  $("#group_id").val('{$menu_info.group_id}');
+  $("#s2").val('{$menu_info.city}');
+  $("#client_platform_type").val('{$menu_info.client_platform_type}');
+  $("#menu_list").val("{$menu_info.id}");
 
   //搜索功能
   $("#search").click(function(){
@@ -176,6 +230,13 @@ $(function(){
     $(this).find('.sub_menu').animate({'bottom':-458},300);
   })
 
+  $('#menu_list').change(function(){ 
+    var menu_id = $(this).children('option:selected').val();//这就是selected的值 
+    var url = $(this).children('option:selected').attr("url");
+    window.location.href = url;//页面跳转并传参 
+  }) 
+
 })
+
 </script> 
 </block>

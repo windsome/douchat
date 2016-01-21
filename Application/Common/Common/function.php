@@ -4222,3 +4222,82 @@ function getYesOrNo($flag) {
 			break;
 	}
 }
+
+/**
+ * 个性化菜单专用获取性别
+ */
+function get_Sex($sex_id) {
+	switch ($sex_id) {
+		case 1:
+			return '男';
+			break;
+		case 2:
+			return '女';
+			break;
+	}
+}
+
+/**
+ * 个性化菜单专用获取用户组名
+ */
+function get_group_title($group_id) {
+	if ($group_id!=null) {
+       $map ['token'] = get_token ();
+	   //$map ['manager_id'] = $this->mid;
+       $map ['wechat_group_id'] = $group_id;
+	   $auth_group = M ( 'auth_group' )->where ( $map )->getField ('title');
+	   return  $auth_group;
+	}
+}
+
+/**
+ * 个性化菜单专用获取手机系统
+ */
+function get_platform($platform) {
+	switch ($platform) {
+		case 1:
+			return 'IOS';
+			break;
+		case 2:
+			return 'Android';
+			break;
+		case 3:
+			return 'Others';
+			break;
+	}
+}
+
+/**
+ * 个性化菜单专用获取是否发布
+ */
+function get_menu_isshow($show) {
+	switch ($show) {
+		case 0:
+			return '未发布';
+			break;
+		case 1:
+			return '已发布';
+			break;
+	}
+}
+
+/**
+ * 个性化菜单专用获取 微信端ID 菜单标题
+ */
+function get_weixinmenu_title($id) {
+    $map ['token'] = get_token ();
+    $map ['menu_id'] = $id;
+	$title = M ( 'custom_menu_type' )->where ( $map )->getField ('title');
+	return  $title;
+}
+
+/**
+ * 个性化菜单专用获取 微信端ID 菜单发布时间
+ */
+function get_weixinmenu_time($id) {
+    $map ['token'] = get_token ();
+    $map ['menu_id'] = $id;
+	$cTime = M ( 'custom_menu_type' )->where ( $map )->getField ('cTime');
+	$cTime = time_format($cTime, $format = 'Y-m-d H:i');
+	return  $cTime;
+}
