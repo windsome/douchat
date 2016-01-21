@@ -111,10 +111,12 @@ class CustomMenuTypeController extends BaseController {
 		
 		$res ['title'] = '默认菜单';
 		$res ['url'] = addons_url (  'CustomMenu://CustomMenuType/menu_lists' , array('type'=>0) );
+		$res ['class'] = intval(I('type')) == 0 ? 'cur' : '';
 		$nav [] = $res;	
 
 		$res ['title'] = '个性菜单';
 		$res ['url'] = addons_url (  'CustomMenu://CustomMenuType/menu_lists' , array('type'=>1)  );
+		$res ['class'] = intval(I('type')) == 1 ? 'cur' : '';
 		$nav [] = $res;							
 				
 		$this->assign ( 'sub_nav', $nav );

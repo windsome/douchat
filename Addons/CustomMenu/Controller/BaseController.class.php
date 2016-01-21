@@ -21,15 +21,15 @@ class BaseController extends AddonsController{
 		$res ['class'] = $action == 'menu_now_lists'? 'current' : '';
 		$nav [] = $res;	
 
-		$res ['title'] = '默认菜单';
-		$res ['url'] = addons_url ( 'CustomMenu://CustomMenu/lists' );
-		$res ['class'] = $action == 'lists'? 'current' : '';
-		$nav [] = $res;
+		// $res ['title'] = '默认菜单';
+		// $res ['url'] = addons_url ( 'CustomMenu://CustomMenu/lists' );
+		// $res ['class'] = $action == 'lists'? 'current' : '';
+		// $nav [] = $res;
 		
-		$res ['title'] = '个性菜单';
-		$res ['url'] = addons_url ( 'CustomMenu://CustomMenu/special_lists' );
-		$res ['class'] = $action == 'special_lists'? 'current' : '';
-		$nav [] = $res;
+		// $res ['title'] = '个性菜单';
+		// $res ['url'] = addons_url ( 'CustomMenu://CustomMenu/special_lists' );
+		// $res ['class'] = $action == 'special_lists'? 'current' : '';
+		// $nav [] = $res;
 
 		$this->assign('nav',$nav);
 
