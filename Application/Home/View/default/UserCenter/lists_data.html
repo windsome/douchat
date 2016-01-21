@@ -85,7 +85,8 @@ $(function(){
             url += '?' + query;
         }
         if(query == '' ){
-        	url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists',array('isAjax'=>1,'isRadio'=>$isRadio))}";
+          url = $(this).attr('url');
+        	//url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists',array('isAjax'=>1,'isRadio'=>$isRadio))}";
         }
 		window.location.href = url;
 	});
