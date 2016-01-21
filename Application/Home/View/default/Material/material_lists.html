@@ -102,7 +102,8 @@ $(function(){
             url += '?' + query;
         }
         if(query == '' ){
-        	url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists')}";
+            url = $(this).attr('url');
+        	//url="{:addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/lists')}";
         }
 		window.location.href = url;
 	});
