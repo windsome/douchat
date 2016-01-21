@@ -108,6 +108,8 @@ class MaterialController extends HomeController {
 		$this->success ( '操作成功', U ( 'material_lists' ) );
 	}
 	function material_lists() {
+		$page = I ( 'p', 1, 'intval' ); // 默认显示第一页数据
+
 		$map ['manager_id'] = $this->mid;
 		$map ['token'] = get_token ();
 		$title = I ( 'title' );
@@ -117,9 +119,11 @@ class MaterialController extends HomeController {
 					"%$title%" 
 			);
 		}
-		
+		$row = empty ( $model ['list_row'] ) ? 9 : $model ['list_row'];
+
 		$field = 'id,title,cover_id,intro,group_id';
-		$list = M ( 'material_news' )->where ( $map )->field ( $field . ',count(id) as count' )->group ( 'group_id' )->order ( 'group_id desc' )->selectPage ();
+
+		$list = M ( 'material_news' )->where ( $map )->field ( $field . ',count(id) as count' )->group ( 'group_id' )->order (array( 'group_id' => 'desc' , 'id' => 'desc') )->page ( $page, $row )->selectPage ();
 		
 		foreach ( $list ['list_data'] as &$vo ) {
 			if ($vo ['count'] == 1)
@@ -133,9 +137,20 @@ class MaterialController extends HomeController {
 			
 			$vo ['child'] = M ( 'material_news' )->field ( $field )->where ( $map2 )->select ();
 		}
-		$this->assign ( $list );
+
+		/* 查询记录总数 */
+		$count = M ( 'material_news' )->where ( $map )->count('DISTINCT group_id');
+		
+		// 分页
+		if ($count > $row) {
+			$page = new \Think\Page ( $count, $row );
+			$page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+			$list['_page'] = $page->show ();
+		}
+		
 		$this->assign ( 'add_url', U ( 'add_material' ) );
-		$this->display ();
+        $this->assign ( $list  );
+        $this->display ();
 	}
 	function add_material() {
 		$map ['group_id'] = I ( 'group_id', 0, 'intval' );
