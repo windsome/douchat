@@ -25,5 +25,25 @@ class CustomMenuModel extends Model{
         $data_list = D("Addons://$addon/$model")->where ( $map )->field ( 'id,title' )->order ( 'id desc' )->select ();
         return $data_list;
     }
+
+    function curlGet($url, $method = 'get', $data = '')
+    {       
+        $ch = curl_init();
+        $headers = array('Accept-Charset: utf-8');
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible;MSIE 5.01;Windows NT 5.0)');
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $temp = curl_exec($ch);
+        curl_close ( $ch );
+        return $temp;
+    }
+
     
 }

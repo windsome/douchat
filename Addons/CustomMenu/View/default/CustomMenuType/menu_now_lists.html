@@ -1,0 +1,109 @@
+<extend name="Base/common" />
+<block name="body">
+
+  <style type="text/css">
+    #menu_data .select{width: 120px;}
+    #menu_data .btn{margin-bottom: 10px;}
+  </style>
+
+  <div class="span9 page_message">
+    <section id="contents"> 
+      <include file="Addons/_nav" />  
+      <div class="table-bar">
+        <div class="fl">
+          <empty name="model.extend">
+      <div class="tools">           
+        <php> $del_url || $del_url = U('del_menu?model='.$model['id']);</php><button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删除微信端所有菜单</button>
+      </div>
+          </empty>
+        </div>
+        <!-- 高级搜索 -->
+        <if condition="$search_button">
+        <div class="search-form fr cf hidden">
+          <div class="sleft">
+            <php> $search_url || $search_url = addons_url($_REQUEST ['_addons'].'://'.$_REQUEST ['_controller'].'/menu_lists',array('type'=>$type));</php>
+            <php>empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';</php>
+            <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="输入菜单标题">
+            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        </if>
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellpadding="0" cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                  <th class="row-selected row-selected"> 
+                    <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                    <label for="checkAll"></label>
+                  </th>
+                  <th>菜单类型</th>
+                  <th>菜单标题</th>
+                  <th>菜单微信端ID</th>
+                  <th>发布时间</th>
+                  <th>操作</th>
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              <volist name="menu_lists" id="vo">
+                <tr>
+                  <td>
+                    <input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
+                    <label for="check_{$vo.id}"></label>
+                  </td>
+                  <td>
+                      <span>个性菜单</span>
+                  </td>
+                  <td>
+                      <span>{$vo|get_weixinmenu_title}</span>
+                  </td>
+                  <td>
+                      <span>{$vo}</span>
+                  </td>
+                  <td>
+                      <span>{$vo|get_weixinmenu_time}</span>
+                  </td>
+                  <td>
+                      <a href="{:U('del_special_menu',array('id'=>$vo))}">删除</a>
+                  </td>
+                </tr>
+              </volist>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="page"> {$_page|default=''} </div>
+    </section>
+  
+  </div>
+</block>
+<block name="script">   
+  <script type="text/javascript">
+$(function(){
+  //搜索功能
+  $("#search").click(function(){
+    var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+    window.location.href = url;
+  });
+
+  //回车自动提交
+  $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+  }); 
+</script> 
+</block>
