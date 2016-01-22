@@ -6,6 +6,7 @@
       <!-- 表单 -->
       <php> $post_url || $post_url = U('special_add?model='.$model['id'], $get_param);</php>
       <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+        <input type="hidden" class="text" name="menu_id" value="{:I('menu_id')}">
         <volist name="fields" id="field">
           <if condition="$field['is_show'] == 4">
             <input type="hidden" class="text" name="{$field.name}" value="{:I($field[name], $field[value])}">
