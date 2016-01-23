@@ -528,7 +528,7 @@ function time_offset($time = NULL) {
 	return $min . ':' . $mod;
 }
 // 获取用户信息
-function getUserInfo($uid, $update = false, $field = '') {
+function getUserInfo($uid, $field = '', $update = false) {
 	if (!is_numeric($uid)) {	// 如果传过来的是openid
 		$uid = getUidByOpenid($uid);
 	}
