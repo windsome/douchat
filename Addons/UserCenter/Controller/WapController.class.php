@@ -59,7 +59,7 @@ class WapController extends AddonsController {
 				exit ( $data ['errmsg'] );
 			}
 			
-			$data ['status'] = 2;
+			$data ['syc_status'] = 2;
 			empty ( $data ['headimgurl'] ) && $data ['headimgurl'] = ADDON_PUBLIC_PATH . '/default_head.png';
 			
 			$uid = D ( 'Common/Follow' )->init_follow ( $content ['openid'], $info ['token'] );
@@ -221,12 +221,12 @@ class WapController extends AddonsController {
 	 */
 	function userCenter() {
 		// dump ( $this->mid );
-		if ($this->mid < 0) {
-			Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
-			redirect ( U ( 'bind' ) );
-		}
+		//if ($this->mid < 0) {
+		//	Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
+		//	redirect ( U ( 'bind' ) );
+		//}
 		// 商城版的直接在商城个人中心里
-		redirect ( addons_url ( 'Shop://Wap/user_center' ) );
+		//redirect ( addons_url ( 'Shop://Wap/user_center' ) );
 		
 		$info = get_followinfo ( $this->mid );
 		$this->assign ( 'info', $info );

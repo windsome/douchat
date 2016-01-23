@@ -17,11 +17,11 @@
       <h3>个人管理</h3>
     <div class="user_box"> 
     <a class="item" href="{:U('bind_prize_info')}"><span class="td title">资料编辑</span><em class="arrow">&nbsp;</em> </a> 
-<!--    <a class="item" href="{:U('credit')}"><span class="td title">积分记录</span><em class="arrow">&nbsp;</em> </a> 
+    <a class="item" href="{:U('credit')}"><span class="td title">积分记录</span><em class="arrow">&nbsp;</em> </a> 
     <a class="item" href="{:U('weixin_message')}"><span class="td title">咨询消息</span><em class="arrow">&nbsp;</em> </a> 
     <a class="item" href="{:U('message')}"><span class="td title">系统推送</span><em class="arrow">&nbsp;</em> </a> -->
     
-        <volist name="default_link" id="link">
+  <volist name="default_link" id="link">
     <a class="item" href="{$link.url}"> 
     <if condition="!empty($link[icon])"><img src="{$link.icon}"></if>
     <span class="td title">{$link.title}</span>

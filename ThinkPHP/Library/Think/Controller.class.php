@@ -582,14 +582,58 @@ abstract class Controller {
 	
 	// 公众号粉丝信息初始化
 	private function initMoblie($info) {
+
+		$map ['token'] = get_token ();
+		// 当前粉丝信息
+		$map ['openid'] = get_openid ();
+		$user = M ( 'public_follow' )->where ( $map )->find ();
+		if (! $user && ! empty ( $map ['token'] ) && $map ['token'] != '-1' && ! empty ( $map ['openid'] ) && $map ['openid'] != '-1') {
+			D ( 'Common/Follow' )->init_follow ( $map ['openid'] );
+			$user = M ( 'public_follow' )->where ( $map )->find ();
+		}
+
+		//先进行登录，然后未绑定的再进行绑定
+		if (! $user) {
+			$user ['status'] = 0; // 未关注、游客
+			
+			$user ['uid'] = session ( 'mid' );
+			if (! $user ['uid']) {
+				$youke_uid = M ( 'config' )->where ( 'name="FOLLOW_YOUKE_UID"' )->getField ( 'value' ) - 1;
+				$user ['uid'] = $youke_uid;
+				M ( 'config' )->where ( 'name="FOLLOW_YOUKE_UID"' )->setField ( 'value', $youke_uid );
+			}
+		}
+		$user ['uid'] = $user ['uid'];
+		
+		// 当前登录者
+		$GLOBALS ['mid'] = $this->mid = intval ( $user ['uid'] );
+		$GLOBALS ['user'] = $user;
+		
+		// 当前访问对象的uid
+		$GLOBALS ['uid'] = $this->uid = intval ( $_REQUEST ['uid'] == 0 ? $this->mid : $_REQUEST ['uid'] );
+		
+		$this->assign ( 'mid', $this->mid ); // 登录者
+		$this->assign ( 'uid', $this->uid ); // 访问对象
+		
+		session ( 'mid', $this->mid );//记录粉丝，后面所有获取用户信息必用
+		session ( 'is_follow_login', 1 ); // 记录这是粉丝的信息，以便与管理员的登录信息区分
+
 		// 绑定配置
 		$config = getAddonConfig ( 'UserCenter' );
-		$userNeed = ($GLOBALS ['myinfo'] ['uid'] > 0 && $GLOBALS ['myinfo'] ['status'] < 2) || empty ( $GLOBALS ['myinfo'] );
-		$is_need_bind = $config ['need_bind'] == 1 && $config ['bind_start'] != 1 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter';
-		if (IS_GET && ! (defined ( 'IN_WEIXIN' ) && IN_WEIXIN) && $is_need_bind && $userNeed && C ( 'USER_OAUTH' )) {
-			Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
-			redirect ( addons_url ( 'UserCenter://Wap/bind' ) );
+		$guestAccess = strtolower ( CONTROLLER_NAME ) != 'weixin';
+		$isWeixnLogin = ! empty ( $map ['token'] ) && ! empty ( $map ['openid'] ) && $map ['token'] != - 1 && $map ['token'] != - 1;
+		$userNeed = ($user ['uid'] > 0 && $user ['syc_status'] < 2) || (empty ( $user ) && $guestAccess);
+		$aaa = $isWeixnLogin && $config ['need_bind'] == 1 && $userNeed;
+		if ($isWeixnLogin && $config ['need_bind'] == 1 && $userNeed) {
+			$bind_url = addons_url ( 'UserCenter://Wap/userCenter', $map );
+				if ($config ['bind_start'] != 1 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter') {
+					Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
+					redirect ( $bind_url );
+	
+			}
 		}
+
+
 	}
 	
 	// ***************************通用的模型数据操作 begin 凡星********************************/

@@ -446,6 +446,7 @@ class WeixinController extends HomeController
 
 		$config = S ( 'PUBLIC_AUTH_' . $info ['type'] );
 
+
 		if (! $config)
 		{
 			$config = M ( 'public_auth' )->getField ( 'name,type_' . $info ['type'] . ' as val' );
@@ -457,23 +458,28 @@ class WeixinController extends HomeController
 		// 初始化用户信息
 		$map ['token'] = $data ['ToUserName'];
 		$map ['openid'] = $data ['FromUserName'];
-		$GLOBALS ['mid'] = $uid = D ( 'Common/Follow' )->init_follow ( $data ['FromUserName'], $data ['ToUserName'] );
+		D ( 'Common/Follow' )->init_follow ( $data ['FromUserName'], $data ['ToUserName'] );
+
+		$user = M ( 'public_follow' )->where ( $map )->find ();
+
 		
 		// 绑定配置
 		$config = getAddonConfig ( 'UserCenter', $map ['token'] );
-		
-		$guestAccess = strtolower ( CONTROLLER_NAME ) != 'weixin';
-		$userNeed = ($user ['uid'] > 0 && $user ['status'] < 2) || (empty ( $user ) && $guestAccess);
+
+		$userNeed = ($user ['uid'] > 0 && $user ['syc_status'] < 2) || (empty ( $user ) );
+
 		if ($config ['need_bind'] == 1 && $userNeed && C ( 'USER_OAUTH' ))
 		{
 			unset ( $map ['uid'] );
-			$bind_url = addons_url ( 'UserCenter://Wap/bind', $map );
-			if ($config ['bind_start'] != 0 && strtolower ( $data ['Event'] ) != 'subscribe')
-			{
-				$dao->replyText ( '请先<a href="' . $bind_url . '">绑定账号</a>再使用' );
-				exit ();
+			$bind_url = addons_url ( 'UserCenter://Wap/userCenter', $map );
+		    if ($config ['bind_start'] != 0 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter') {
+	
+				 replyText ( '请先<a href="' . $bind_url . '">绑定账号</a>再使用' );
+				 exit ();
 			}
+
 		}
+		
 	}
 
 
