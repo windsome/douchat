@@ -424,7 +424,8 @@ class WeixinAddonModel extends WeixinModel{
 		     if (empty($info['content']) && $info['group_id'] ==0
 		      && $info['image_id'] ==0 && $info['image_material'] ==0 
 		      && $info['voice_id'] ==0 && $info['video_id'] ==0) {
-		     	$res = $this->replyText ( "所有插件无触发，请设置自定义回复中的消息自动回复内容(未识别回复)！" );
+		      	exit();
+		     	// $res = $this->replyText ( "所有插件无触发，请设置自定义回复中的消息自动回复内容(未识别回复)！" );
 		     }
 
 		     // 加载自动回复处理并反馈信息
