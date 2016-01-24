@@ -177,6 +177,8 @@
 							        "onUploadSuccess" : uploadFile{$o_key}
 							    });
 								function uploadFile{$o_key}(file, data){
+
+
 									var data = $.parseJSON(data);
 // 									console.log(data);
 							        if(data.status){
@@ -192,6 +194,8 @@
 							                $(this).removeClass('disabled').prop('disabled',false);
 							            },1500);
 							        }
+
+
 							    }
 								</script> 
                         </case>
@@ -348,13 +352,28 @@
 <block name="script">
 <script type="text/javascript" charset="utf-8">
 	$(function(){
-  //初始化上传图片插件
-  initUploadImg({width:308,height:200,callback:function(){
-  }});
-		initUploadFile();
-		//支持tab
-		showTab();
+        //初始化上传图片插件
+        initUploadImg({width:308,height:200,callback:function(file, data, name, is_mult,opts){
+        	if (data < 0) {
+        		updateAlert('图片传失败，请重新上传！','alert-error');
+        		return;
+        	};
+  	       //存入素材库
+	       $.post("{:U('Material/add_picture')}",{cover_id:data,src:name},function(data){
+		       if(data.status==1){
+		       	updateAlert('图片上传成功，已保存在图片素材库！' ,'alert-success');
+		       }else{
+		       	updateAlert('图片传成功，保存素材库失败！','alert-error');
+		       }		
+	       });
+
+
+        }});
+		   initUploadFile();
+		   //支持tab
+		   showTab();
 	})
+
 
 
 //选取图片素材后的返回处理
