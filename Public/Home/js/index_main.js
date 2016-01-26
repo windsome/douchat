@@ -1,5 +1,5 @@
 
-        var remote_url = 'http://idouly.com/';
+        var remote_url = 'http://douchat.cc/';
         $(function(){
 
           
@@ -27,6 +27,20 @@
                  jsonp:'callback',
             });
 
+            $.ajax({
+                 url:remote_url+'wenda/?/interface/notice/',
+                 dataType: 'jsonp', 
+                 data:'callback=jsonpcallback_notice',  
+                 jsonp:'callback', 
+            });
+
+            $.ajax({
+                 url:remote_url+'wenda/?/interface/feedback/',
+                 dataType: 'jsonp', 
+                 data:'callback=jsonpcallback_feedback',  
+                 jsonp:'callback', 
+            });
+
 
           $(".set_status").click(function(){
             var href = $(this).attr("href");
@@ -52,9 +66,21 @@
           
         }
 
+        function jsonpcallback_notice(data){
+          
+          jsonpcallback_show_data(data,'notice');
+          
+        }
+
+        function jsonpcallback_feedback(data){
+          
+          jsonpcallback_show_data(data,'feedback');
+          
+        }
+
         function jsonpcallback_show_data(data,area){
           $.each(data,function(i,item){
-            if ( item.post_type == 'question' ){
+            if ( area == 'communication' ){
               var item = '<li class="mp_news_item">'+
                       '<a href="'+remote_url+'wenda/?/question/'+item.question_id+'" target="_blank" title="'+data[i].title+'">'+
                           '<strong style="width:300px;">'+data[i].question_content;
@@ -66,10 +92,34 @@
                           '<span class="read_more">'+data[i].add_time+'</span>'+
                       '</a>'+
                   '</li>';
-              }else{
+              } else if ( area == 'course' ) {
                 var item = '<li class="mp_news_item">'+
                     '<a href="'+remote_url+'wenda/?/article/'+item.id+'" target="_blank" title="'+data[i].title+'">'+
                         '<strong style="width:300px;">'+data[i].title
+                    if (i<3){
+                      item += '<i class="icon_common new"></i>';
+                    }
+                      
+                      item += '</strong>'+
+                        '<span class="read_more">'+data[i].add_time+'</span>'+
+                    '</a>'+
+                  '</li>';
+              } else if ( area == 'notice' ) {
+                var item = '<li class="mp_news_item">'+
+                    '<a href="'+remote_url+'wenda/?/notice/'+item.id+'" target="_blank" title="'+data[i].title+'">'+
+                        '<strong style="width:300px;">'+data[i].title
+                    if (i<3){
+                      item += '<i class="icon_common new"></i>';
+                    }
+                      
+                      item += '</strong>'+
+                        '<span class="read_more">'+data[i].add_time+'</span>'+
+                    '</a>'+
+                  '</li>';
+              } else if ( area == 'feedback' ) {
+                var item = '<li class="mp_news_item">'+
+                    '<a href="'+remote_url+'wenda/?/feedback/'+item.id+'" target="_blank" title="'+data[i].title+'">'+
+                        '<strong style="width:300px;">【'+data[i].category_id+'BUG】'+data[i].title
                     if (i<3){
                       item += '<i class="icon_common new"></i>';
                     }
