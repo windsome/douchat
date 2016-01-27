@@ -30,6 +30,16 @@ class AddonsController extends Controller {
 			redirect ( $url );
 		}
 		
+		// 管理员需要对插件的管理权限进行判断
+		if (is_login ()) {
+			$token_status = D ( 'Common/AddonStatus' )->getList ( false );
+			
+			if ($token_status [_ADDONS] == - 1) {
+				$this->error ( '你没有权限管理和配置该插件' );
+			}
+			return true;
+		}
+
 		C ( 'EDITOR_UPLOAD.rootPath', './Uploads/Editor/' . $token . '/' );
 		
 		if ($GLOBALS ['is_wap']) {
