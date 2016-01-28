@@ -44,11 +44,11 @@ class WeixinAddonModel extends WeixinModel{
 			    );
                 $config ['jrkf'] = str_replace ( $sreach, $replace, $config ['jrkf'] );
 				D ( 'Common/Custom' )-> replyText ( $u_id, $config ['jrkf'] );
-				die('');
+				exit();
 			}
 			if ( $event == 'kf_close_session' ) {
 				D ( 'Common/Custom' ) -> replyText ( $u_id, $config ['gbkf'] );
-				die('');
+				exit();
 			}
 			if ( $event == 'kf_switch_session' ) {
 				$replace = array (
@@ -56,7 +56,7 @@ class WeixinAddonModel extends WeixinModel{
 			    );
                 $config ['zjkf'] = str_replace ( $sreach, $replace, $config ['zjkf'] );
 				D ( 'Common/Custom' ) -> replyText ( $u_id, $config ['zjkf'] );
-				die('');
+				exit();
 			}
 
 		}
@@ -328,7 +328,7 @@ class WeixinAddonModel extends WeixinModel{
 		header("Content-type: text/html; charset=utf-8"); 		
 		$openid = get_openid();
 		$kf_account = $this->cxkfstate();
-
+	
 		if ($kf_account  == null) {
 			$res = $this->replyText ('您未接入任何客服！');	
 			exit();
@@ -340,7 +340,7 @@ class WeixinAddonModel extends WeixinModel{
 	    	"text" => '用户主动关闭会话！'
 	    	);
 
-	 //    $postdata = json_encode($postdata);
+	    // $postdata = json_encode($postdata);
 		// $access_token = $this->getaccess_token();
 		// $url_post = 'https://api.weixin.qq.com/customservice/kfsession/close?access_token='.$access_token;				
 		// $json = $this->curlGet($url_post, $method = 'post', $data = $postdata);	
@@ -349,7 +349,7 @@ class WeixinAddonModel extends WeixinModel{
 		if (!$json->errmsg) {
 			exit();
         }	
-
+        exit();
 	}
 
 
