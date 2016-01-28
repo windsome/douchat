@@ -60,8 +60,7 @@ class CustomMenuTypeModel extends Model {
 	function get_group_lists(){
 	    //用户分组列表
 		$map ['token'] = get_token ();
-		$map ['manager_id'] = $this->mid;
-		$auth_group = M ( 'auth_group' )->where ( $gmap )->select ();
+		$auth_group = M ( 'auth_group' )->where ( $map )->select ();
 		
 		return $auth_group;
 	}

@@ -22,7 +22,8 @@ class HomeController extends Controller {
 	}
 	//初始化操作
 	function _initialize() {
-		
+		//模板初始化
+		C('DEFAULT_THEME',session ( 'DEFAULT_THEME' ));
 	}
 
 	/* 用户登录检测 */

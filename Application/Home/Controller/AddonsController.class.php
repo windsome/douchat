@@ -18,6 +18,9 @@ class AddonsController extends Controller {
 	protected $addons = null;
 	protected $model;
 	function _initialize() {
+		//模板初始化
+		C('DEFAULT_THEME',session ( 'DEFAULT_THEME' ));
+
 		$token = get_token ();
 		$param = array (
 				'lists',
@@ -117,6 +120,10 @@ class AddonsController extends Controller {
 			}
 		}
 		
+		//替换模板名称，实现Home模板切换不影响插件模板，完美皮肤切换只需简单操作
+		$DEFAULT_THEME =  C('DEFAULT_THEME');
+		$templateFile =    str_replace($DEFAULT_THEME ,"default",$templateFile );
+
 		if (stripos ( $templateFile, '/Addons/' ) !== false && ! file_exists ( $templateFile )) {
 			$templateFile = ! empty ( $oldFile ) && stripos ( $oldFile, '/' ) === false ? $oldFile : _ACTION;
 		}

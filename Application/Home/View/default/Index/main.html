@@ -139,6 +139,9 @@
 <block name="script"> 
   <script type="text/javascript">
 $(function(){
+    //导航高亮
+    $('#home_main').addClass('active');
+    
 	//ajax 提交启用
 	$('.use_btn').click(function(){
 		var href = $(this).attr('href');

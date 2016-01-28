@@ -1,0 +1,72 @@
+<extend name="Base/common" />
+<block name="style">
+<style type="text/css">
+   .temp_container .tab-content  li{float: left;margin-left: 1px;display: block;width: 300px;height: 400px;padding: 9px;cursor:pointer;}
+   .temp_container .tab-content  .temp_li{width: 278px;height: 380px;border: solid 1px;padding: 10px;}
+   .temp_container .tab-content  .temp_li img{width: 280px;height: 260px}
+   .temp_container .tab-content  .temp_li:hover{border: solid 1px red;}
+   .temp_container .tab-content  .selected{border: solid 1px red;}
+   .temp_container .temp_container{padding: 10px;}
+</style>
+</block>
+<block name="body">
+<div class="temp_container">
+    <section id="contents">
+            <div class="tab-content">
+                    <volist name="data" id="vo"> 
+                    <li>
+                     <div class="template temp_li" id="{$vo.current}">
+                        <img src="{$vo.url}/{$vo.image}"/>
+                        <p>
+                            <input type="radio"  name="temp" value="{$vo.current}"/>
+                            <label class="{$vo.current} hidden">使用中... ...</label>
+                        </p>
+                        <h2>{$vo.name}</h2>
+                        <p>作者: {$vo.author}</p>
+                        <p>Email: {$vo.email}</p>
+                        <p>模板目录: {$vo.current}</p>
+                     </div>   
+                    </li>     
+                    </volist>
+            </div>
+    </section>
+ </div>
+
+</block>
+<block name="script"> 
+<script type="text/javascript">
+    $(function(){
+        //选择模板并且ajax提交
+        //导航高亮
+        $('#template_main').addClass('active');
+ 
+        //初始化当前使用模板    
+        $('#{$temp}').addClass('selected');
+        $('#{$temp}').find('input').click();
+        $('.{$temp}').removeClass("hidden");
+        
+        //选择模板后处理 ajax 提交
+        $('.template').click(function(){
+            if(!$(this).hasClass('selected')){
+                $(this).addClass('selected');
+                $(this).siblings().removeClass("selected");
+                $(this).find('input').click();
+
+
+                var value = $(this).find('input').val();
+
+                $.ajax({
+                    url:"{:U('selectStyle')}",
+                    data:{temp:value},
+                    type:"post",
+                    dataType:"text",
+                    success:function(data){
+                        updateAlert('模板成功切换为:'+value+'' ,'alert-success');
+                        window.location.reload();
+                        }
+                    })
+                }
+            });
+    })
+</script> 
+</block>

@@ -4243,7 +4243,6 @@ function get_Sex($sex_id) {
 function get_group_title($group_id) {
 	if ($group_id!=null) {
        $map ['token'] = get_token ();
-	   //$map ['manager_id'] = $this->mid;
        $map ['wechat_group_id'] = $group_id;
 	   $auth_group = M ( 'auth_group' )->where ( $map )->getField ('title');
 	   return  $auth_group;
