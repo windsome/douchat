@@ -149,7 +149,7 @@
               }
               var item = '<li class="mp_news_item">'+
                       '<a href="'+remote_url+'wenda/?/shop/'+item.id+'" target="_blank" title="'+data[i].title+'">'+
-                        '<img src="http://idouly.com/wenda/'+data[i].cover+'">'+
+                        '<img src="'+remote_url+'/wenda/'+data[i].cover+'">'+
                         '<h4 class="title">'+data[i].title+'</h4>'+
                         '<h4 class="price">售价：<span style="color:#ff6600;">'+price+'</span><span class="view">'+data[i].views+'人看过</span></h4>'+
                       '</a>'+

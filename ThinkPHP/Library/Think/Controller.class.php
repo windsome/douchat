@@ -543,16 +543,6 @@ abstract class Controller {
 			) ) );
 		}
 
-		// 管理员需要对插件的管理权限进行判断
-		if (is_login ()) {
-			$token_status = D ( 'Common/AddonStatus' )->getList ( false );
-			
-			if ($token_status [_ADDONS] == - 1) {
-				$this->error ( '你没有权限管理和配置该插件' );
-			}
-			return true;
-		}
-
 		// 判断公众号是否初始化、审核，跳转到对应的页面
 		if (IS_GET && ! $guest_login && $index_2 != 'home/public/*' && $index_2 != 'home/publiclink/*') {
 			if (! $info) {
