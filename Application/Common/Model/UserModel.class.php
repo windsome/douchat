@@ -113,6 +113,7 @@ class UserModel extends Model {
 				'email' => $email,
 				'mobile' => $mobile,
 				'truename' => $truename,
+				'temp' => 'default',
 				'is_audit' => C ( 'REG_AUDIT' ) 
 		);
 		
@@ -211,6 +212,7 @@ class UserModel extends Model {
 		session ( 'token', null );
 		session ( 'openid_' . $token, null );
 		session ( 'manager_id', null );
+		session ( 'DEFAULT_THEME', null);
 	}
 	
 	/**
@@ -242,6 +244,7 @@ class UserModel extends Model {
 		session ( 'mid', $user ['uid'] );
 		session ( 'user_auth', $auth );
 		session ( 'user_auth_sign', data_auth_sign ( $auth ) );
+		session ( 'DEFAULT_THEME', $user ['temp']);
 	}
 	public function getNickName($uid) {
 		$info = $this->getUserInfo ( $uid );

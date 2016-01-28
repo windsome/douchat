@@ -114,7 +114,8 @@ class UserCenterController extends HomeController {
 		
 		// 用户组
 		$gmap ['token'] = get_token ();
-		$gmap ['manager_id'] = $this->mid;
+		//不应该加下面依据判断吧，假如添加管理员的话是不是就看不到了
+		//$gmap ['manager_id'] = $this->mid;
 		$auth_group = M ( 'auth_group' )->where ( $gmap )->select ();
 		$this->assign ( 'auth_group', $auth_group );
 		$this->assign ( 'syc_wechat', $this->syc_wechat );
