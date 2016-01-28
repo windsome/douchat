@@ -1708,7 +1708,7 @@ INSERT INTO `dc_manager_menu` (`id`, `menu_type`, `pid`, `title`, `url_type`, `a
 (1, 0, '', '豆信官网', 1, '', 'http://douchat.cc/', '_blank', 0, 1, 1),
 (2, 0, '', '应用商城', 1, '', 'http://douchat.cc/wenda/?/shop/', '_blank', 0, 2, 1),
 (3, 0, '', '交流社区', 1, '', 'http://douchat.cc/wenda/?/question/', '_blank', 0, 3, 1),
-(4, 0, '', '开发手册', 1, '', 'http://doc.idouly.com/', '_blank', 0, 4, 1);
+(4, 0, '', '开发手册', 1, '', 'http://doc.douchat.cc/', '_blank', 0, 4, 1);
 
 -- --------------------------------------------------------
 
