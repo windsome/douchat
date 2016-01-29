@@ -42,14 +42,17 @@ class FollowModel extends Model {
 				'come_from' => 1 
 		);
 		$user2 = getWeixinUserInfo ( $openid );
-		
-		$user = array_merge ( $user, $user2 );
+		if ($user2) {
+			$user = array_merge ( $user, $user2 );
+		}
+
 		$data ['uid'] = $uid = D ( 'Common/User' )->add ( $user );
 		
 		if ($has_subscribe !== false) {
 			$data ['has_subscribe'] = $has_subscribe;
 		}
-		M ( 'public_follow' )->add ( $data );
+		// replyText(json_encode($data));
+		// M ( 'public_follow' )->add ( $data );
 		
 		return $uid;
 	}
