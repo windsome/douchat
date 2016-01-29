@@ -3875,9 +3875,9 @@ function getKFSession($openid) {
  * 关闭客服会话
  * @author 艾逗笔<765532665@qq.com>
  */
-function closeKFSession($openid,$kf_account,$text='') {
+function closeKFSession($openid,$kf_account,$text) {
 	$weObj = getWechatApiObj();
-	return $weObj->closeKFSession($openid,$kf_account,$text='');
+	return $weObj->closeKFSession($openid,$kf_account,$text);
 }
 
 // 发送客服消息

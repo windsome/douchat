@@ -2594,12 +2594,12 @@ class Wechat
 	 *   "errmsg": "ok",
 	 * }
 	 */
-	public function closeKFSession($openid,$kf_account,$text=''){
+	public function closeKFSession($openid,$kf_account,$text){
 	    $data=array(
 	    	"openid" =>$openid,
-	        "kf_account" => $kf_account
+	        "kf_account" => $kf_account,
+	        "text" => $text
 	    );
-	    if ($text) $data["text"] = $text;
 	    if (!$this->access_token && !$this->checkAuth()) return false;
 	    $result = $this->http_post(self::API_BASE_URL_PREFIX.self::CUSTOM_SESSION_CLOSE .'access_token='.$this->access_token,self::json_encode($data));
 	    if ($result)
