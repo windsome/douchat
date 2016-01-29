@@ -622,7 +622,7 @@ abstract class Controller {
 		$config = getAddonConfig ( 'UserCenter' );
 		$guestAccess = strtolower ( CONTROLLER_NAME ) != 'weixin';
 		$isWeixnLogin = ! empty ( $map ['token'] ) && ! empty ( $map ['openid'] ) && $map ['token'] != - 1 && $map ['token'] != - 1;
-		$userNeed = ($user ['uid'] > 0 && $user ['syc_status'] < 2) || (empty ( $user ) && $guestAccess);
+		$userNeed = ($user ['uid'] > 0 && $user ['has_subscribe'] < 2) || (empty ( $user ) && $guestAccess);
 		$aaa = $isWeixnLogin && $config ['need_bind'] == 1 && $userNeed;
 		if ($isWeixnLogin && $config ['need_bind'] == 1 && $userNeed) {
 			$bind_url = addons_url ( 'UserCenter://Wap/userCenter', $map );

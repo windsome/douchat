@@ -59,7 +59,7 @@ class WapController extends AddonsController {
 				exit ( $data ['errmsg'] );
 			}
 			
-			$data ['syc_status'] = 2;
+			$data ['has_subscribe'] = 2;
 			empty ( $data ['headimgurl'] ) && $data ['headimgurl'] = ADDON_PUBLIC_PATH . '/default_head.png';
 			
 			$uid = D ( 'Common/Follow' )->init_follow ( $content ['openid'], $info ['token'] );
