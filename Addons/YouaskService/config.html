@@ -1,3 +1,67 @@
+<style text='text/css'>
+.image_material{
+    border: 1px dashed #ddd;
+    width: 80px;
+    height: 198px;
+    background: #eee;
+    text-align: center;
+    color: #333;
+    display: block;
+    float: left;
+    margin-left:10px;
+    position:relative;
+}
+.image_material a:hover{
+    background: #fff;
+}
+.image_material .select_image{
+  border: 1px dashed #ddd;
+  display: block;
+  width: 78px;
+  height: 160px;
+  line-height: 160px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: #eee;
+}
+.image_material .delete{
+  border: 1px dashed #ddd;
+  display: block;
+  width: 78px;
+  height: 36px;
+  line-height: 36px;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background: #eee;
+}
+.upload-img-box .appmsg_item{
+  padding: 0px;
+  width: 306px;
+  height: 198px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.uploadrow2{
+  border: 1px dashed #ddd;
+  width: 306px;
+  height: 198px;
+  background: #eee;
+  z-index: 888;
+}
+.uploadrow2 .upload-img-box .upload-pre-item2 img,
+.uploadrow2 .upload-img-box .upload-pre-item2{
+    width: 306px;
+  height: 198px;
+}
+.upload-img-box,
+.upload-img-box img{
+  width: 306px;
+  height: 198px;
+}
+</style>
 <div class="tools">           
   <span class="btn" onClick="change(1)">多客服开关</span>
   <span class="btn" onClick="change(2)">多客服配置</span>
@@ -128,17 +192,21 @@
 <div class="form-item cf ">
   <label class="item-label"> 图片: <span class="check-tips">图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200</span> </label>
   
-                          <div class="controls uploadrow2" title="点击修改图片" rel="pic_url3">
-                            <input type="file" id="upload_picture_pic_url3">
-                            
-                            <input type="hidden" name="config[pic_url3]" id="cover_id_pic_url3" value="{$data.config.pic_url3.value}"/>
-                            <div class="upload-img-box">
-                              <notempty name="data.config.pic_url3.value">
-                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data.config.pic_url3.value|get_cover_url}"/></div>
-                                <em class="edit_img_icon">&nbsp;</em>
-                              </notempty>
-                            </div>
-                          </div>
+                               <div class="controls uploadrow2  pull-left" title="点击修改图片" rel="pic_url3">
+                                  <input type="file" id="upload_picture_pic_url3">
+                                  <input type="hidden" name="config[pic_url3]" id="cover_id_pic_url3" value="{$data.config.pic_url3.value}"/>
+                                  <div class="upload-img-box cover_id_pic_url3">
+                                    <notempty name="data.config.pic_url3.value">
+                                        <img src="{$data.config.pic_url3.value|get_cover_url}"/>
+                                        <em class="edit_img_icon">&nbsp;</em>
+                                    </notempty>
+                                  </div>
+
+                              </div>
+                              <div class='image_material' id='image_material'>
+                                  <a class="select_image" href="javascript:;"  onClick="$.WeiPHP.openImageMsg('{:U('/Home/Material/picture_config')}',selectImageCallback,'选择图片素材','pic_url3')">选择素材库</a>
+                                  <a class="delete" onClick="delImage('pic_url3')" href="javascript:;">清除图片</a>
+                              </div>
 
 </div>
 
@@ -167,9 +235,50 @@
 
 
 <script type="text/javascript">
-$(function(){
-   initUploadImg();
-   })
+  $(function(){
+        //初始化上传图片插件
+        initUploadImg({width:308,height:200,callback:function(file, data, name, is_mult,opts){
+          if (data < 0) {
+            updateAlert('图片传失败，请重新上传！','alert-error');
+            return;
+          };
+           //存入素材库
+         $.post("{:U('Material/add_picture')}",{cover_id:data,src:name},function(data){
+           if(data.status==1){
+            updateAlert('图片上传成功，已保存在图片素材库！' ,'alert-success');
+           }else{
+            updateAlert('图片传成功，保存素材库失败！','alert-error');
+           }    
+         });
+
+
+        }});
+       initUploadFile();
+       //支持tab
+       showTab();
+  })
+
+//选取图片素材后的返回处理
+function selectImageCallback(_this,inpuname){
+
+  $('.cover_id_'+inpuname).html($(_this).html()).show();
+  $('.image_material .delete').show();
+
+  $('input[name="config['+inpuname+']"]').val($(_this).data('cover_id'));
+  $.Dialog.close();
+  $('.uploadrow2 .upload-img-box .upload-pre-item2 img').each(function() {
+
+         $(this).css("width", 306); // 设定图片显示的宽度
+
+         $(this).css("height", 198);  // 设定图片显示的高度
+  });
+}
+
+//清除图片
+function delImage(inputname){
+  $('.uploadrow2 .cover_id_'+inputname).html('').hide();
+  $('input[name="config['+inputname+']"]').val(0);
+}
 //导航菜单切换选项
 function change(type){
   $(".showdiv").each(function(){
@@ -228,9 +337,6 @@ $(function(){
 
   change(1);
   changeOption();
-  changeOption1();
-  changeOption2();
-
 })
 
 </script>

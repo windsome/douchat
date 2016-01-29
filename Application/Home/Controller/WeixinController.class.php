@@ -455,6 +455,11 @@ class WeixinController extends HomeController
 		}
 		C ( $config ); // 公众号接口权限
 		               
+		//用户开启上送地理位置后，打开微信公众号就会自动回复，需要屏蔽掉 location
+		if ($data['Event'] == 'LOCATION') {
+			exit();
+		}
+		
 		// 初始化用户信息
 		$map ['token'] = $data ['ToUserName'];
 		$map ['openid'] = $data ['FromUserName'];
@@ -466,7 +471,7 @@ class WeixinController extends HomeController
 		// 绑定配置
 		$config = getAddonConfig ( 'UserCenter', $map ['token'] );
 
-		$userNeed = ($user ['uid'] > 0 && $user ['syc_status'] < 2) || (empty ( $user ) );
+		$userNeed = ($user ['uid'] > 0 && $user ['has_subscribe'] < 2) || (empty ( $user ) );
 
 		if ($config ['need_bind'] == 1 && $userNeed && C ( 'USER_OAUTH' ))
 		{

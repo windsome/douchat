@@ -24,10 +24,34 @@ class WeixinAddonModel extends WeixinModel {
 		return $url;
 	}
 
-	// 关注时自动回复
+	// 关注时自动处理
 	public function subscribe($data) {
+		//初始化用户数据存入数据库
+		$uid = D ( 'Common/Follow' )->init_follow ( $data ['FromUserName'] );
+		D ( 'Common/Follow' )->set_subscribe ( $data ['FromUserName'], 1 );
+		// 增加积分
+		session ( 'mid', $uid );
+			
+		add_credit ( 'subscribe' );
+        // 关注时自动回复  欢迎语
 		$info = M('auto_reply')->where(array('token'=>get_token(),'reply_scene'=>0))->find();
 		$this->replyMsg($info);
+	}
+
+	// 取消关注时的自动处理
+	public function unsubscribe($data) {
+		// 直接删除用户
+		//$map1 ['openid'] = $data ['FromUserName'];
+		//$map1 ['token'] = get_token ();
+		//$map2 ['uid'] = D ( 'public_follow' )->where ( $map1 )->getField ( 'uid' );
+		//M ( 'public_follow' )->where ( $map1 )->delete ();
+		//M ( 'user' )->where ( $map2 )->delete ();
+		//M ( 'credit_data' )->where ( $map2 )->delete ();
+		//取消专注改变用户状态
+		D ( 'Common/Follow' )->set_subscribe ( $data ['FromUserName'], 0 );
+		session ( 'mid', null );
+		// 积分处理
+		add_credit ( 'unsubscribe' );
 	}
 
 	function replyMsg($info) {
