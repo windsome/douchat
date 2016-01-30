@@ -16,12 +16,12 @@ class WeixinAddonModel extends WeixinModel {
 		if ($keywordArr ['extra_text'] == 'custom_reply_news') {
 			// 单条图文回复
 			$map ['id'] = $keywordArr ['aim_id'];
-			$info = M ( 'custom_reply_news' )->where ( $map )->find ();
+			$info = M ( 'weisite_cms' )->where ( $map )->find ();
 			
 			// 组装用户在微信里点击图文的时跳转URL
 			$param ['id'] = $info ['id'];
-			$url = addons_url ( 'CustomReply://CustomReply/detail', $param );
-			
+			//$url = addons_url ( 'CustomReply://CustomReply/detail', $param );
+			$url = addons_url('WeiSite://WeiSite/detail',$param);
 			// 组装微信需要的图文数据，格式是固定的
 			$articles [0] = array (
 					'Title' => $info ['title'],

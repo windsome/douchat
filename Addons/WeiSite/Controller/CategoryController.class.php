@@ -18,11 +18,19 @@ class CategoryController extends BaseController {
 		
 		$map ['token'] = get_token ();
 		session ( 'common_condition', $map );
-		
-		$list_data = $this->_get_model_list ( $this->model );
-		$list_data ['list_data'] = $this->get_data ( $list_data ['list_data'] );
+
+		$model=$this->model;                                          
+		// 解析列表规则
+		$list_data = $this->_list_grid ($this->model);
+		$fields = $list_data ['fields'];
+
+		// 读取模型数据列表
+		empty ( $fields ) || in_array ( 'id', $fields ) || array_push ( $fields, 'id' );
+		$name = parse_name ( get_table_name ( $model ['id'] ), true );
+		$data = M ( $name )->field ( empty ( $fields ) ? true : $fields )->where ( $map )->order ('sort asc, id asc')->select ();
+		$list_data ['list_data'] = $this->get_data ($data);
 		$this->assign ( $list_data );
-		
+
 		$templateFile = $this->model ['template_list'] ? $this->model ['template_list'] : '';
 		$this->display ( $templateFile );
 	}
@@ -73,10 +81,9 @@ class CategoryController extends BaseController {
 			$map ['token'] = get_token ();
 			$map ['pid'] = 0;
 			$map ['id'] = array (
-					'not in',
-					$id 
+					'not in',$id 
 			);
-			$list = $Model->where ( $map )->select ();
+			$list = $Model->where ( $map )->order('sort asc, id asc')->select ();
 			foreach ( $list as $v ) {
 				$extra .= $v ['id'] . ':' . $v ['title'] . "\r\n";
 			}
@@ -124,7 +131,7 @@ class CategoryController extends BaseController {
 			
 			// 获取一级菜单
 			$map ['pid'] = 0;
-			$list = $Model->where ( $map )->select ();
+			$list = $Model->where ( $map )->order('sort asc, id asc')->select ();
 			foreach ( $list as $v ) {
 				$extra .= $v ['id'] . ':' . $v ['title'] . "\r\n";
 			}
@@ -139,7 +146,6 @@ class CategoryController extends BaseController {
 			}
 			
 			$this->assign ( 'fields', $fields );
-			
 			$this->meta_title = '新增' . $model ['title'];
 			
 			$this->display ();

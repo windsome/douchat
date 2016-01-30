@@ -26,11 +26,7 @@ class WeiSiteController extends BaseController {
 	// 首页
 	function index() {
 		add_credit ( 'weisite', 86400 );
-		
-		if (file_exists ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/pigcms/Index_' . $this->config ['template_index'] . '.html' )) {
-			$this->pigcms_index ();
-			$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/pigcms/Index_' . $this->config ['template_index'] . '.html' );
-		} else {
+
 			$map ['token'] = get_token ();
 			$map ['is_show'] = 1;
 			$map ['pid'] = 0; // 获取一级分类
@@ -48,7 +44,8 @@ class WeiSiteController extends BaseController {
 			foreach ( $category as &$vo ) {
 				$vo ['icon'] = get_cover_url ( $vo ['icon'] );
 				empty ( $vo ['url'] ) && $vo ['url'] = addons_url ( 'WeiSite://WeiSite/lists', array (
-						'cate_id' => $vo ['id'] 
+						'cate_id' => $vo ['id'],
+						'token' => get_token ()
 				) );
 			}
 			$this->assign ( 'category', $category );
@@ -63,56 +60,70 @@ class WeiSiteController extends BaseController {
 			
 			$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/TemplateIndex/' . $this->config ['template_index'] . '/index.html' );
 		}
-	}
 	// 分类列表
 	function lists() {
-		$cate_id = I ( 'cate_id', 0, 'intval' );
+		$cate_id = I('get.cate_id');
 		empty ( $cate_id ) && $cate_id = I ( 'classid', 0, 'intval' );
-		
-		if (file_exists ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/pigcms/Index_' . $this->config ['template_lists'] . '.html' )) {
-			$this->pigcms_lists ( $cate_id );
-			$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/pigcms/Index_' . $this->config ['template_lists'] . '.html' );
+		$map ['token'] = get_token ();
+		if ($cate_id) {
+			$map ['cate_id'] = $cate_id;
+		}
+		$cate = M ( 'weisite_category' )->where ( 'id = ' . $map ['cate_id'] )->find ();
+		$this->assign ( 'cate', $cate );
+		$config=getAddonConfig ( 'WeiSite' );
+		$this->assign ( 'page_title', $cate['title']."-".$config ['title'] );
+		// 二级分类
+		$category = M ( 'weisite_category' )->where ( 'pid = ' . $map ['cate_id'] )->order ( 'sort asc, id desc' )->select ();
+
+		if (! empty ( $category )) {
+			$catelist = '';
+			foreach ( $category as &$vo ) {
+				$vo ['icon'] = get_cover_url ( $vo ['icon'] );
+				empty ( $vo ['url'] ) && $vo ['url'] = addons_url ( 'WeiSite://WeiSite/lists', array (
+						'cate_id' => $vo ['id'],
+						'token' => get_token ()
+				) );
+				$catelist .= ','.$vo['id'];	
+			}
+			//获取属于这些分类的所有文章
+			$map['cate_id']=array('in',$catelist);
+			$cmslist = M ('weisite_cms')->where ($map)->field('id,title,intro,cover,cate_id')->order('cTime asc')->limit(30)->select ();
+
+			foreach ($cmslist as $key => $value) {
+				$temp=M ( 'weisite_category' )->find($value['cate_id']);
+				$cmslist[$key]['catename']=$temp['title'];
+			}
+			$this->assign('list_data',$cmslist);
+
+			//将阅读量的前3显示在图片区
+			$bannerlist = M ('weisite_cms')->where ($map)->field('id,title,intro,cover')->order('view_count desc')->limit(3)->select ();
+			$this->assign('bannerlist',$bannerlist);
+
+			$this->assign ( 'category', $category );
+			$this->_footer ();
+			$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/TemplateSubcate/' . $this->config ['template_subcate'] . '/cate.html' );
 		} else {
-			$map ['token'] = get_token ();
-			if ($cate_id) {
-				$map ['cate_id'] = $cate_id;
+			$page = I ( 'p', 1, 'intval' );
+			$row = isset ( $_REQUEST ['list_row'] ) ? intval ( $_REQUEST ['list_row'] ) : 20;
+			
+			$data = M ( 'weisite_cms' )->where ( $map )->order ( 'sort asc, id DESC' )->page ( $page, $row )->select ();
+			$bannerlist = M ( 'weisite_cms' )->where ( $map )->order ( 'view_count desc' )->limit(3)->select ();
+			$this->assign('bannerlist',$bannerlist);
+			/* 查询记录总数 */
+			$count = M ( 'weisite_cms' )->where ( $map )->count ();
+			$list_data ['list_data'] = $data;
+			// 分页
+			if ($count > $row) {
+				$page = new \Think\Page ( $count, $row );
+				$page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+				$list_data ['_page'] = $page->show ();
 			}
-			$cate = M ( 'weisite_category' )->where ( 'id = ' . $map ['cate_id'] )->find ();
-			$this->assign ( 'cate', $cate );
-			// 二级分类
-			$category = M ( 'weisite_category' )->where ( 'pid = ' . $map ['cate_id'] )->order ( 'sort asc, id desc' )->select ();
-			if (! empty ( $category )) {
-				foreach ( $category as &$vo ) {
-					$vo ['icon'] = get_cover_url ( $vo ['icon'] );
-					empty ( $vo ['url'] ) && $vo ['url'] = addons_url ( 'WeiSite://WeiSite/lists', array (
-							'cate_id' => $vo ['id'] 
-					) );
-				}
-				$this->assign ( 'category', $category );
-				$this->_footer ();
-				$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/TemplateSubcate/' . $this->config ['template_subcate'] . '/index.html' );
-			} else {
-				
-				$page = I ( 'p', 1, 'intval' );
-				$row = isset ( $_REQUEST ['list_row'] ) ? intval ( $_REQUEST ['list_row'] ) : 20;
-				
-				$data = M ( 'weisite_cms' )->where ( $map )->order ( 'sort asc, id DESC' )->page ( $page, $row )->select ();
-				/* 查询记录总数 */
-				$count = M ( 'weisite_cms' )->where ( $map )->count ();
-				$list_data ['list_data'] = $data;
-				// 分页
-				if ($count > $row) {
-					$page = new \Think\Page ( $count, $row );
-					$page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-					$list_data ['_page'] = $page->show ();
-				}
-				
-				$this->assign ( $list_data );
-				// dump ( $list_data );
-				
-				$this->_footer ();
-				$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/TemplateLists/' . $this->config ['template_lists'] . '/lists.html' );
-			}
+			
+			$this->assign ( $list_data );
+
+			
+			$this->_footer ();
+			$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/TemplateLists/' . $this->config ['template_lists'] . '/lists.html' );
 		}
 	}
 	// 详情
@@ -126,7 +137,9 @@ class WeiSiteController extends BaseController {
 			$this->assign ( 'info', $info );
 			
 			M ( 'weisite_cms' )->where ( $map )->setInc ( 'view_count' );
-			
+			$config=getAddonConfig ( 'WeiSite' );
+			$this->assign ( 'page_title', $info['title']."-".$config ['title'] );
+
 			$this->_footer ();
 			$this->display ( ONETHINK_ADDON_PATH . 'WeiSite/View/default/TemplateDetail/' . $this->config ['template_detail'] . '/detail.html' );
 		}

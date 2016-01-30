@@ -1,4 +1,4 @@
-<include file="Public/mobile_head"/>	
+<include file="Public/mobile_head"/>
 <style type="text/css">
 .banner{ width:100%; overflow:hidden; position:relative;}
 .banner ul{ position:absolute; left:0; top:0; z-index:10; -webkit-animation:}
@@ -12,33 +12,39 @@ border-radius: 6px;margin-left: 5px;width: 12px;height: 12px;background: #fff;}
 .identify .fl{ float:left}
 .identify .fr{ float:right}
 .small_pic_list li{ border-top:1px solid #fff; border-bottom:1px solid #ccc; height:80px; overflow:hidden}
-.small_pic_list li a{ display:block; padding:10px 10px 10px 80px; position:relative; min-height:60px; color:#333}
+/*.small_pic_list li a{ display:block; padding:10px 10px 10px 80px; position:relative; min-height:60px; color:#333}*/
 .small_pic_list li a:active{ background-color:#CCC}
 .small_pic_list li a img{ position:absolute; left:10px; top:10px; width:60px; height:60px;}
-.small_pic_list li a h6{ font-size:18px; font-weight:bold; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.small_pic_list li a h6{ font-size:18px; font-weight:normal; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .small_pic_list li a p{ color:#999; font-size:13px; line-height:22px;}
 </style>
 <body id="weisite">
 <div class="container">
     <section class="banner">
     	<ul>
-        <php>foreach($list_data as $k=>$vo){ if($k>2) continue; </php>
+        <volist name="bannerlist" id="vo">
         	<li>
             	<a href="{:U('detail', 'id='.$vo[id])}"><img src="{$vo.cover|get_cover_url}"/></a>
             	<span class="title">{$vo.title}</span>
             </li>
-         <php>$img_count += 1 ;unset($list_data[$k]); } </php>
+        </volist>
         </ul>
         <div class="identify">
-        	<php>for($i=0; $i<$img_count; $i++){ </php>
+        <volist name="bannerlist" id="vo">	
                 <em></em>
-             <php> } </php>
+        </volist>    
         </div>
     </section>
     <ul class="small_pic_list">
     <volist name="list_data" id="vo">
     	<li>
-        	<a href="{:U('detail', 'id='.$vo[id])}">
+        	<a href="{:U('detail', 'id='.$vo[id])}"
+                <if condition="$vo['cover']">
+                    style="display:block; padding:10px 10px 10px 80px; position:relative; min-height:60px; color:#333"
+                <else />
+                    style="display:block; padding:10px 10px 10px 10px; position:relative; min-height:60px; color:#333"
+                </if>
+            >
             	<notempty name="vo.cover"><img src="{$vo.cover|get_cover_url}"/></notempty>
                 <h6>{$vo.title}</h6>
                 <p>{$vo.intro}</p>
@@ -67,6 +73,6 @@ border-radius: 6px;margin-left: 5px;width: 12px;height: 12px;background: #fff;}
 $(function(){
 	$.WeiPHP.initBanner(true,5000);
 })
-
 </script>
+
 </html>

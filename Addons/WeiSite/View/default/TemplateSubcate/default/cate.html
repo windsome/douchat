@@ -1,33 +1,48 @@
-<include file="Public/mobile_head"/>	
-<link href="{:CUSTOM_TEMPLATE_PATH}Subcate/default/main.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<include file="Public/mobile_head"/>
+<link href="{:CUSTOM_TEMPLATE_PATH}Index/ColorV1/main.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<style type="text/css">
+.banner{ width:100%; overflow:hidden; position:relative;}
+.banner ul{ position:absolute; left:0; top:0; z-index:10; -webkit-animation:}
+.banner ul li{ float:left; display:table-cell; position:relative}
+.banner li a{ width:100%; height:100%; display:block;}
+.banner li .title{background-color:RGBA(0,0,0,.5); height:30px; color:#fff; line-height:30px; padding-left:10px; position:absolute; left:0; bottom:0; width:100%; z-index:1000;}
+.identify{text-align:right; position:absolute; bottom:0; right:0; z-index:100; height:30px;}
+.identify em{ display:inline-block; margin:10px 5px;-webkit-border-radius: 6px;-moz-border-radius: 6px;
+border-radius: 6px;margin-left: 5px;width: 12px;height: 12px;background: #fff;}
+.identify em.cur{ background-color:#090}
+.identify .fl{ float:left}
+.identify .fr{ float:right}
+.small_pic_list li{ border-top:1px solid #fff; border-bottom:1px solid #ccc; height:80px; overflow:hidden}
+.small_pic_list li a{ display:block; padding:10px 10px 10px 80px; position:relative; min-height:60px; color:#333}
+.small_pic_list li a:active{ background-color:#CCC}
+.small_pic_list li a img{ position:absolute; left:10px; top:10px; width:60px; height:60px;}
+.small_pic_list li a h6{ font-size:18px; font-weight:normal; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.small_pic_list li a p{ color:#999; font-size:13px; line-height:22px;}
+</style>
 <body id="weisite">
 <div class="container">
-    <if condition="empty($slideshow) && empty($category)">
-    <p>&nbsp;</p><p>&nbsp;</p>
-    <p>管理员还没有配置分类或者幻灯片数据，请先等配置后再看</p>
-    <else />
-    <if condition="!empty($slideshow)">
+<if condition="!empty($list_data)">
     <section class="banner">
-    	<ul>
-        <volist name="slideshow" id="vo">
-        	<li>
-            	<a href="{$vo.url}"><img src="{$vo.img}"/></a>
-            	<span class="title">{$vo.title}</span>
+        <ul>
+        <volist name="bannerlist" id="vo">
+            <li>
+                <a href="{:U('detail', 'id='.$vo[id])}"><img src="{$vo.cover|get_cover_url}"/></a>
+                <span class="title">{$vo.title}</span>
             </li>
-         </volist>
+        </volist>
         </ul>
-        <span class="identify">
-        <volist name="slideshow" id="vo">
-        	<em></em>
-         </volist>        
-        </span>
+        <div class="identify">
+            <volist name="bannerlist" id="vo">
+                <em></em>
+            </volist>
+        </div>
     </section>
-    </if>
+</if>
     <if condition="!empty($category)">
     <section>
-    	<div class="icon_lists">
+        <div class="icon_lists">
             <volist name="category" id="vo">
-                <a class="item" href="{$vo.url}">
+                <a class="item" href="{$vo.url}" style="margin-bottom:0px;">
                     <span class="icon random_color"><img src="{$vo.icon}"/></span>
                     <span class="click_item_txt">{$vo.title}</span>
                 </a>
@@ -35,8 +50,22 @@
         </div>
     </section>
     </if>
-    </if>
 </div>
+<div class="artic_lists">
+    <ul class="small_pic_list">
+    <volist name="list_data" id="vo">
+        <li>
+            <a href="{:U('detail', 'id='.$vo[id])}">
+                <notempty name="vo.cover"><img src="{$vo.cover|get_cover_url}"/></notempty>
+                <h6>[{$vo.catename}]{$vo.title}</h6>
+                <p>{$vo.intro}</p>
+                <span class="colorless">{$vo.cTime|time_format}</span>
+            </a>
+        </li>
+        </volist>
+    </ul>
+</div>
+
 <!-- 底部导航 -->
 {$footer_html}
 <!-- 统计代码 -->
@@ -44,12 +73,16 @@
 <p class="hide bdtongji">
 {$config.code}
 </p>
+<else />
+<p class="hide bdtongji">
+{$tongji_code}
+</p>
 </notempty>
 </body>
 <script type="text/javascript">
 $(function(){
-	//$.WeiPHP.initBanner(true,5000);
-	$.WeiPHP.setRandomColor('.random_color');
+    $.WeiPHP.initBanner(true,5000);
+    $.WeiPHP.setRandomColor('.random_color');
 })
 
 </script>

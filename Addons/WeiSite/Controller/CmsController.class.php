@@ -12,15 +12,19 @@ class CmsController extends BaseController {
 	}
 	// 通用插件的列表模型
 	public function lists() {
-		// 使用提示
-		$normal_tips = '文章的数据来源官方自定义回复插件中的图文回复，如有异常请确认自定义回复插件是否已经安装';
-		$this->assign ( 'normal_tips', $normal_tips );
+		
+		
 				
 		$map ['token'] = get_token ();
 		session ( 'common_condition', $map );
 		
+		$countmap ['token'] = get_token ();
 		$list_data = $this->_get_model_list ( $this->model );
-		
+		// 使用提示
+		$viewcount=M('weisite_cms')->where($countmap)->field ( 'id,view_count' )->sum('view_count');
+		$artinum=M('weisite_cms')->where($countmap)->field ( 'id,view_count' )->count();
+		$normal_tips = '总共'.$artinum.'篇文章，阅读量：'.$viewcount.'次';
+		$this->assign ( 'normal_tips', $normal_tips );
 		// 分类数据
 		$map ['is_show'] = 1;
 		$list = M ( 'weisite_category' )->where ( $map )->field ( 'id,title' )->select ();
@@ -127,8 +131,35 @@ class CmsController extends BaseController {
 	function getCateData() {
 		$map ['is_show'] = 1;
 		$map ['token'] = get_token ();
-		$list = M ( 'weisite_category' )->where ( $map )->select ();
-		foreach ( $list as $v ) {
+		$list = M ( 'weisite_category' )->where ( $map )->order ( 'sort asc' )->select ();
+
+		// 取一级菜单
+		foreach ( $list as $k => $vo ) {
+			if ($vo ['pid'] != 0)
+				continue;
+			
+			$one_arr [$vo ['id']] = $vo;
+			unset ( $list [$k] );
+		}
+		
+		foreach ( $one_arr as $p ) {
+			$data [] = $p;
+			
+			$two_arr = array ();
+			foreach ( $list as $key => $l ) {
+				if ($l ['pid'] != $p ['id'])
+					continue;
+				
+				$l ['title'] = '├─' . $l ['title'];
+				$two_arr [] = $l;
+				unset ( $list [$key] );
+			}
+			
+			$data = array_merge ( $data, $two_arr );
+		}
+
+
+		foreach ( $data as $v ) {
 			$extra .= $v ['id'] . ':' . $v ['title'] . "\r\n";
 		}
 		return $extra;
