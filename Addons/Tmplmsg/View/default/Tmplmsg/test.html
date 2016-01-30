@@ -6,7 +6,27 @@
 	  	  <p class="normal_tips" style="margin:5px 20px"><b class="fa fa-info-circle"></b> 需开通模板消息功能！<br />
 		  其他插件调用方式，再需要发送的地方加上<br />
 		  sendtempmsg($openid, $template_id, $url, $data, $topcolor='#FF0000')<br />
-		  $openid：接收者的openid，$template_id：模板ID，$url：用户点击后的跳转地址（可以为空），$data：模板数据包，$topcolor：顶部颜色</p>
+		  $openid：接收者的openid，$template_id：模板ID，$url：用户点击后的跳转地址（可以为空），$data：模板数据包，$topcolor：顶部颜色<br />
+$data的JOSN数据包格式如下(具体字段及内容由自己修改)：<br />
+{<br />
+"userName":{<br />
+"value":"北北",<br />
+"color":"#173177"<br />
+},<br />
+"courseName":{<br />
+"value":"php",<br />
+"color":"#173177"<br />
+},<br />
+"date":{<br />
+"value":"06月07日 19时24分",<br />
+"color":"#173177"<br />
+},<br />
+"remark":{<br />
+"value":"idouly",<br />
+"color":"#173177"<br />
+}<br />
+}<br />
+      </p>
       <div class="tab-content"> 
         <!-- 表单 -->
         <form id="form" action="{:U('test')}" method="post" class="form-horizontal form-center">

@@ -32,43 +32,12 @@ class DonationsController extends AddonsController{
     } 
 	 //首页
     public function index(){   	
-
-    	if(IS_POST){
-          
-          $data['token'] = get_token();
-          $data['openid'] = get_openid();
-          $data['ctime'] = time();
-          $data['money'] = I('money1');
-          $data['email'] = I('email');
-          $data['content'] = I('content');
-          $data['is_anonymous'] = intval(I('is_anonymous'));
-          $myInfo = getUserInfo(get_openid());
-          $data['nickname'] = $myInfo['nickname'] ? $myInfo['nickname'] : '匿名';
-
-          if($_SESSION['support_info'] !="")
-          {
-            unset($_SESSION['support_info']);
-          }
-          
-          session_start();
-          $_SESSION['support_info'] = $data;        
-
-          $param['orderid']=time();
-          $param['price']= floatval($data['money']);
-          $param['from']=urlencode(addons_url('Donations://Donations/payok'));
-          $payurl=addons_url('WechatPay://WechatPay/pay',$param);        
-          redirect($payurl);  
-
-      } else {
           $config = getAddonConfig('Donations');
           $this->assign('config',$config);
-
           $money = M('donations_money')->where(array('token'=>get_token()))->order('money asc')->select();
           // dump($money);
           $this->assign('money', $money);       // 捐赠额设置
-      
-          $this->display();
-      }    
+          $this->display(); 
     }
 
     public function payok(){        
