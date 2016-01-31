@@ -41,7 +41,7 @@
             	<!-- 单图文 -->
                 <li class="appmsg_li">
                 	<div class="appmsg_item">
-                        <h6 style="overflow: hidden;">{$vo.title}</h6>
+                        <h6 style="overflow: hidden;"><a href="{:U('news_detail',array('id'=>$vo['id']))}" target= _blank>{$vo.title}</a></h6>
                         <p class="title">{$vo.cTime|time_format}</p>
                         <div class="main_img">
                             <img src="{$vo.cover_id|get_cover_url}"/>
@@ -60,13 +60,13 @@
                         <p class="title">{$vo.cTime|time_format}</p>
                         <div class="main_img">
                             <img src="{$vo.cover_id|get_cover_url}"/>
-                            <h6>{$vo.title}</h6>
+                            <h6><a href="{:U('news_detail',array('id'=>$vo['id']))}" target= _blank>{$vo.title}</a></h6>
                         </div>
                         <p class="desc">{$vo.intro}</p>
                     </div>
                     <volist name="vo.child" id="vv">
                     <div class="appmsg_sub_item">
-                        <p class="title">{$vv.title}</p>
+                        <p class="title"><a href="{:U('news_detail',array('id'=>$vv['id']))}" target= _blank>{$vv.title}</a></p>
                         <div class="main_img">
                             <img src="{$vv.cover_id|get_cover_url}"/>
                         </div>
