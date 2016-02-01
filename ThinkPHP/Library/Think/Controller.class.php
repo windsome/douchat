@@ -886,7 +886,7 @@ abstract class Controller {
 	}
 	
 	// 获取模型列表数据
-	public function _get_model_list($model = null, $page = 0, $order = 'id desc') {
+	public function _get_model_list($model = null, $page = 0, $order = 'id desc', $map = null) {
 		if (empty ( $model ))
 			return false;
 		
@@ -897,7 +897,16 @@ abstract class Controller {
 		$fields = $list_data ['fields'];
 		
 		// 搜索条件
-		$map = $this->_search_map ( $model, $fields );
+		if ($map) {
+			$tmp_map = $map;
+			$search_map = $this->_search_map ( $model, $fields );
+			$map = array_merge($tmp_map, $search_map);
+		} else {
+			$map = $this->_search_map ( $model, $fields );
+		}
+		
+		
+		// $map['p_type'] = 1;
 		
 		$row = empty ( $model ['list_row'] ) ? 20 : $model ['list_row'];
 		

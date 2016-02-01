@@ -52,18 +52,22 @@ class CascadeAddon extends Plugin {
 			
 			if ($arr ['type'] == 'db') {
 				$table = ! empty ( $arr ['table'] ) ? $arr ['table'] : 'common_category';
+				
 				$value_field = ! empty ( $arr ['value_field'] ) ? $arr ['value_field'] : 'id';
+				$show_field = ! empty ( $arr ['show_field'] ) ? $arr ['show_field'] : 'title';
 				$custom_field = ! empty ( $arr ['custom_field'] ) ? $arr ['custom_field'] : 'id,title,pid,sort';
+				$order = ! empty ( $arr ['order'] ) ? $arr ['order'] : 'pid asc, sort asc';
+				
 				$custom_pid = ! empty ( $arr ['custom_pid'] ) ? $arr ['custom_pid'] : 0;
 				
 				unset ( $arr ['type'], $arr ['table'], $arr ['value_field'], $arr ['custom_field'], $arr ['custom_pid'] );
 // 				dump ( $table );
 				$arr ['token'] = get_token ();
-				$list = M ( $table )->where ( $arr )->field ( $custom_field )->order ( 'pid asc, sort asc' )->select ();
+				$list = M ( $table )->where ( $arr )->field ( $custom_field )->order ( $order )->select ();
 // 				lastsql ();
 // 				dump ( $list );
 // 				exit ();
-				$tree = $this->makeTree ( $list, $custom_pid, $value_field );
+				$tree = $this->makeTree ( $list, $custom_pid, $value_field, $show_field );
 			} else {
 				$tree = $this->str2json ( $arr ['data'] );
 			}
@@ -81,12 +85,12 @@ class CascadeAddon extends Plugin {
 		
 		$this->display ( 'content' );
 	}
-	function makeTree($list, $pid = 0, $value_field = 'id') {
+	function makeTree($list, $pid = 0, $value_field = 'id', $show_field = 'title') {
 		$result = array ();
 		foreach ( $list as $k => $vo ) {
 			if ($vo ['pid'] == $pid) {
 				$data ['a'] = $vo [$value_field];
-				$data ['t'] = $vo ['title'];
+				$data ['t'] = $vo [$show_field];
 				unset ( $list [$k] );
 				$d = $this->makeTree ( $list, $vo ['id'], $value_field );
 				empty ( $d ) || $data ['d'] = $d;
