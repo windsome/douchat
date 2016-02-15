@@ -26,6 +26,13 @@ const ONETHINK_PLUGIN_PATH = './Plugins/'; // 系统插件
  * @return integer 0-未登录，大于0-当前登录用户ID
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
+
+//导出excel编码标题（防止乱码）
+function codeutf8($str)
+{
+	return iconv("utf-8", "gb2312", $str);
+}
+
 function is_login() {
 	$user = session ( 'user_auth' );
 	if (empty ( $user )) {
