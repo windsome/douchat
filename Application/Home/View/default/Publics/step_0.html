@@ -18,17 +18,7 @@
       <!-- 基础文档模型 -->
       <div class="tab-pane in tab1" id="tab1">
         <div class="item_wrap">
-      	 <div class="form-item cf">
-          <label class="item-label"> <span class="need_flag">*</span> 公众号类型 <span class="check-tips"> （请正确选择，公众号类型对应的接口如果没有权限，相关的功能将不显示）</span></label>
-          <div class="controls">
-                <select name="type">
-                   <option value="0" <eq name="info.type" value="0">selected</eq> >普通订阅号</option>
-                   <option value="1" <eq name="info.type" value="1">selected</eq> >微信认证订阅号</option>
-                   <option value="2" <eq name="info.type" value="2">selected</eq> >普通服务号</option>
-                   <option value="3" <eq name="info.type" value="3">selected</eq> >微信认证服务号</option>
-                </select>
-          </div>
-        </div>        
+      	       
       	 <div class="form-item cf toggle-public_name">
           <label class="item-label"> <span class="need_flag">*</span> 公众号名称 <span class="check-tips"> </span></label>
           <div class="controls">
@@ -47,7 +37,18 @@
             <input type="text" value="{$info.public_id}" name="public_id" class="text input-large">
           </div>
         </div>
-           
+        
+        <div class="form-item cf">
+          <label class="item-label"> <span class="need_flag">*</span> 公众号类型 <span class="check-tips"> （请正确选择，公众号类型对应的接口如果没有权限，相关的功能将不显示）</span></label>
+          <div class="controls">
+                <select name="type">
+                   <option value="0" <eq name="info.type" value="0">selected</eq> >普通订阅号</option>
+                   <option value="1" <eq name="info.type" value="1">selected</eq> >微信认证订阅号</option>
+                   <option value="2" <eq name="info.type" value="2">selected</eq> >普通服务号</option>
+                   <option value="3" <eq name="info.type" value="3">selected</eq> >微信认证服务号</option>
+                </select>
+          </div>
+        </div>  
         
         <php>if(C('DIV_DOMAIN') && SITE_DOMAIN != 'localhost') { $arr = explode ( '.', SITE_DOMAIN ); if(count($arr)>2) { unset($arr[0]); } $new_site_domain = implode ( '.', $arr );</php>   
         <div class="form-item cf toggle-domain">
@@ -56,13 +57,32 @@
             http://<input type="text" value="{$info.domain}" name="domain" class="text input-large" style="width:50px">.{$new_site_domain}
           </div>
         </div>
-        <php> } </php>           
-        </div>     
+        <php> } </php>             
+
+        <div class="form-item cf toggle-appid">
+          <label class="item-label"> AppID <span class="check-tips"> （应用ID） </span></label>
+          <div class="controls">
+            <input type="text" value="{$info.appid}" name="appid" class="text input-large">
+          </div>
+        </div>
+        <div class="form-item cf toggle-secret">
+          <label class="item-label"> AppSecret <span class="check-tips"> （应用密钥） </span></label>
+          <div class="controls">
+            <input type="text" value="{$info.secret}" name="secret" class="text input-large">
+          </div>
+        </div>
+        <div class="form-item cf toggle-encodingaeskey">
+          <label class="item-label"> EncodingAESKey <span class="check-tips"> （安全模式下必填） </span></label>
+          <div class="controls">
+            <input type="text" value="{$info.encodingaeskey}" name="encodingaeskey" class="text input-large">
+          </div>
+        </div>
+
         <div class="form-item cf mt_10 bind_step_form_next_item">
           <input type="hidden" name="id" value="{$id|intval}">
           <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">保存</button>
           <br/>
-          <p style="padding:20px 0;">手动绑定太麻烦？<a href="{:U('auto_bind_0')}" target="_self">点此一键绑定</a></p>
+          <p style="padding:20px 0;">不知道填什么？<a href="http://mp.weixin.qq.com/" target="_blank">登陆微信公众平台</a></p>
         </div>
       </div>
     </form>

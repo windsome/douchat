@@ -1,19 +1,111 @@
 <extend name="Base/common" />
 <block name="body">
+<style>
+  .nav-width{border-bottom:0;}
+  .nav-width li.active{width:20%;text-align:center;overflow:hidden;height:40px;}
+  .nav-width .normal{background:#EEEEEE;width:26.6%;text-align:center;overflow:hidden;height:40px;}
+  .guide em{font-style:normal; color:#d9534f;}
+  .guide .list-group .list-group-item a{color:#07d;}
+  .guide .list-group .list-group-item{padding-top:20px;}
+  .guide .img{margin-bottom:15px; display:inline-block; border:1px solid #cccccc;padding:3px;}
+  .guide .con{padding: 10px 30px;}
+
+  .alert-info {
+      color: #31708f;
+      background-color: #d9edf7;
+      border-color: #bce8f1;
+  }
+  .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+  }
+
+  .gw-container .page-header {
+      border: none;
+      border-left: 0.3em #333 solid;
+      padding-left: 1em;
+  }
+
+  .clip{
+    margin: 20px;
+    padding: 10px;
+  }
+
+  .col-sm-2{
+    font-weight: 800;
+    width: 20%;
+    float: left;
+  }
+
+  .col-sm-9{
+    width: 80%;
+    float: left;
+  }
+</style>
+
   <div class="wrap">
-    <section id="contents">
+    <section id="contents" class="guide">
       <include file="Addons/_nav" />
       <div class="tab-content bind_step_form"> 
-      		<div class="item_wrap" style="width:600px; padding:90px 0;">
-              <strong>请在公众平台开发者中心里的服务器配置录入以下参数</strong><br/>
-              <p>URL(服务器地址)：<span style="color: #FF0000">
-              <php> if(C('DIV_DOMAIN')) { </php>{:U('home/weixin/index')}<php> }else { </php>{:U('home/weixin/index',array('id'=>$id))}<php> } </php></span><br>
-              Token(令牌)：<span style="color: #F00">{$mp_token}</span><br>
-              EncodingAESKey(消息加解密密钥)：<span style="color: #F00">{$encodingaeskey}</span><br>
-              消息加解密方式： 根据自己的需要选择其中一种
-              </p>
-              <p>&nbsp;</p>
-            </div>
+
+        <div class="panel-body">
+      <h4 class="alert alert-info">您绑定的微信公众号：<em>{$mpInfo.public_name}</em>，请按照下列引导完成配置。或者点此：<a href="{:U('auto_bind_interface', array('mp_id'=>$mpInfo['id']))}" class="btn btn-danger" style="color:#fff;background:#d9534f">一键接入</a></h4>
+      <div class="list-group">
+                <div class="list-group-item">
+          <h5 class="page-header">登录 <a href="https://mp.weixin.qq.com/" target="_blank">微信公众平台</a>，点击左侧菜单最后一项，进入 [ <em>开发者中心</em> ]</h5>
+          <div class="con">
+            <div class="img"><img src="__IMG__/guide-01.png"></div>
+            <p># 如果您未成为开发者，请勾选页面上的同意协议，再点击 [ <em>成为开发者</em> ] 按钮</p>
+          </div>
+        </div>
+        <div class="list-group-item">
+          <h5 class="page-header">在开发者中心，找到［<em> 服务器配置</em> ］栏目下URL和Token设置</h5>
+          <div class="con">
+            <div class="img"><img src="__IMG__/guide-02.png"></div>
+            <p># 将以下链接链接填入对应输入框：</p>
+            <form action="" method="post" class="form-horizontal" role="form">
+              <div class="form-group clip">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label">URL:</label>
+                <div class="col-sm-9 col-xs-12 input-group ">
+                  <p class="form-control-static"><a href="javascript:;" title="点击复制URL"><php> if(C('DIV_DOMAIN')) { </php>{:U('home/weixin/index')}<php> }else { </php>{:U('home/weixin/index',array('id'=>$id))}<php> } </php></a><div class="zclip" id="zclip-ZeroClipboardMovie_1" style="position: absolute; left: 0px; top: 9px; width: 270px; height: 16px; z-index: 99;"></div></p>
+                </div>
+              </div>
+              <div class="form-group clip">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label">Token:</label>
+                <div class="col-sm-9 col-xs-12 input-group">
+                  <p class="form-control-static"> <a href="javascript:;" title="点击复制Token">{$mp_token}</a><div class="zclip" id="zclip-ZeroClipboardMovie_2" style="position: absolute; left: 0px; top: 9px; width: 257px; height: 16px; z-index: 99;"></div></p>
+                </div>
+              </div>
+              <div class="form-group clip">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label">EncodingAESKey:</label>
+                <div class="col-sm-10 input-group">
+                  <p class="form-control-static"> <a href="javascript:;" title="点击复制EncodingAESKey">{$encodingaeskey}</a><div class="zclip" id="zclip-ZeroClipboardMovie_3" style="position: absolute; left: 0px; top: 9px; width: 352px; height: 16px; z-index: 99;"></div></p>
+                </div>
+              </div>
+            </form>
+            <p># 如果以前已填写过URL和Token，请点击[<em> 修改配置 </em>] ，再填写上述链接</p>
+            <p># 请点击 [<em> 启用 </em>] ，以启用服务器配置：</p>
+            <div class="img"><img src="__IMG__/guide-03.png" width="524"></div>
+          </div>
+        </div>
+                <!-- <div class="list-group-item">
+          <h5 class="page-header">
+                        
+              <em>公众号 观音手 正在等待接入……请及时按照以上步骤操作接入公众平台</em>
+                      </h5>
+          <div class="con">
+                          <p># 检查公众平台配置</p>
+              <p># 编辑公众号 <a href="./index.php?c=account&amp;a=post&amp;acid=0&amp;uniacid=8">观音手</a></p>
+              <a href="javascript:window.location.reload();" class="btn btn-success" style="color:#FFF">检测是否接入成功</a>&nbsp;&nbsp;&nbsp;<a href="./index.php?c=account&amp;a=switch&amp;uniacid=8" class="btn btn-primary" style="color:#FFF">暂不接入，先去查看管理功能</a>
+              <a href="./index.php?" class="btn btn-info" style="color:#FFF">返回公众号列表</a>
+                      </div>
+        </div> -->
+      </div>
+    </div>
+
+      	
               <div class="bind_step_form_next_item">
               	<a href="{:U('lists')}" target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn">
                   配置好了

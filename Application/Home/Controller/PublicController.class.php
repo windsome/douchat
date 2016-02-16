@@ -28,7 +28,7 @@ class PublicController extends HomeController {
 		$this->model = M ( 'model' )->getByName ( 'public' );
 		$this->assign ( 'model', $this->model );
 
-		$res['title'] = '公众号管理';
+		$res['title'] = '公众号列表';
 		$res['url'] = U('lists');
 		$res['class'] = 'current';
 		$nav[] = $res;
@@ -287,18 +287,18 @@ class PublicController extends HomeController {
 		// dump($result);
 		// die;
 
-		$res['title'] = '公众号基本信息';
+		$res['title'] = '1.一键获取公众号信息';
 		$res['url'] = U('auto_bind_0',array('id'=>I('id')));
 		$res['class'] = 'current';
 		$nav[] = $res;
 
-		$res['title'] = '高级功能参数';
-		$res['url'] = U('step_1',array('id'=>I('id')));
+		$res['title'] = '2.设置公众号信息';
+		$res['url'] = '';
 		$res['class'] = '';
 		$nav[] = $res;
 
-		$res['title'] = '接口配置';
-		$res['url'] = U('mp_interface',array('id'=>I('id')));
+		$res['title'] = '3.公众号接入配置';
+		$res['url'] = '';
 		$res['class'] = '';
 		$nav[] = $res;
 		$this->assign('nav', $nav);
@@ -324,7 +324,7 @@ class PublicController extends HomeController {
 			$mpInfo = $wechat->getMpInfo();
 
 			if (!$mpInfo['origin_id']) {
-				$this->error ( '一键绑定公众号失败，请手动绑定！' );
+				$this->error ( '一键获取公众号信息失败，请手动设置公众号信息！' );
 				redirect(U('Home/Public/step_0'));
 				exit ();
 			}
@@ -372,7 +372,7 @@ class PublicController extends HomeController {
 			$mp_data['wechat'] = $mpInfo['mp_number'];
 			
 			$mp_data['mp_username'] = $_POST['mp_username'];
-			$mp_data['mp_password'] = md5($_POST['mp_password']);
+			$mp_data['mp_password'] = $_POST['mp_password'];
 			$mp_data['interface_url'] = U('home/weixin/index');
 			$mp_data['type'] = intval($mpInfo['type']);
 
@@ -404,38 +404,40 @@ class PublicController extends HomeController {
 
 					$interface_url = C('DIV_DOMAIN') ? U('home/weixin/index') : U('home/weixin/index',array('id'=>$id));
 					
-					$url = U ( 'auto_bind_1?id=' . $id );
+					$url = U ( 'step_1?id=' . $id );
 
-					$result = $wechat->bind(U('home/weixin/index',array('id'=>$id)), $mp_data['mp_token']);
-					if ($result) {
-						$this->success ( '一键绑定公众号成功！', $url );
-					} else {
-						$this->success ( '绑定公众号成功，请到微信公众号后台开发者中心进行接口配置！', $url );
-					}
+					// $result = $wechat->bind(U('home/weixin/index',array('id'=>$id)), $mp_data['mp_token']);
+					// if ($result) {
+					// 	$this->success ( '一键绑定公众号成功！', $url );
+					// } else {
+					// 	$this->success ( '绑定公众号成功，请到微信公众号后台开发者中心进行3.公众号接入配置！', $url );
+					// }
 					
-					
+					$this->success ( '一键获取公众号信息成功！', $url );
 				} else {
 					$this->error ( $Model->getError () );
 				}
 			} else {
 				
-				$url = U ( 'auto_bind_1?id=' . $mp_info['id'] );
+				$url = U ( 'step_1?id=' . $mp_info['id'] );
 				$Model->create () && $res = $Model->where(array('public_id'=>$mpInfo['origin_id']))->save ($mp_data);
 				
 				$result = $wechat->bind(U('home/weixin/index',array('id'=>$mp_info['id'])), $mp_info['mp_token']);
 					
 				if ($res) {
-					if ($result) {
-						$this->success ( '一键绑定公众号成功！', $url );
-					} else {
-						$this->success ( '绑定公众号成功，请到微信公众号后台开发者中心进行接口配置！', $url );
-					}
+					// if ($result) {
+					// 	$this->success ( '一键绑定公众号成功！', $url );
+					// } else {
+					// 	$this->success ( '绑定公众号成功，请到微信公众号后台开发者中心进行3.公众号接入配置！', $url );
+					// }
+					$this->success ( '一键获取公众号信息成功！', $url );
 				} elseif ($res === 0) {
-					if ($result) {
-						$this->success ( '一键绑定公众号成功！', $url );
-					} else {
-						$this->success ( '绑定公众号成功，请到微信公众号后台开发者中心进行接口配置！', $url );
-					}
+					// if ($result) {
+					// 	$this->success ( '一键绑定公众号成功！', $url );
+					// } else {
+					// 	$this->success ( '绑定公众号成功，请到微信公众号后台开发者中心进行3.公众号接入配置！', $url );
+					// }
+					$this->success ( '一键获取公众号信息成功！', $url );
 				} else {
 					$this->error ( $Model->getError () );
 				}
@@ -472,7 +474,7 @@ class PublicController extends HomeController {
 		$res['class'] = 'current';
 		$nav[] = $res;
 
-		$res['title'] = '接口配置';
+		$res['title'] = '3.公众号接入配置';
 		$res['url'] = U('mp_interface',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
@@ -530,17 +532,17 @@ class PublicController extends HomeController {
 		// $wechat = new TPWechatLogin('idouly@163.com','idouly123');
 		// $wechat->setImgPath('./Uploads/Picture/WechatLogin');
 		// $wechat->getMpInfo();
-		$res['title'] = '公众号基本信息';
-		$res['url'] = U('step_0',array('id'=>I('id')));
-		$res['class'] = 'current';
-		$nav[] = $res;
-
-		$res['title'] = '高级功能参数';
-		$res['url'] = U('step_1',array('id'=>I('id')));
+		$res['title'] = '1.一键获取公众号信息';
+		$res['url'] = U('auto_bind_0',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
 
-		$res['title'] = '接口配置';
+		$res['title'] = '2.设置公众号信息';
+		$res['url'] = U('step_1',array('id'=>I('id')));
+		$res['class'] = 'current';
+		$nav[] = $res;
+
+		$res['title'] = '3.公众号接入配置';
 		$res['url'] = U('mp_interface',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
@@ -657,17 +659,17 @@ class PublicController extends HomeController {
 		}
 	}
 	function step_1() {
-		$res['title'] = '公众号基本信息';
-		$res['url'] = U('step_0',array('id'=>I('id')));
+		$res['title'] = '1.一键获取公众号信息';
+		$res['url'] = U('auto_bind_0',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
 
-		$res['title'] = '高级功能参数';
+		$res['title'] = '2.设置公众号信息';
 		$res['url'] = U('step_1',array('id'=>I('id')));
 		$res['class'] = 'current';
 		$nav[] = $res;
 
-		$res['title'] = '接口配置';
+		$res['title'] = '3.公众号接入配置';
 		$res['url'] = U('mp_interface',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
@@ -839,7 +841,7 @@ class PublicController extends HomeController {
 		}
 	}
 
-	// 接口配置
+	// 3.公众号接入配置
 	function mp_interface() {
 
 		$model = $this->model;
@@ -851,17 +853,17 @@ class PublicController extends HomeController {
 			$this->error ( '请先新增或选择公众号' );
 		}
 
-		$res['title'] = '公众号基本信息';
-		$res['url'] = U('step_0',array('id'=>I('id')));
+		$res['title'] = '1.一键获取公众号信息';
+		$res['url'] = U('auto_bind_0',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
 
-		$res['title'] = '高级功能参数';
+		$res['title'] = '2.设置公众号信息';
 		$res['url'] = U('step_1',array('id'=>I('id')));
 		$res['class'] = '';
 		$nav[] = $res;
 
-		$res['title'] = '接口配置';
+		$res['title'] = '3.公众号接入配置';
 		$res['url'] = U('mp_interface',array('id'=>I('id')));
 		$res['class'] = 'current';
 		$nav[] = $res;
@@ -869,8 +871,32 @@ class PublicController extends HomeController {
 
 		$mpInfo = M('public')->where(array('id'=>I('id')))->find();
 		$this->assign('id', $mpInfo['id']);
+		$this->assign('mpInfo', $mpInfo);
 		$this->assign('mp_token', $mpInfo['mp_token']);
 		$this->assign('encodingaeskey', $mpInfo['encodingaeskey']);
 		$this->display('Publics/interface');
+	}
+
+	/**
+	 * 一键接入
+	 * @author 艾逗笔<765532665@qq.com>
+	 */
+	function auto_bind_interface() {
+		$mpInfo = M('public')->where(array('id'=>I('mp_id')))->find();
+		if (!$mpInfo) {
+			$this->error("公众号参数为空，接入失败");
+		}
+
+		$wechat = new TPWechatLogin($mpInfo['mp_username'], $mpInfo['mp_password']);
+		$result = $wechat->bind(U('home/weixin/index',array('id'=>$mpInfo['id'])), $mpInfo['mp_token']);
+		// dump($result);
+		// dump($mpInfo);
+		// die;		
+		if ($result) {
+			$this->success ( '一键接入公众号成功！', U('lists') );
+		} else {
+			$this->error ( '一键接入公众号失败，请按照引导步骤手动接入' );
+		}
+	
 	}
 }
