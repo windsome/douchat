@@ -16,8 +16,8 @@ return array(
         'DB_TYPE'   => 'mysql', // 数据库类型
         'DB_HOST'   => '127.0.0.1', // 服务器地址
         'DB_NAME'   => 'douchat', // 数据库名
-        'DB_USER'   => 'root', // 用户名
-        'DB_PWD'    => '',  // 密码
+        'DB_USER'   => 'idouly', // 用户名
+        'DB_PWD'    => 'idoulytest',  // 密码
         'DB_PORT'   => '3306', // 端口
         'DB_PREFIX' => 'dc_', // 数据库表前缀
 		'DB_PARAMS' => array (
@@ -25,7 +25,7 @@ return array(
 		),
 		
 		// 系统数据加密设置
-		'DATA_AUTH_KEY' => 'E"]mZ}(!<~vY.)$z67#/4Nl20%FdKsVLk*fuS5p&', // 默认数据加密KEY
+		'DATA_AUTH_KEY' => 'ZFbJTp1d/sthj,@$M&r#eY:?K>N{q!}C72zP9E=c', // 默认数据加密KEY
 		                                                               
 		// 调试配置
 		'SHOW_PAGE_TRACE' => false,

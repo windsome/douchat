@@ -1,23 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1
+-- version 4.4.15.1
 -- http://www.phpmyadmin.net
 --
--- 主机: localhost
--- 生成日期: 2016 年 01 月 21 日 03:36
--- 服务器版本: 5.5.20
--- PHP 版本: 5.3.10
+-- Host: localhost
+-- Generation Time: 2016-02-17 18:46:15
+-- 服务器版本： 5.6.27-log
+-- PHP Version: 5.5.30
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- 数据库: `douchat`
+-- Database: `douchat`
 --
 
 -- --------------------------------------------------------
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `dc_action` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(11) unsigned NOT NULL COMMENT '主键',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '行为唯一标识',
   `title` char(80) NOT NULL DEFAULT '' COMMENT '行为说明',
   `remark` char(140) NOT NULL DEFAULT '' COMMENT '行为描述',
@@ -35,9 +35,8 @@ CREATE TABLE IF NOT EXISTS `dc_action` (
   `log` text COMMENT '日志规则',
   `type` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统行为表' AUTO_INCREMENT=13 ;
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间'
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='系统行为表';
 
 --
 -- 转存表中的数据 `dc_action`
@@ -64,7 +63,7 @@ INSERT INTO `dc_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `type`,
 --
 
 CREATE TABLE IF NOT EXISTS `dc_action_log` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '行为id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行用户id',
   `action_ip` bigint(20) NOT NULL COMMENT '执行行为者ip',
@@ -72,22 +71,8 @@ CREATE TABLE IF NOT EXISTS `dc_action_log` (
   `record_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '触发行为的数据id',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '日志备注',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行行为的时间',
-  PRIMARY KEY (`id`),
-  KEY `action_ip_ix` (`action_ip`),
-  KEY `action_id_ix` (`action_id`),
-  KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='行为日志表' AUTO_INCREMENT=5 ;
-
---
--- 转存表中的数据 `dc_action_log`
---
-
-INSERT INTO `dc_action_log` (`id`, `action_id`, `user_id`, `action_ip`, `model`, `record_id`, `remark`, `status`, `create_time`) VALUES
-(1, 12, 1, 0, 'user', 1, 'admin在2015-12-18 22:54登录了后台', 1, 1450450499),
-(2, 12, 1, 0, 'user', 1, 'admin在2016-01-10 17:11登录了后台', 1, 1452417078),
-(3, 8, 1, 0, 'attribute', 12362, '操作url：/douchat_beta/index.php?s=/Admin/Attribute/update.html', 1, 1452417198),
-(4, 12, 1, 0, 'user', 1, 'Array在2016-01-11 09:53登录了后台', 1, 1452477231);
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行行为的时间'
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='行为日志表';
 
 -- --------------------------------------------------------
 
@@ -96,7 +81,7 @@ INSERT INTO `dc_action_log` (`id`, `action_id`, `user_id`, `action_ip`, `model`,
 --
 
 CREATE TABLE IF NOT EXISTS `dc_addons` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(40) NOT NULL COMMENT '插件名或标识',
   `title` varchar(20) NOT NULL DEFAULT '' COMMENT '中文名',
   `description` text COMMENT '插件描述',
@@ -108,36 +93,23 @@ CREATE TABLE IF NOT EXISTS `dc_addons` (
   `has_adminlist` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否有后台列表',
   `type` tinyint(1) DEFAULT '0' COMMENT '插件类型 0 普通插件 1 微信插件 2 易信插件',
   `cate_id` int(11) DEFAULT NULL,
-  `is_show` tinyint(2) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `sti` (`status`,`is_show`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信插件表' AUTO_INCREMENT=219 ;
+  `is_show` tinyint(2) DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=229 DEFAULT CHARSET=utf8 COMMENT='微信插件表';
 
 --
 -- 转存表中的数据 `dc_addons`
 --
 
 INSERT INTO `dc_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`, `type`, `cate_id`, `is_show`) VALUES
-(198, 'WeiSite', '微官网', '微3G网站、支持分类管理，文章管理、底部导航管理、微信引导信息配置，微网站统计代码部署。同时支持首页多模板切换、信息列表多模板切换、信息详情模板切换、底部导航多模板切换。并配置有详细的模板二次开发教程', 1, '{"title":"\\u70b9\\u51fb\\u8fdb\\u5165\\u9996\\u9875","cover":"","info":"","background":"","code":"","template_index":"ColorV1","template_footer":"V1","template_lists":"V1","template_detail":"V1"}', '艾逗笔', '1.0', 1450450573, 0, 0, 3, 1),
-(199, 'AutoReply', '自动回复', '实现配置关键词，用户回复此关键词后自动回复对应的文件，图文，图片信息', 1, 'null', '艾逗笔', '1.0', 1450450576, 1, 0, 1, 1),
-(218, 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', 1, 'null', '艾逗笔', '1.0', 1453347048, 1, 0, 1, 1),
-(201, 'YouaskService', '多客服', '一个支持指定客服，未识别回复，智能聊天(图灵机器人)的微信客服系统', 1, '{"state":"0","zrg":"\\u4eba\\u5de5\\u5ba2\\u670d","kfbz":"\\u60a8\\u597d\\uff0c\\u5ba2\\u670d\\u5de5\\u4f5c\\u65f6\\u95f4\\uff1a\\u5468\\u4e00\\u81f3\\u5468\\u4e948:00-17:00","zdkfbz":"\\u60a8\\u597d\\uff0c\\u60a8\\u6307\\u5b9a\\u7684\\u5ba2\\u670d\\u6682\\u65f6\\u4e0d\\u5728\\u7ebf\\uff0c\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u5ba2\\u670d,\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868\\uff0c\\u8bf7\\u56de\\u590d\\u201c\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u201d","model":"1","model2":"2","model3":"0","tcrg":"\\u9000\\u51fa\\u4eba\\u5de5\\u5ba2\\u670d","type":"1","title":"","description":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5173\\u95ed\\uff01\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u65b9\\u5f0f\\u8ddf\\u6211\\u4eec\\u8054\\u7cfb\\uff01","pic_url":"","url":"","type2":"1","title2":"","description2":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5f00\\u542f\\uff0c\\u6709\\u4ec0\\u4e48\\u95ee\\u9898\\u53ef\\u8f6c\\u4eba\\u5de5\\u5ba2\\u670d\\u3002\\u8f93\\u5165\\u76f8\\u5173\\u7684\\u5173\\u952e\\u8bcd\\u6307\\u5b9a\\u76f8\\u5173\\u5ba2\\u670d\\uff01","pic_url2":"","url2":"","cxkey":"\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d","type3":"1","title3":"\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868","pic_url3":"","description_head":"\\u5ba2\\u670d\\u5217\\u8868\\u9876\\u90e8\\u5185\\u5bb9\\u533a","description_foot":"\\u5ba2\\u670d\\u5217\\u8868\\u5e95\\u90e8\\u5185\\u5bb9\\u533a","tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api"}', '梦醒', '0.1', 1451825104, 1, 0, 2, 1),
-(202, 'Tmplmsg', '模板消息', '通用的模板消息发送插件', 1, 'null', '艾逗笔', '1.0', 1451825112, 1, 0, 2, 1),
-(204, 'SceneQrcode', '场景二维码', '设置不同的场景生成对应的二维码，用于营销推广、用户绑定、数据统计等场景。', 1, 'null', '艾逗笔', '1.0', 1451825121, 1, 0, 2, 1),
-(205, 'UserCenter', '微信用户中心', '实现3G首页、微信登录，微信用户绑定，微信用户信息初始化等基本功能', 1, '{"score":"100","experience":"100","need_bind":"0","bind_start":"0","jumpurl":""}', '凡星', '0.1', 1451825125, 1, 0, NULL, 1),
-(206, 'Shop', '微商城', '支持后台发布商品 banner管理 前端多模板选择 订单管理等', 1, 'null', '艾逗笔', '1.0', 1451825141, 1, 0, 5, 1),
-(207, 'Example', '功能演示', '对豆信框架的功能进行演示', 1, '{"random":"1"}', '艾逗笔', '1.0', 1451825144, 0, 0, 4, 1),
-(208, 'Donations', '微捐赠', '在线捐赠功能，用户可以在微信端捐赠', 1, '{"title":"\\u6350\\u8d60\\u6211\\u4eec","cover":"","desc":"\\u60a8\\u7684\\u652f\\u6301\\uff0c\\u662f\\u6211\\u4eec\\u524d\\u8fdb\\u7684\\u52a8\\u529b"}', '洛杉矶豪哥', '1.0', 1451825173, 0, 0, 4, 1),
-(209, 'Extensions', '融合第三方', '第三方功能扩展', 1, 'null', '凡星', '0.1', 1451825178, 1, 0, 4, 1),
-(210, 'Forms', '通用表单', '管理员可以轻松地增加一个表单用于收集用户的信息，如活动报名、调查反馈、预约填单等', 1, 'null', '凡星', '0.1', 1451825181, 1, 0, 4, 1),
-(211, 'Dg', '在线点歌', '使用百度音乐api实现微信端在线点歌功能', 1, '{"keyword":"\\u70b9\\u6b4c"}', '艾逗笔', '1.0', 1451825183, 0, 0, 4, 1),
-(212, 'Suggestions', '意见反馈', '用户在微信里输入“意见反馈”四个字时，返回一个图文信息，引导用户进入填写建议意见的3G页面，用户填写信息提交后显示感谢之意并提示关闭页面返回微信\r\n管理员可以在管理中心里看到用户反馈的内容列表，并对内容进行编辑，删除操作', 1, '{"title":"\\u610f\\u89c1\\u53cd\\u9988","cover":"","desc":"\\u70b9\\u6b64\\u8fdb\\u5165","need_nickname":"1","need_mobile":"1","admin_id":""}', '艾逗笔', '1.0', 1451825186, 0, 0, 4, 1),
-(213, 'Leaflets', '微信宣传页', '微信公众号二维码推广页面，用作推广或者制作广告易拉宝，可以发布到QQ群微博博客论坛等等...', 1, '{"title":"\\u8c46\\u4fe1\\u5b98\\u65b9\\u5fae\\u4fe1\\u516c\\u4f17\\u53f7","img":"","info":"\\u8c46\\u4fe1\\u662f\\u4e00\\u4e2a\\u4f18\\u96c5\\u7684\\u5fae\\u4fe1\\u516c\\u4f17\\u53f7\\u5f00\\u53d1\\u6846\\u67b6\\uff0c\\u4ea7\\u54c1\\u7406\\u5ff5\\u662f\\u201c\\u9ad8\\u5ea6\\u5c01\\u88c5\\u3001\\u7075\\u6d3b\\u8c03\\u7528\\u201d","copyright":"\\u00a92015 \\u8c46\\u4fe1\\u7248\\u6743\\u6240\\u6709"}', '凡星', '1.0', 1451825189, 0, 0, 4, 1),
-(214, 'AddressManage', '地址管理', '通用地址管理插件', 1, 'null', '艾逗笔', '1.0', 1452417210, 1, 0, 2, 1),
-(215, 'Payment', '支付通', '微信支付,财富通,支付宝', 1, '{"isopen":"1","isopenload":"1","isopenwx":"1"}', '拉帮姐派(陌路生人)', '0.1', 1452417237, 1, 0, 2, 1),
-(216, 'Idioms', '成语接龙', 'weiphp成语接龙插件，当用户在微信中回复“成语接龙”时开始成语接龙游戏', 1, 'null', '艾逗笔', '1.0', 1452417267, 0, 0, 4, 1),
-(217, 'Tuling', '图灵机器人', '使用图灵机器人接口实现微信端智能聊天，支持语音识别', 1, '{"tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api","rand_reply":"\\r\\n\\u6211\\u4eca\\u5929\\u7d2f\\u4e86\\uff0c\\u660e\\u5929\\u518d\\u966a\\u4f60\\u804a\\u5929\\u5427\\r\\n\\u54c8\\u54c8~~\\r\\n\\u4f60\\u8bdd\\u597d\\u591a\\u554a\\uff0c\\u4e0d\\u8ddf\\u4f60\\u804a\\u4e86\\r\\n\\u867d\\u7136\\u4e0d\\u61c2\\uff0c\\u4f46\\u89c9\\u5f97\\u4f60\\u8bf4\\u5f97\\u5f88\\u5bf9"}', '艾逗笔', '2.0', 1452477316, 0, 0, 4, 1);
+(223, 'Payment', '支付设置', '微信支付,财富通,支付宝', 1, '{"isopen":"1","isopenload":"1","isopenwx":"1"}', '艾逗笔', '0.1', 1455705718, 1, 0, 1, 1),
+(224, 'UserCenter', '用户管理', '实现3G首页、微信登录，微信用户绑定，微信用户信息初始化等基本功能', 1, '{"score":"100","experience":"100","need_bind":"0","bind_start":"0","jumpurl":""}', '艾逗笔', '0.1', 1455705730, 1, 0, 1, 1),
+(225, 'AddressManage', '地址管理', '通用地址管理插件', 1, 'null', '艾逗笔', '0.1', 1455705745, 1, 0, 1, 1),
+(226, 'SceneQrcode', '二维码管理', '设置不同的场景生成对应的二维码，用于营销推广、用户绑定、数据统计等场景。', 1, 'null', '艾逗笔', '0.1', 1455705756, 1, 0, 1, 1),
+(227, 'WeiSite', '微网站', '微3G网站、支持分类管理，文章管理、底部导航管理、微信引导信息配置，微网站统计代码部署。同时支持首页多模板切换、信息列表多模板切换、信息详情模板切换、底部导航多模板切换。并配置有详细的模板二次开发教程', 1, '{"title":"\\u70b9\\u51fb\\u8fdb\\u5165\\u9996\\u9875","cover":"","info":"","background":"","code":"","template_index":"ColorV1","template_footer":"V1","template_lists":"V1","template_detail":"V1"}', '艾逗笔', '0.1', 1455705765, 0, 0, 1, 1),
+(228, 'Example', '功能演示', '对豆信框架的功能进行演示', 1, '{"random":"1"}', '艾逗笔', '0.1', 1455705774, 0, 0, 2, 1),
+(220, 'AutoReply', '自动回复', '实现配置关键词，用户回复此关键词后自动回复对应的文件，图文，图片信息', 1, 'null', '艾逗笔', '0.1', 1455705608, 1, 0, 1, 1),
+(221, 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', 1, 'null', '艾逗笔', '0.1', 1455705621, 1, 0, 1, 1),
+(222, 'YouaskService', '多客服', '微信多客服管理，智能化控制', 1, '{"state":"0","zrg":"\\u4eba\\u5de5\\u5ba2\\u670d","kfbz":"\\u60a8\\u597d\\uff0c\\u5ba2\\u670d\\u5de5\\u4f5c\\u65f6\\u95f4\\uff1a\\u5468\\u4e00\\u81f3\\u5468\\u4e948:00-17:00","zdkfbz":"\\u60a8\\u597d\\uff0c\\u60a8\\u6307\\u5b9a\\u7684\\u5ba2\\u670d\\u6682\\u65f6\\u4e0d\\u5728\\u7ebf\\uff0c\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u5ba2\\u670d,\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868\\uff0c\\u8bf7\\u56de\\u590d\\u201c\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u201d","model":"1","model2":"2","model3":"0","tcrg":"\\u9000\\u51fa\\u4eba\\u5de5\\u5ba2\\u670d","type":"1","title":"","description":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5173\\u95ed\\uff01\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u65b9\\u5f0f\\u8ddf\\u6211\\u4eec\\u8054\\u7cfb\\uff01","pic_url":"","url":"","type2":"1","title2":"","description2":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5f00\\u542f\\uff0c\\u6709\\u4ec0\\u4e48\\u95ee\\u9898\\u53ef\\u8f6c\\u4eba\\u5de5\\u5ba2\\u670d\\u3002\\u8f93\\u5165\\u76f8\\u5173\\u7684\\u5173\\u952e\\u8bcd\\u6307\\u5b9a\\u76f8\\u5173\\u5ba2\\u670d\\uff01","pic_url2":"","url2":"","cxkey":"\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d","type3":"1","title3":"\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868","pic_url3":"","description_head":"\\u5ba2\\u670d\\u5217\\u8868\\u9876\\u90e8\\u5185\\u5bb9\\u533a","description_foot":"\\u5ba2\\u670d\\u5217\\u8868\\u5e95\\u90e8\\u5185\\u5bb9\\u533a","tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api"}', '艾逗笔', '0.1', 1455705661, 1, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -146,23 +118,19 @@ INSERT INTO `dc_addons` (`id`, `name`, `title`, `description`, `status`, `config
 --
 
 CREATE TABLE IF NOT EXISTS `dc_addon_category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `icon` int(10) unsigned DEFAULT NULL COMMENT '分类图标',
   `title` varchar(255) DEFAULT NULL COMMENT '分类名',
-  `sort` int(10) DEFAULT '0' COMMENT '排序号',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件分类表' AUTO_INCREMENT=10 ;
+  `sort` int(10) DEFAULT '0' COMMENT '排序号'
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='插件分类表';
 
 --
 -- 转存表中的数据 `dc_addon_category`
 --
 
 INSERT INTO `dc_addon_category` (`id`, `icon`, `title`, `sort`) VALUES
-(1, 0, '基础功能', 1),
-(2, 0, '通用功能', 2),
-(3, 0, '高级功能', 3),
-(4, 0, '扩展功能', 4),
-(5, 0, '解决方案', 5);
+(1, 0, '核心功能', 1),
+(2, 0, '扩展功能', 2);
 
 -- --------------------------------------------------------
 
@@ -171,7 +139,7 @@ INSERT INTO `dc_addon_category` (`id`, `icon`, `title`, `sort`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `dc_address` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `token` varchar(255) NOT NULL COMMENT '公众号token',
   `openid` varchar(255) NOT NULL COMMENT '微信用户id',
   `name` varchar(255) NOT NULL COMMENT '姓名',
@@ -183,9 +151,8 @@ CREATE TABLE IF NOT EXISTS `dc_address` (
   `city` varchar(255) NOT NULL COMMENT '城市',
   `area` varchar(255) NOT NULL COMMENT '地区',
   `is_default` int(10) NOT NULL DEFAULT '0' COMMENT '是否默认',
-  `postcode` varchar(255) DEFAULT NULL COMMENT '邮政编码',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `postcode` varchar(255) DEFAULT NULL COMMENT '邮政编码'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -194,15 +161,14 @@ CREATE TABLE IF NOT EXISTS `dc_address` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_analysis` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `sports_id` int(10) DEFAULT NULL COMMENT 'sports_id',
   `type` varchar(30) DEFAULT NULL COMMENT 'type',
   `time` varchar(50) DEFAULT NULL COMMENT 'time',
   `total_count` int(10) DEFAULT '0' COMMENT 'total_count',
   `follow_count` int(10) DEFAULT '0' COMMENT 'follow_count',
-  `aver_count` int(10) DEFAULT '0' COMMENT 'aver_count',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `aver_count` int(10) DEFAULT '0' COMMENT 'aver_count'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -211,11 +177,10 @@ CREATE TABLE IF NOT EXISTS `dc_analysis` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_article_style` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `group_id` int(10) DEFAULT '0' COMMENT '分组样式',
-  `style` text COMMENT '样式内容',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  `style` text COMMENT '样式内容'
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `dc_article_style`
@@ -238,11 +203,10 @@ INSERT INTO `dc_article_style` (`id`, `group_id`, `style`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `dc_article_style_group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `group_name` varchar(255) DEFAULT NULL COMMENT '分组名称',
-  `desc` text COMMENT '说明',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+  `desc` text COMMENT '说明'
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `dc_article_style_group`
@@ -264,7 +228,7 @@ INSERT INTO `dc_article_style_group` (`id`, `group_name`, `desc`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `dc_attachment` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `uid` int(10) DEFAULT '0' COMMENT '用户ID',
   `title` char(30) NOT NULL DEFAULT '' COMMENT '附件显示名',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '附件类型',
@@ -276,10 +240,8 @@ CREATE TABLE IF NOT EXISTS `dc_attachment` (
   `sort` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
-  PRIMARY KEY (`id`),
-  KEY `idx_record_status` (`record_id`,`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='附件表' AUTO_INCREMENT=1 ;
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='附件表';
 
 -- --------------------------------------------------------
 
@@ -288,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `dc_attachment` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_attribute` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '字段名',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '字段注释',
   `field` varchar(100) NOT NULL DEFAULT '' COMMENT '字段定义',
@@ -308,10 +270,8 @@ CREATE TABLE IF NOT EXISTS `dc_attribute` (
   `validate_type` varchar(25) NOT NULL DEFAULT '',
   `auto_rule` varchar(100) NOT NULL DEFAULT '',
   `auto_time` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `auto_type` varchar(25) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `model_id` (`model_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='模型属性表' AUTO_INCREMENT=12430 ;
+  `auto_type` varchar(25) NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=12608 DEFAULT CHARSET=utf8 COMMENT='模型属性表';
 
 --
 -- 转存表中的数据 `dc_attribute`
@@ -392,7 +352,9 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (76, 'headface_url', '公众号头像', 'varchar(255) NULL', 'picture', '', '', 1, '', 6, 0, 1, 1429847363, 1391576300, '', 3, '', 'regex', '', 3, 'function'),
 (77, 'area', '地区', 'varchar(50) NULL', 'string', '', '', 0, '', 6, 0, 1, 1392946934, 1391576435, '', 3, '', 'regex', '', 3, 'function'),
 (78, 'addon_config', '插件配置', 'text NULL', 'textarea', '', '', 0, '', 6, 0, 1, 1391576537, 1391576537, '', 3, '', 'regex', '', 3, 'function'),
-(79, 'addon_status', '插件状态', 'text NULL', 'textarea', '', '', 0, '198:微官网\r\n199:自动回复\r\n218:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 6, 0, 1, 1391576571, 1391576571, '', 3, '', 'regex', '', 3, 'function'),
+(79, 'addon_status', '插件状态', 'text NULL', 'textarea', '', '', 0, '223:支付设置\r\n224:用户管理\r\n225:地址管理\r\n226:二维码管理\r\n227:微网站\r\n228:功能演示\r\n220:自动回复\r\n221:自定义菜单\r\n222:多客服\r\n', 6, 0, 1, 1391576571, 1391576571, '', 3, '', 'regex', '', 3, 'function'),
+(12471, 'sort', '排序号', 'tinyint(4) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1273, 0, 1, 1394523288, 1394519175, '', 3, '', 'regex', '', 3, 'function'),
+(12472, 'pid', '一级菜单', 'int(10) NULL', 'select', '0', '如果是一级菜单，选择“无”即可', 1, '0:无', 1273, 0, 1, 1416810279, 1394518930, '', 3, '', 'regex', '', 3, 'function'),
 (12114, 'qrcode_url', '二维码地址', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448957495, 1448957495, '', 3, '', 'regex', '', 3, 'function'),
 (80, 'type', '公众号类型', 'char(10) NULL', 'radio', '0', '', 1, '0:普通订阅号\r\n1:认证订阅号/普通服务号\r\n2:认证服务号', 6, 0, 1, 1416904702, 1393718575, '', 3, '', 'regex', '', 3, 'function'),
 (81, 'appid', 'AppID', 'varchar(255) NULL', 'string', '', '应用ID', 1, '', 6, 0, 1, 1416904750, 1393718735, '', 3, '', 'regex', '', 3, 'function'),
@@ -407,12 +369,16 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (90, 'public_copy_right', '版权信息', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1431141576, 1431141576, '', 3, '', 'regex', '', 3, 'function'),
 (91, 'domain', '自定义域名', 'varchar(30) NULL', 'string', '', '', 0, '', 6, 0, 1, 1439698931, 1439698931, '', 3, '', 'regex', '', 3, 'function'),
 (92, 'title', '等级名', 'varchar(50) NULL', 'string', '', '', 1, '', 7, 0, 1, 1393724854, 1393724854, '', 3, '', 'regex', '', 3, 'function'),
-(93, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n218:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 7, 0, 1, 1393731903, 1393725072, '', 3, '', 'regex', '', 3, 'function'),
+(93, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '223:支付设置\r\n224:用户管理\r\n225:地址管理\r\n226:二维码管理\r\n227:微网站\r\n228:功能演示\r\n220:自动回复\r\n221:自定义菜单\r\n222:多客服\r\n', 7, 0, 1, 1393731903, 1393725072, '', 3, '', 'regex', '', 3, 'function'),
+(12461, 'msg_type', '消息类型', 'char(50) NULL', 'select', 'text', '', 0, 'text:文本|content@show,group_id@hide,image_id@hide\r\nnews:图文|content@hide,group_id@show,image_id@hide\r\nimage:图片|content@hide,group_id@hide,image_id@show', 1272, 1, 1, 1439204529, 1439194979, '', 3, '', 'regex', '', 3, 'function'),
+(12488, 'country', '国家信息', 'varchar(255) NULL', 'string', '', '国家信息', 1, '', 1274, 0, 1, 1453099469, 1453099469, '', 3, '', 'regex', '', 3, 'function'),
 (12113, 'mp_token', '公众号接入验证Token', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956397, 1448956397, '', 3, '', 'regex', '', 3, 'function'),
 (94, 'uid', '管理员UID', 'int(10) NULL ', 'admin', '', '', 1, '', 8, 1, 1, 1447215599, 1398933236, '', 3, '', 'regex', '', 3, 'function'),
 (95, 'mp_id', '公众号ID', 'int(10) unsigned NOT NULL ', 'num', '', '', 4, '', 8, 1, 1, 1398933300, 1398933300, '', 3, '', 'regex', '', 3, 'function'),
 (96, 'is_creator', '是否为创建者', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:不是\r\n1:是', 8, 0, 1, 1398933380, 1398933380, '', 3, '', 'regex', '', 3, 'function'),
-(97, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '198:微官网\r\n199:自动回复\r\n218:自定义菜单\r\n201:多客服\r\n202:模板消息\r\n204:场景二维码\r\n205:微信用户中心\r\n206:微商城\r\n207:功能演示\r\n208:微捐赠\r\n209:融合第三方\r\n210:通用表单\r\n211:在线点歌\r\n212:意见反馈\r\n213:微信宣传页\r\n214:地址管理\r\n215:支付通\r\n216:成语接龙\r\n217:图灵机器人\r\n', 8, 0, 1, 1398933475, 1398933475, '', 3, '', 'regex', '', 3, 'function'),
+(97, 'addon_status', '插件权限', 'text NULL', 'checkbox', '', '', 1, '223:支付设置\r\n224:用户管理\r\n225:地址管理\r\n226:二维码管理\r\n227:微网站\r\n228:功能演示\r\n220:自动回复\r\n221:自定义菜单\r\n222:多客服\r\n', 8, 0, 1, 1398933475, 1398933475, '', 3, '', 'regex', '', 3, 'function'),
+(12460, 'keyword', '关键词', 'varchar(255) NULL', 'string', '', '多个关键词可以用空格分开，如“高富帅 白富美”', 1, '', 1272, 1, 1, 1439194858, 1439194849, '', 3, '', 'regex', '', 3, 'function'),
+(12473, 'title', '菜单名', 'varchar(50) NOT NULL', 'string', '', '可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。', 1, '', 1273, 1, 1, 1408951570, 1394518988, '', 3, '', 'regex', '', 3, 'function'),
 (12111, 'mp_username', '公众号登陆用户名', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956330, 1448956330, '', 3, '', 'regex', '', 3, 'function'),
 (12112, 'mp_password', '公众号登陆密码', 'varchar(255) NULL', 'string', '', '', 1, '', 6, 0, 1, 1448956378, 1448956378, '', 3, '', 'regex', '', 3, 'function'),
 (98, 'is_use', '是否为当前管理的公众号', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:不是\r\n1:是', 8, 0, 1, 1398996982, 1398996975, '', 3, '', 'regex', '', 3, 'function'),
@@ -619,8 +585,7 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (1341, 'type', '类型', 'int(10) NULL', 'num', '', '', 0, '1:语音素材\r\n2:视频素材', 31, 0, 1, 1445599238, 1443006101, '', 3, '', 'regex', '', 3, 'function'),
 (1838, 'introduction', '描述', 'text NULL', 'textarea', '', '', 0, '', 31, 0, 1, 1447299133, 1445684769, '', 3, '', 'regex', '', 3, 'function'),
 (1121, 'level', '管理等级', 'tinyint(2) NULL', 'num', '0', '', 0, '', 1, 0, 1, 1441522953, 1441522953, '', 3, '', 'regex', '', 3, 'function'),
-(1112, 'login_password', '登录密码', 'varchar(255) NULL', 'string', '', '', 1, '', 1, 0, 1, 1441187439, 1441187439, '', 3, '', 'regex', '', 3, 'function');
-INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
+(1112, 'login_password', '登录密码', 'varchar(255) NULL', 'string', '', '', 1, '', 1, 0, 1, 1441187439, 1441187439, '', 3, '', 'regex', '', 3, 'function'),
 (1114, 'manager_id', '公众号管理员ID', 'int(10) NULL', 'num', '0', '', 0, '', 1, 0, 1, 1441512815, 1441512815, '', 3, '', 'regex', '', 3, 'function'),
 (1155, 'membership', '会员等级', 'char(50) NULL', 'select', '0', '请在会员等级 添加会员级别名称', 0, '', 1, 0, 1, 1447302405, 1441795509, '', 3, '', 'regex', '', 3, 'function'),
 (1542, 'score', '修改积分', 'int(10) NULL', 'num', '', '', 1, '', 32, 1, 1, 1444302622, 1444302410, '', 3, '', 'regex', '', 3, 'function'),
@@ -643,7 +608,8 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (11243, 'aim_id', '添加来源标识id', 'int(10) NULL', 'num', '', '', 0, '', 31, 0, 1, 1447404930, 1447404930, '', 3, '', 'regex', '', 3, 'function'),
 (11244, 'aim_table', '来源表名', 'varchar(255) NULL', 'string', '', '', 1, '', 31, 0, 1, 1447405156, 1447405156, '', 3, '', 'regex', '', 3, 'function'),
 (11245, 'is_use', '可否使用', 'int(10) NULL', 'num', '1', '', 0, '0:不可用\r\n1:可用', 16, 0, 1, 1447405234, 1447405234, '', 3, '', 'regex', '', 3, 'function'),
-(11246, 'aim_id', '添加来源标识id', 'int(10) NULL', 'num', '', '', 0, '', 16, 0, 1, 1447405283, 1447405283, '', 3, '', 'regex', '', 3, 'function'),
+(11246, 'aim_id', '添加来源标识id', 'int(10) NULL', 'num', '', '', 0, '', 16, 0, 1, 1447405283, 1447405283, '', 3, '', 'regex', '', 3, 'function');
+INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
 (11247, 'aim_table', '来源表名', 'varchar(255) NULL', 'string', '', '', 1, '', 16, 0, 1, 1447405301, 1447405301, '', 3, '', 'regex', '', 3, 'function'),
 (11248, 'is_use', '可否使用', 'int(10) NULL', 'num', '1', '', 0, '0:不可用\r\n1:可用', 17, 0, 1, 1447405553, 1447405510, '', 3, '', 'regex', '', 3, 'function'),
 (11249, 'aim_id', '添加来源标识id', 'int(10) NULL', 'num', '', '', 0, '', 17, 0, 1, 1447405545, 1447405545, '', 3, '', 'regex', '', 3, 'function'),
@@ -671,304 +637,149 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 (12108, 'image', '图片选项', 'int(10) unsigned NULL ', 'picture', '', '', 5, '', 1234, 0, 1, 1388984467, 1388933679, '', 3, '', 'regex', '', 3, 'function'),
 (12109, 'name', '选项标题', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1234, 1, 1, 1388933552, 1388933552, '', 3, '', 'regex', '', 3, 'function'),
 (12110, 'vote_id', '投票ID', 'int(10) unsigned NOT NULL ', 'num', '', '', 4, '', 1234, 1, 1, 1388982678, 1388933478, '', 3, '', 'regex', '$_REQUEST[''vote_id'']', 3, 'string'),
-(12115, 'keyword', '关键词', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1235, 1, 1, 1396061575, 1396061575, '', 3, '', 'regex', '', 3, 'function'),
-(12116, 'keyword_type', '关键词类型', 'tinyint(2) NULL', 'select', '', '', 1, '0:完全匹配\r\n1:左边匹配\r\n2:右边匹配\r\n3:模糊匹配\r\n4:正则匹配\r\n5:随机匹配', 1235, 0, 1, 1396061814, 1396061765, '', 3, '', 'regex', '', 3, 'function'),
-(12117, 'title', '标题', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1235, 1, 1, 1396061877, 1396061859, '', 3, '', 'regex', '', 3, 'function'),
-(12118, 'intro', '简介', 'text NULL', 'textarea', '', '', 1, '', 1235, 0, 1, 1396061947, 1396061947, '', 3, '', 'regex', '', 3, 'function'),
-(12119, 'cate_id', '所属类别', 'int(10) unsigned NULL ', 'select', '0', '要先在微官网分类里配置好分类才可选择', 1, '0:请选择分类', 1235, 0, 1, 1396078914, 1396062003, '', 3, '', 'regex', '', 3, 'function'),
-(12120, 'cover', '封面图片', 'int(10) unsigned NULL ', 'picture', '', '', 1, '', 1235, 0, 1, 1396062093, 1396062093, '', 3, '', 'regex', '', 3, 'function'),
-(12121, 'content', '内容', 'text NULL', 'editor', '', '', 1, '', 1235, 0, 1, 1396062146, 1396062146, '', 3, '', 'regex', '', 3, 'function'),
-(12122, 'cTime', '发布时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1235, 0, 1, 1396075102, 1396075102, '', 3, '', 'regex', 'time', 1, 'function'),
-(12123, 'sort', '排序号', 'int(10) unsigned NULL ', 'num', '0', '数值越小越靠前', 1, '', 1235, 0, 1, 1396510508, 1396510508, '', 3, '', 'regex', '', 3, 'function'),
-(12124, 'view_count', '浏览数', 'int(10) unsigned NULL ', 'num', '0', '', 0, '', 1235, 0, 1, 1396510630, 1396510630, '', 3, '', 'regex', '', 3, 'function'),
-(12125, 'title', '分类标题', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1236, 1, 1, 1408950771, 1395988016, '', 3, '', 'regex', '', 3, 'function'),
-(12126, 'icon', '分类图片', 'int(10) unsigned NULL ', 'picture', '', '', 1, '', 1236, 0, 1, 1395988966, 1395988966, '', 3, '', 'regex', '', 3, 'function'),
-(12127, 'url', '外链', 'varchar(255) NULL', 'string', '', '为空时默认跳转到该分类的文章列表页面', 1, '', 1236, 0, 1, 1401408363, 1395989660, '', 3, '', 'regex', '', 3, 'function'),
-(12128, 'is_show', '显示', 'tinyint(2) NULL', 'bool', '1', '', 1, '0: 不显示\r\n1: 显示', 1236, 0, 1, 1395989709, 1395989709, '', 3, '', 'regex', '', 3, 'function'),
-(12129, 'token', 'Token', 'varchar(100) NULL ', 'string', '', '', 0, '', 1236, 0, 1, 1395989760, 1395989760, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12130, 'sort', '排序号', 'int(10) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1236, 0, 1, 1396340334, 1396340334, '', 3, '', 'regex', '', 3, 'function'),
-(12131, 'pid', '一级目录', 'int(10) NULL', 'cascade', '0', '', 1, 'type=db&table=weisite_category&pid=id', 1236, 0, 1, 1439522271, 1439469294, '', 3, '', 'regex', '', 3, 'function'),
-(12132, 'title', '标题', 'varchar(255) NULL', 'string', '', '可为空', 1, '', 1237, 0, 1, 1396098316, 1396098316, '', 3, '', 'regex', '', 3, 'function'),
-(12133, 'img', '图片', 'int(10) unsigned NOT NULL ', 'picture', '', '', 1, '', 1237, 1, 1, 1396098349, 1396098349, '', 3, '', 'regex', '', 3, 'function'),
-(12134, 'url', '链接地址', 'varchar(255) NULL', 'string', '', '', 1, '', 1237, 0, 1, 1396098380, 1396098380, '', 3, '', 'regex', '', 3, 'function'),
-(12135, 'is_show', '是否显示', 'tinyint(2) NULL', 'bool', '1', '', 1, '0:不显示\r\n1:显示', 1237, 0, 1, 1396098464, 1396098464, '', 3, '', 'regex', '', 3, 'function'),
-(12136, 'sort', '排序', 'int(10) unsigned NULL ', 'num', '0', '值越小越靠前', 1, '', 1237, 0, 1, 1396098682, 1396098682, '', 3, '', 'regex', '', 3, 'function'),
-(12137, 'token', 'Token', 'varchar(100) NULL', 'string', '', '', 0, '', 1237, 0, 1, 1396098747, 1396098747, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12138, 'url', '关联URL', 'varchar(255) NULL ', 'string', '', '', 1, '', 1238, 0, 1, 1394519090, 1394519090, '', 3, '', 'regex', '', 3, 'function'),
-(12139, 'title', '菜单名', 'varchar(50) NOT NULL', 'string', '', '可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。', 1, '', 1238, 1, 1, 1408950832, 1394518988, '', 3, '', 'regex', '', 3, 'function'),
-(12140, 'pid', '一级菜单', 'tinyint(2) NULL', 'select', '0', '如果是一级菜单，选择“无”即可', 1, '0:无', 1238, 0, 1, 1409045931, 1394518930, '', 3, '', 'regex', '', 3, 'function'),
-(12141, 'sort', '排序号', 'tinyint(4) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1238, 0, 1, 1394523288, 1394519175, '', 3, '', 'regex', '', 3, 'function'),
-(12142, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1238, 0, 1, 1394526820, 1394526820, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12143, 'icon', '图标', 'int(10) unsigned NULL ', 'picture', '', '根据选择的底部模板决定是否需要上传图标', 1, '', 1238, 0, 1, 1396506297, 1396506297, '', 3, '', 'regex', '', 3, 'function'),
-(12144, 'keyword', '关键词', 'varchar(255) NULL', 'string', '', '多个关键词可以用空格分开，如“高富帅 白富美”', 1, '', 1239, 1, 1, 1439194858, 1439194849, '', 3, '', 'regex', '', 3, 'function'),
-(12145, 'msg_type', '消息类型', 'char(50) NULL', 'select', 'text', '', 0, 'text:文本|content@show,group_id@hide,image_id@hide\r\nnews:图文|content@hide,group_id@show,image_id@hide\r\nimage:图片|content@hide,group_id@hide,image_id@show', 1239, 1, 1, 1439204529, 1439194979, '', 3, '', 'regex', '', 3, 'function'),
-(12146, 'content', '文本内容', 'text NULL', 'textarea', '', '', 1, '', 1239, 0, 1, 1439195826, 1439195091, '', 3, '', 'regex', '', 3, 'function'),
-(12147, 'group_id', '图文', 'int(10) NULL', 'news', '', '', 1, '', 1239, 0, 1, 1439204192, 1439195901, '', 3, '', 'regex', '', 3, 'function'),
-(12148, 'image_id', '上传图片', 'int(10) UNSIGNED NULL', 'picture', '', '', 1, '', 1239, 0, 1, 1439195945, 1439195945, '', 3, '', 'regex', '', 3, 'function'),
-(12149, 'manager_id', '管理员ID', 'int(10) NULL', 'num', '', '', 0, '', 1239, 0, 1, 1439203621, 1439203575, '', 3, '', 'regex', 'get_mid', 1, 'function'),
-(12150, 'token', 'Token', 'varchar(50) NULL', 'string', '', '', 0, '', 1239, 0, 1, 1439203612, 1439203612, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12151, 'image_material', '素材图片id', 'int(10) NULL', 'num', '', '', 0, '', 1239, 0, 1, 1447738833, 1447738833, '', 3, '', 'regex', '', 3, 'function'),
-(12152, 'voice_id', '语音id', 'int(10) NULL', 'num', '0', '', 0, '', 1239, 0, 1, 1449152539, 1449150873, '', 3, '', 'regex', '', 3, 'function'),
-(12153, 'video_id', '视频id', 'int(10) NULL', 'num', '0', '', 0, '', 1239, 0, 1, 1449152532, 1449150935, '', 3, '', 'regex', '', 3, 'function'),
-(12154, 'reply_scene', '回复场景（0：关注时回复；1：默认回复；2：关键词回复）', 'int(10) NULL', 'num', '', '', 1, '', 1239, 0, 1, 1449154529, 1449154529, '', 3, '', 'regex', '', 3, 'function'),
-(12415, 'sucai_type', '素材类型', 'char(50) NULL', 'select', '0', '', 1, '0:请选择\r\n1:图文\r\n2:文本\r\n3:图片\r\n4:语音\r\n5:视频', 1268, 0, 1, 1447208890, 1447208890, '', 3, '', 'regex', '', 3, 'function'),
-(12414, 'target_id', '选择内容', 'int(10) NULL', 'num', '', '', 4, '0:请选择', 1268, 0, 1, 1447208825, 1447208825, '', 3, '', 'regex', '', 3, 'function'),
-(12413, 'addon', '选择插件', 'char(50) NULL', 'select', '0', '', 1, '0:请选择', 1268, 0, 1, 1447208750, 1447208750, '', 3, '', 'regex', '', 3, 'function'),
-(12412, 'from_type', '配置动作', 'char(50) NULL', 'select', '-1', '', 1, '0:站内信息|keyword@hide,url@hide,type@hide,sucai_type@hide,addon@show,jump_type@show\r\n1:站内素材|keyword@hide,url@hide,type@hide,sucai_type@show,addon@hide,jump_type@hide\r\n9:自定义|keyword@show,url@hide,type@show,addon@hide,sucai_type@hide,jump_type@hide\r\n-1:请选择|keyword@hide,url@hide,type@hide,addon@hide,sucai_type@hide,jump_type@hide', 1268, 0, 1, 1447318552, 1447208677, '', 3, '', 'regex', '', 3, 'function'),
-(12408, 'keyword', '关联关键词', 'varchar(100) NULL', 'string', '', '', 1, '', 1268, 0, 1, 1416812109, 1394519054, '', 3, '', 'regex', '', 3, 'function'),
-(12409, 'url', '关联URL', 'varchar(255) NULL ', 'string', '', '', 1, '', 1268, 0, 1, 1394519090, 1394519090, '', 3, '', 'regex', '', 3, 'function'),
-(12410, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1268, 0, 1, 1394526820, 1394526820, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12411, 'type', '类型', 'varchar(30) NULL', 'bool', 'click', '', 1, 'click:点击推事件|keyword@show,url@hide\r\nview:跳转URL|keyword@hide,url@show\r\nscancode_push:扫码推事件|keyword@show,url@hide\r\nscancode_waitmsg:扫码带提示|keyword@show,url@hide\r\npic_sysphoto:弹出系统拍照发图|keyword@show,url@hide\r\npic_photo_or_album:弹出拍照或者相册发图|keyword@show,url@hide\r\npic_weixin:弹出微信相册发图器|keyword@show,url@hide\r\nlocation_select:弹出地理位置选择器|keyword@show,url@hide\r\nnone:无事件的一级菜单|keyword@hide,url@hide', 1268, 0, 1, 1416812039, 1416810588, '', 3, '', 'regex', '', 3, 'function'),
-(12407, 'title', '菜单名', 'varchar(50) NOT NULL', 'string', '', '可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。', 1, '', 1268, 1, 1, 1408951570, 1394518988, '', 3, '', 'regex', '', 3, 'function'),
-(12405, 'sort', '排序号', 'tinyint(4) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1268, 0, 1, 1394523288, 1394519175, '', 3, '', 'regex', '', 3, 'function'),
-(12406, 'pid', '一级菜单', 'int(10) NULL', 'select', '0', '如果是一级菜单，选择“无”即可', 1, '0:无', 1268, 0, 1, 1416810279, 1394518930, '', 3, '', 'regex', '', 3, 'function'),
-(12167, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1241, 0, 1, 1404485505, 1404475530, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12168, 'groupname', '分组名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1241, 0, 1, 1404475556, 1404475556, '', 3, '', 'regex', '', 3, 'function'),
-(12169, 'groupdata', '分组数据源', 'text NULL', 'textarea', '', '', 0, '', 1241, 0, 1, 1404476127, 1404476127, '', 3, '', 'regex', '', 3, 'function'),
-(12170, 'msgkeyword', '消息关键字', 'varchar(555) NULL', 'string', '', '当用户发送的消息中含有关键字时,将自动转到分配的客服人员', 1, '', 1242, 0, 1, 1404399336, 1404399336, '', 3, '', 'regex', '', 3, 'function'),
-(12171, 'msgkeyword_type', '关键字类型', 'char(50) NULL', 'select', '3', '选择关键字匹配的类型', 1, '0:完全匹配\r\n1:左边匹配\r\n2:右边匹配\r\n3:模糊匹配\r\n4:正则匹配\r\n5:随机匹配', 1242, 0, 1, 1404399466, 1404399466, '', 3, '', 'regex', '', 3, 'function'),
-(12172, 'msgkfaccount', '接待的客服人员', 'varchar(255) NULL', 'string', '', '', 0, '', 1242, 0, 1, 1404403340, 1404399587, '', 3, '', 'regex', '', 3, 'function'),
-(12173, 'cTime', '创建时间', 'int(10) NULL', 'date', '', '', 0, '', 1242, 0, 1, 1404399629, 1404399629, '', 3, '', 'regex', 'time', 3, 'function'),
-(12174, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1242, 0, 1, 1404399656, 1404399656, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12175, 'msgstate', '关键字状态', 'tinyint(2) NULL', 'bool', '1', '停用后用户将不会触发此关键词', 1, '0:停用\r\n1:启用', 1242, 0, 1, 1404399749, 1404399749, '', 3, '', 'regex', '', 3, 'function'),
-(12176, 'zjnum', '转接次数', 'int(10) NULL', 'num', '', '', 0, '', 1242, 0, 1, 1404399784, 1404399784, '', 3, '', 'regex', '', 3, 'function'),
-(12177, 'zdtype', '指定类型', 'char(10) NULL', 'radio', '0', '选择关键字匹配时是按指定人员或者指定客服组', 1, '0:指定客服人员\r\n1:指定客服组', 1242, 0, 1, 1404474672, 1404474672, '', 3, '', 'regex', '', 3, 'function'),
-(12178, 'kfgroupid', '客服分组id', 'int(10) NULL', 'num', '0', '', 0, '', 1242, 0, 1, 1404474777, 1404474777, '', 3, '', 'regex', '', 3, 'function'),
-(12179, 'kf_explain', '客服说明', 'varchar(255) NULL', 'string', '', '客服说明', 1, '', 1242, 0, 1, 1450018523, 1450018523, '', 3, '', 'regex', '', 3, 'function'),
-(12180, 'name', '客服昵称', 'varchar(60) NULL ', 'string', '', '', 1, '', 1243, 0, 1, 1403959775, 1403947255, '', 0, '', 'regex', '', 0, 'function'),
-(12181, 'token', 'token', 'varchar(60) NULL ', 'string', '', '', 0, '', 1243, 0, 1, 1403959638, 1403947256, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12182, 'userName', '客服帐号', 'varchar(60) NULL ', 'string', '', '', 1, '', 1243, 0, 1, 1403959752, 1403947256, '', 3, '', 'regex', '', 0, 'function'),
-(12183, 'userPwd', '客服密码', 'varchar(32) NULL ', 'string', '', '', 1, '', 1243, 0, 1, 1403959722, 1403947257, '', 0, '', 'regex', '', 0, 'function'),
-(12184, 'endJoinDate', '客服加入时间', 'int(11) NULL ', 'string', '', '', 0, '', 1243, 0, 1, 1403959825, 1403947257, '', 3, '', 'regex', 'time', 3, 'function'),
-(12185, 'status', '客服在线状态', 'tinyint(1) NULL ', 'bool', '0', '', 0, '0:离线\r\n1:在线', 1243, 0, 1, 1404016782, 1403947258, '', 0, '', 'regex', '', 0, 'function'),
-(12186, 'state', '客服状态', 'tinyint(2) NULL', 'bool', '0', '', 1, '0:停用\r\n1:启用', 1243, 0, 1, 1404016877, 1404016877, '', 3, '', 'regex', '', 3, 'function'),
-(12187, 'isdelete', '是否删除', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:正常\r\n1:已被删除', 1243, 0, 1, 1404016931, 1404016931, '', 3, '', 'regex', '', 3, 'function'),
-(12188, 'kfid', '客服编号', 'varchar(255) NULL', 'string', '', '', 1, '', 1243, 0, 1, 1404398387, 1404398387, '', 3, '', 'regex', '', 3, 'function'),
-(12189, 'openid', 'openid', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1244, 0, 1, 1409247462, 1409247462, '', 3, '', 'regex', '', 3, 'function'),
-(12190, 'template_id', '模板ID', 'varchar(500) NOT NULL', 'string', '', '', 1, '', 1244, 0, 1, 1409247489, 1409247489, '', 3, '', 'regex', '', 3, 'function'),
-(12191, 'message', '消息内容', 'text NOT NULL', 'textarea', '', '', 1, '', 1244, 0, 1, 1409247512, 1409247512, '', 3, '', 'regex', '', 3, 'function'),
-(12192, 'MsgID', '消息ID', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1244, 0, 1, 1409247552, 1409247552, '', 3, '', 'regex', '', 3, 'function'),
-(12193, 'sendstatus', '发送状态', 'char(50) NOT NULL', 'select', '', '', 1, '0:成功\r\n1:失败', 1244, 0, 1, 1409247862, 1409247608, '', 3, '', 'regex', '', 3, 'function'),
-(12194, 'Status', '送达报告', 'char(50) NOT NULL', 'select', '', '', 1, '0:成功\r\n1:失败：用户拒收\r\n2:失败：其他原因', 1244, 0, 1, 1409247873, 1409247697, '', 3, '', 'regex', '', 3, 'function'),
-(12195, 'token', 'token', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1244, 0, 1, 1409247732, 1409247713, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12196, 'ctime', '发送时间', 'int(10) NOT NULL', 'datetime', '', '', 1, '', 1244, 0, 1, 1409247759, 1409247759, '', 3, '', 'regex', 'time', 3, 'function'),
-(12203, 'token', '公众号Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1246, 0, 1, 1448517984, 1448517984, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12204, 'scene_name', '场景名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1246, 1, 1, 1448518657, 1448518006, '', 3, '', 'regex', '', 3, 'function'),
-(12205, 'keyword', '关联关键词', 'varchar(255) NULL', 'string', '', '', 1, '', 1246, 0, 1, 1448518039, 1448518039, '', 3, '', 'regex', '', 3, 'function'),
-(12206, 'scene_type', '二维码类型', 'char(10) NULL', 'radio', '0', '', 1, '0:临时二维码\r\n1:永久二维码', 1246, 0, 1, 1448518150, 1448518150, '', 3, '', 'regex', '', 3, 'function'),
-(12207, 'scene_id', '场景值ID', 'int(32) NULL', 'num', '', '', 0, '', 1246, 0, 1, 1448518272, 1448518252, '', 3, '', 'regex', '', 3, 'function'),
-(12208, 'scene_str', '场景值字符串', 'varchar(255) NULL', 'string', '', '临时二维码不用填。永久二维码填写字符串或汉字，也可以不填。', 1, '', 1246, 0, 1, 1448518467, 1448518467, '', 3, '', 'regex', '', 3, 'function'),
-(12209, 'expire', '过期时间', 'int(10) NULL', 'num', '', '以秒为单位， 最大不超过604800（即7天）。 只对临时二维码有效，永久二维码不用填。', 1, '', 1246, 0, 1, 1448526699, 1448518643, '', 3, '', 'regex', '', 3, 'function'),
-(12210, 'ticket', '二维码Ticket', 'varchar(255) NULL', 'string', '', '', 0, '', 1246, 0, 1, 1448519266, 1448519266, '', 3, '', 'regex', '', 3, 'function'),
-(12211, 'url', '二维码图片解析后的地址', 'varchar(255) NULL', 'string', '', '', 0, '', 1246, 0, 1, 1448519304, 1448519304, '', 3, '', 'regex', '', 3, 'function'),
-(12212, 'ctime', '二维码创建时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1246, 0, 1, 1448519406, 1448519406, '', 3, '', 'regex', 'time', 3, 'function'),
-(12213, 'short_url', '二维码短地址', 'varchar(255) NULL', 'string', '', '', 0, '', 1246, 0, 1, 1448526642, 1448524998, '', 3, '', 'regex', '', 3, 'function'),
-(12214, 'token', '公众号Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1247, 0, 1, 1448529447, 1448529447, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12215, 'openid', '扫码者openid', 'varchar(255) NULL', 'string', '', '', 0, '', 1247, 0, 1, 1448529507, 1448529507, '', 3, '', 'regex', 'get_openid', 3, 'function'),
-(12216, 'scene_name', '场景名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1247, 0, 1, 1448529541, 1448529541, '', 3, '', 'regex', '', 3, 'function'),
-(12217, 'keyword', '关联关键词', 'varchar(255) NULL', 'string', '', '', 1, '', 1247, 0, 1, 1448529562, 1448529562, '', 3, '', 'regex', '', 3, 'function'),
-(12218, 'scene_id', '场景ID/场景字符串', 'varchar(255) NULL', 'string', '', '', 1, '', 1247, 0, 1, 1448529722, 1448529722, '', 3, '', 'regex', '', 3, 'function'),
-(12219, 'scan_type', '扫描类型', 'varchar(255) NULL', 'string', '', '', 1, '', 1247, 0, 1, 1448529758, 1448529758, '', 3, '', 'regex', '', 3, 'function'),
-(12220, 'ctime', '扫描时间', 'int(10) NULL', 'datetime', '', '', 1, '', 1247, 0, 1, 1448529808, 1448529808, '', 3, '', 'regex', '', 3, 'function'),
-(12221, 'qrcode_id', '二维码ID', 'int(10) NULL', 'num', '', '', 0, '', 1247, 0, 1, 1448534367, 1448533103, '', 3, '', 'regex', '', 3, 'function'),
-(12222, 'title', '商店名称', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1248, 1, 1, 1422671603, 1422671261, '', 3, '', 'regex', '', 3, 'function'),
-(12223, 'logo', '商店LOGO', 'int(10) NULL', 'picture', '', '', 1, '', 1248, 0, 1, 1422950521, 1422671295, '', 3, '', 'regex', '', 3, 'function'),
-(12224, 'intro', '店铺简介', 'text NULL', 'textarea', '', '', 1, '', 1248, 0, 1, 1422671570, 1422671345, '', 3, '', 'regex', '', 3, 'function'),
-(12225, 'mobile', '联系电话', 'varchar(30) NULL', 'string', '', '', 1, '', 1248, 0, 1, 1422671410, 1422671410, '', 3, '', 'regex', '', 3, 'function'),
-(12226, 'qq', 'QQ', 'int(10) NULL', 'num', '', '', 1, '', 1248, 0, 1, 1422671498, 1422671498, '', 3, '', 'regex', '', 3, 'function'),
-(12227, 'wechat', '微信', 'varchar(50) NULL', 'string', '', '', 1, '', 1248, 0, 1, 1422671544, 1422671544, '', 3, '', 'regex', '', 3, 'function'),
-(12228, 'template', '模板', 'varchar(30) NULL', 'string', '', '', 0, '', 1248, 0, 1, 1422950165, 1422950165, '', 3, '', 'regex', '', 3, 'function'),
-(12229, 'content', '店铺介绍', 'text  NULL', 'editor', '', '', 1, '', 1248, 0, 1, 1423108654, 1423108654, '', 3, '', 'regex', '', 3, 'function'),
-(12230, 'token', 'Token', 'varchar(100) NULL', 'string', '', '', 0, '', 1248, 0, 1, 1439456512, 1439455806, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12231, 'manager_id', '管理员ID', 'int(10) NULL', 'num', '', '', 0, '', 1248, 0, 1, 1439456496, 1439455828, '', 3, '', 'regex', 'get_mid', 1, 'function'),
-(12232, 'cover', '商品封面图', 'int(10) UNSIGNED NULL', 'picture', '', '', 1, '', 1249, 0, 1, 1431071756, 1422672306, '', 3, '', 'regex', '', 3, 'function'),
-(12233, 'content', '商品介绍', 'text NOT NULL', 'editor', '', '', 1, '', 1249, 0, 1, 1422672255, 1422672255, '', 3, '', 'regex', '', 3, 'function'),
-(12234, 'title', '商品名称', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1249, 1, 1, 1422672113, 1422672113, '', 3, '', 'regex', '', 3, 'function'),
-(12235, 'price', '价格', 'decimal(10,2) NULL', 'num', '0', '', 1, '', 1249, 0, 1, 1439468076, 1422672186, '', 3, '', 'regex', '', 3, 'function'),
-(12236, 'imgs', '商品图片', 'varchar(255) NOT NULL', 'mult_picture', '', '可以上传多个图片', 1, '', 1249, 0, 1, 1438331467, 1422672449, '', 3, '', 'regex', '', 3, 'function'),
-(12237, 'inventory', '库存数量', 'int(10) NULL', 'num', '0', '', 1, '', 1249, 0, 1, 1422935578, 1422672560, '', 3, '', 'regex', '', 3, 'function'),
-(12238, 'shop_id', '商店ID', 'int(10) NULL', 'num', '0', '', 4, '', 1249, 0, 1, 1422934861, 1422931951, '', 3, '', 'regex', '', 3, 'function'),
-(12239, 'is_show', '是否上架', 'tinyint(2) NULL', 'bool', '0', '', 1, '0:否\r\n1:是', 1249, 0, 1, 1422935533, 1422935533, '', 3, '', 'regex', '', 3, 'function'),
-(12240, 'sale_count', '销售量', 'int(10) NULL', 'num', '0', '', 0, '', 1249, 0, 1, 1422935712, 1422935600, '', 3, '', 'regex', '', 3, 'function'),
-(12241, 'is_recommend', '是否推荐', 'tinyint(2) NULL', 'bool', '', '推荐后首页的推荐商品里显示', 1, '0:否\r\n1:是', 1249, 0, 1, 1423107236, 1423107213, '', 3, '', 'regex', '', 3, 'function'),
-(12242, 'rank', '热销度', 'int(10) NULL', 'num', '0', '热销度由发布时间、推荐状态、销量三个维度进行计算得到', 0, '', 1249, 0, 1, 1423474955, 1423126715, '', 3, '', 'regex', '', 3, 'function'),
-(12243, 'show_time', '上架时间', 'int(10) NULL', 'datetime', '0', '', 0, '', 1249, 0, 1, 1423127849, 1423127833, '', 3, '', 'regex', 'time', 3, 'function'),
-(12244, 'old_price', '原价', 'int(10) NULL', 'num', '', '', 1, '', 1249, 0, 1, 1423132272, 1423132272, '', 3, '', 'regex', '', 3, 'function'),
-(12245, 'type', '商品类型', 'tinyint(2) NULL', 'bool', '0', '注：虚拟商品不支持货到付款', 0, '0:实物商品（需要快递）\r\n1:虚拟商品（不需要快递）', 1249, 0, 1, 1439549244, 1439458735, '', 3, '', 'regex', '', 3, 'function'),
-(12246, 'category_id', '商品分类', 'char(50) NULL', 'select', '', '', 1, '', 1249, 0, 1, 1440126604, 1440066901, '', 3, '', 'regex', '', 3, 'function'),
-(12247, 'uid', '使用UID', 'int(10) NULL', 'num', '', '', 0, '', 1250, 0, 1, 1423471296, 1423471296, '', 3, '', 'regex', '', 3, 'function'),
-(12248, 'goods_id', '商品ID', 'int(10) NULL', 'num', '', '', 0, '', 1250, 0, 1, 1423471321, 1423471321, '', 3, '', 'regex', '', 3, 'function'),
-(12249, 'cTime', '收藏时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1250, 0, 1, 1423471348, 1423471348, '', 3, '', 'regex', '', 3, 'function'),
-(12250, 'uid', '用户ID', 'int(10) UNSIGNED NOT NULL', 'num', '', '', 0, '', 1251, 0, 1, 1419577913, 1419577913, '', 3, '', 'regex', 'get_mid', 1, 'function'),
-(12251, 'shop_id', '商店id', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1251, 0, 1, 1419578098, 1419577949, '', 3, '', 'regex', '', 3, 'function'),
-(12252, 'goods_id', '商品id', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1251, 0, 1, 1419578025, 1419578025, '', 3, '', 'regex', '', 3, 'function'),
-(12253, 'num', '数量', 'int(10) UNSIGNED NOT NULL', 'num', '', '', 1, '', 1251, 0, 1, 1419578075, 1419578075, '', 3, '', 'regex', '', 3, 'function'),
-(12254, 'price', '单价', 'varchar(30) NOT NULL', 'num', '', '', 0, '', 1251, 0, 1, 1419578162, 1419578154, '', 3, '', 'regex', '', 3, 'function'),
-(12255, 'goods_type', '商品类型', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '', 1251, 0, 1, 1420551825, 1420551825, '', 3, '', 'regex', '', 3, 'function'),
-(12256, 'openid', 'openid', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1251, 0, 1, 1420195356, 1420195356, '', 3, '', 'regex', 'get_openid', 3, 'function'),
-(12257, 'uid', '用户ID', 'int(10) NULL', 'num', '', '', 0, '', 1252, 1, 1, 1429522999, 1423477509, '', 3, '', 'regex', 'get_mid', 3, 'function'),
-(12258, 'truename', '收货人姓名', 'varchar(100) NULL', 'string', '', '', 1, '', 1252, 1, 1, 1423477690, 1423477548, '', 3, '', 'regex', '', 3, 'function'),
-(12259, 'mobile', '手机号码', 'varchar(50) NULL', 'string', '', '', 1, '', 1252, 1, 1, 1423477580, 1423477580, '', 3, '', 'regex', '', 3, 'function'),
-(12260, 'city', '城市', 'varchar(255) NULL', 'cascade', '', '', 1, 'module=city', 1252, 1, 1, 1423477660, 1423477660, '', 3, '', 'regex', '', 3, 'function'),
-(12261, 'address', '具体地址', 'varchar(255) NULL', 'string', '', '', 1, '', 1252, 1, 1, 1423477681, 1423477681, '', 3, '', 'regex', '', 3, 'function'),
-(12262, 'is_use', '是否设置为默认', 'tinyint(2) NULL', 'bool', '0', '', 1, '0:否\r\n1:是', 1252, 0, 1, 1423536697, 1423477729, '', 3, '', 'regex', '', 3, 'function'),
-(12263, 'title', '标题', 'varchar(255) NULL', 'string', '', '可为空', 1, '', 1253, 0, 1, 1396098316, 1396098316, '', 3, '', 'regex', '', 3, 'function'),
-(12264, 'img', '图片', 'int(10) unsigned NOT NULL ', 'picture', '', '', 1, '', 1253, 1, 1, 1396098349, 1396098349, '', 3, '', 'regex', '', 3, 'function'),
-(12265, 'url', '链接地址', 'varchar(255) NULL', 'string', '', '', 1, '', 1253, 0, 1, 1396098380, 1396098380, '', 3, '', 'regex', '', 3, 'function'),
-(12266, 'is_show', '是否显示', 'tinyint(2) NULL', 'bool', '1', '', 1, '0:不显示\r\n1:显示', 1253, 0, 1, 1396098464, 1396098464, '', 3, '', 'regex', '', 3, 'function'),
-(12267, 'sort', '排序', 'int(10) unsigned NULL ', 'num', '0', '值越小越靠前', 1, '', 1253, 0, 1, 1396098682, 1396098682, '', 3, '', 'regex', '', 3, 'function'),
-(12268, 'token', 'Token', 'varchar(100) NULL', 'string', '', '', 0, '', 1253, 0, 1, 1396098747, 1396098747, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12269, 'shop_id', '商店ID', 'int(10) NULL', 'num', '0', '', 4, '', 1253, 0, 1, 1422934490, 1422932093, '', 3, '', 'regex', '', 3, 'function'),
-(12270, 'order_id', '订单ID', 'int(10) NULL', 'num', '', '', 0, '', 1254, 0, 1, 1439525588, 1439525588, '', 3, '', 'regex', '', 3, 'function'),
-(12271, 'status_code', '状态码', 'char(50) NULL', 'select', '0', '', 0, '0:待支付\r\n1:待商家确认\r\n2:待发货\r\n3:配送中\r\n4:确认已收货\r\n5:确认已收款\r\n6:待评价\r\n7:已评价', 1254, 0, 1, 1439536678, 1439525934, '', 3, '', 'regex', '', 3, 'function'),
-(12272, 'remark', '备注内容', 'varchar(255) NULL', 'string', '', '', 0, '', 1254, 0, 1, 1439525979, 1439525979, '', 3, '', 'regex', '', 3, 'function'),
-(12273, 'cTime', '时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1254, 0, 1, 1439526002, 1439526002, '', 3, '', 'regex', '', 3, 'function'),
-(12274, 'extend', '扩展信息', 'varchar(255) NULL', 'string', '', '', 0, '', 1254, 0, 1, 1439526038, 1439526038, '', 3, '', 'regex', '', 3, 'function'),
-(12275, 'goods_datas', '商品序列化数据', 'text NOT NULL', 'textarea', '', '', 1, '', 1255, 0, 1, 1423534050, 1420269321, '', 3, '', 'regex', '', 3, 'function'),
-(12276, 'uid', '用户id', 'int(10) UNSIGNED NOT NULL', 'num', '', '', 1, '', 1255, 0, 1, 1420269348, 1420269348, '', 3, '', 'regex', '', 3, 'function'),
-(12277, 'remark', '备注', 'text NOT NULL', 'textarea', '', '', 1, '', 1255, 0, 1, 1423534071, 1420269399, '', 3, '', 'regex', '', 3, 'function'),
-(12278, 'order_number', '订单编号', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1255, 0, 1, 1423534179, 1420269451, '', 3, '', 'regex', '', 3, 'function'),
-(12279, 'cTime', '订单时间', 'int(10) NOT NULL', 'datetime', '', '', 1, '', 1255, 0, 1, 1423534102, 1420269666, '', 3, '', 'regex', '', 3, 'function'),
-(12280, 'total_price', '总价', 'decimal(10,2) NULL', 'num', '', '', 1, '', 1255, 0, 1, 1439812371, 1420272711, '', 3, '', 'regex', '', 3, 'function'),
-(12281, 'openid', 'OpenID', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1255, 0, 1, 1420526437, 1420526437, '', 3, '', 'regex', '', 3, 'function'),
-(12282, 'pay_status', '支付状态', 'int(10)  NULL', 'num', '', '', 0, '', 1255, 0, 1, 1423537847, 1420596969, '', 3, '', 'regex', '', 3, 'function'),
-(12283, 'pay_type', '支付类型', 'int(10) NULL', 'num', '', '', 0, '', 1255, 0, 1, 1423537868, 1420596998, '', 3, '', 'regex', '', 3, 'function'),
-(12284, 'address_id', '配送信息', 'int(10) NULL', 'num', '', '', 1, '', 1255, 0, 1, 1423534264, 1423534264, '', 3, '', 'regex', '', 3, 'function'),
-(12285, 'is_send', '是否发货', 'int(10) NULL', 'num', '0', '', 1, '', 1255, 0, 1, 1438336095, 1438336095, '', 3, '', 'regex', '', 3, 'function'),
-(12286, 'send_code', '快递公司编号', 'varchar(255) NULL', 'string', '', '', 1, '', 1255, 0, 1, 1438336511, 1438336511, '', 3, '', 'regex', '', 3, 'function'),
-(12287, 'send_number', '快递单号', 'varchar(255) NULL', 'string', '', '', 1, '', 1255, 0, 1, 1438336556, 1438336556, '', 3, '', 'regex', '', 3, 'function'),
-(12288, 'send_type', '发货类型', 'char(10) NULL', 'radio', '', '', 1, '0|线上发货\r\n1|物流公司发货', 1255, 0, 1, 1438336756, 1438336756, '', 3, '', 'regex', '', 3, 'function'),
-(12289, 'is_new', '是否为新订单', 'tinyint(2) NULL', 'bool', '1', '', 0, '0:否\r\n1:是', 1255, 0, 1, 1439435979, 1439435969, '', 3, '', 'regex', '', 3, 'function'),
-(12290, 'shop_id', '商店编号', 'int(10) NULL', 'num', '0', '', 1, '', 1255, 0, 1, 1439455026, 1439455026, '', 3, '', 'regex', '', 3, 'function'),
-(12291, 'status_code', '订单跟踪状态码', 'char(50) NULL', 'select', '0', '', 0, '0:待支付\r\n1:待商家确认\r\n2:待发货\r\n3:配送中\r\n4:确认已收货\r\n5:确认已收款\r\n6:待评价\r\n7:已评价', 1255, 0, 1, 1439536746, 1439526095, '', 3, '', 'regex', '', 3, 'function'),
-(12292, 'uid', '用户ID', 'int(10) NULL', 'num', '', '', 0, '', 1256, 0, 1, 1422931055, 1422930936, '', 3, '', 'regex', '', 3, 'function'),
-(12293, 'goods_id', '商品ID', 'int(10) NULL', 'num', '', '', 0, '', 1256, 0, 1, 1422930970, 1422930970, '', 3, '', 'regex', '', 3, 'function'),
-(12294, 'score', '得分', 'int(10) NULL', 'num', '0', '', 0, '', 1256, 0, 1, 1422931004, 1422931004, '', 3, '', 'regex', '', 3, 'function'),
-(12295, 'cTime', '创建时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1256, 0, 1, 1422931044, 1422931044, '', 3, '', 'regex', '', 3, 'function'),
-(12296, 'title', '分类标题', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1257, 1, 1, 1397529407, 1397529407, '', 3, '', 'regex', '', 3, 'function'),
-(12297, 'icon', '分类图标', 'int(10) unsigned NULL ', 'picture', '', '建议上传100X100的正方形图片', 1, '', 1257, 0, 1, 1431072029, 1397529461, '', 3, '', 'regex', '', 3, 'function'),
-(12298, 'pid', '上一级分类', 'int(10) unsigned NULL ', 'select', '0', '如果你要增加一级分类，这里选择“无”即可', 0, '0:无', 1257, 0, 1, 1422934148, 1397529555, '', 3, '', 'regex', '', 3, 'function'),
-(12299, 'path', '分类路径', 'varchar(255) NULL', 'string', '', '', 0, '', 1257, 0, 1, 1397529604, 1397529604, '', 3, '', 'regex', '', 3, 'function'),
-(12300, 'sort', '排序号', 'int(10) unsigned NULL ', 'num', '0', '数值越小越靠前', 1, '', 1257, 0, 1, 1397529705, 1397529705, '', 3, '', 'regex', '', 3, 'function'),
-(12301, 'is_show', '是否显示', 'tinyint(2) NULL', 'bool', '1', '', 1, '0:不显示\r\n1:显示', 1257, 0, 1, 1397532496, 1397529809, '', 3, '', 'regex', '', 3, 'function'),
-(12302, 'shop_id', '商店ID', 'int(10) NOT NULL', 'num', '0', '', 4, '', 1257, 0, 1, 1422934193, 1422672025, '', 3, '', 'regex', '', 3, 'function'),
-(12303, 'is_recommend', '是否推荐', 'tinyint(2) NULL', 'bool', '0', '', 1, '0:否\r\n1:是', 1257, 0, 1, 1423106432, 1423106432, '', 3, '', 'regex', '', 3, 'function'),
-(12304, 'content', '捐赠者留言', 'text NULL', 'textarea', '', '', 1, '', 1258, 0, 1, 1446095026, 1446095026, '', 3, '', 'regex', '', 3, 'function'),
-(12305, 'money', '捐赠金额', 'float(10) NULL', 'num', '', '', 1, '', 1258, 0, 1, 1446094995, 1446094995, '', 3, '', 'regex', '', 3, 'function'),
-(12306, 'email', '捐赠者邮箱', 'varchar(255) NULL', 'string', '', '', 1, '', 1258, 0, 1, 1446094966, 1446094966, '', 3, '', 'regex', '', 3, 'function'),
-(12307, 'nickname', '捐赠者昵称', 'varchar(255) NULL', 'string', '', '', 1, '', 1258, 0, 1, 1446094946, 1446094946, '', 3, '', 'regex', '', 3, 'function'),
-(12308, 'ctime', '捐赠时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1258, 0, 1, 1446094933, 1446094933, '', 3, '', 'regex', 'time', 1, 'function'),
-(12309, 'openid', '捐赠者openid', 'varchar(255) NULL', 'string', '', '', 0, '', 1258, 0, 1, 1446094904, 1446094904, '', 3, '', 'regex', 'get_openid', 3, 'function'),
-(12310, 'token', '公众号token', 'varchar(255) NULL', 'string', '', '', 0, '', 1258, 0, 1, 1446094880, 1446094880, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12311, 'desc', '描述', 'text NULL', 'textarea', '', '', 1, '', 1259, 0, 1, 1446094736, 1446094736, '', 3, '', 'regex', '', 3, 'function'),
-(12312, 'money', '金额', 'int(10) NULL', 'num', '', '', 1, '', 1259, 0, 1, 1446094722, 1446094722, '', 3, '', 'regex', '', 3, 'function'),
-(12313, 'token', '公众号token', 'varchar(255) NULL', 'string', '', '', 0, '', 1259, 0, 1, 1446094688, 1446094688, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12314, 'keyword_type', '关键词匹配类型', 'tinyint(2) NULL', 'select', '0', '', 1, '0:完全匹配\r\n1:左边匹配\r\n2:右边匹配\r\n3:模糊匹配', 1260, 0, 1, 1394268247, 1393921586, '', 3, '', 'regex', '', 3, 'function'),
-(12315, 'api_token', 'Token', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1260, 0, 1, 1393922455, 1393912408, '', 3, '', 'regex', '', 3, 'function'),
-(12316, 'cTime', '创建时间', 'int(10) NOT NULL', 'datetime', '', '', 0, '', 1260, 0, 1, 1393913608, 1393913608, '', 3, '', 'regex', 'time', 1, 'function'),
-(12317, 'api_url', '第三方URL', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1260, 0, 1, 1393912354, 1393912354, '', 3, '', 'regex', '', 3, 'function'),
-(12318, 'output_format', '数据输出格式', 'tinyint(1) NULL', 'select', '0', '', 1, '0:标准微信xml\r\n1:json格式', 1260, 0, 1, 1394268422, 1393912288, '', 3, '', 'regex', '', 3, 'function'),
-(12319, 'keyword_filter', '关键词过滤', 'tinyint(2) NOT NULL', 'bool', '0', '如设置电影为触发词,用户输入 电影 美国派 时，如果启用过滤只将美国派这个词发送到的你的接口，如果不过滤 就是整个 电影 美国派全部发送到的接口', 1, '0:不过滤\r\n1:过滤', 1260, 0, 1, 1394268410, 1393912057, '', 3, '', 'regex', '', 3, 'function'),
-(12320, 'keyword', '关键词', 'varchar(255) NOT NULL', 'string', '', '多个关键词请用空格格开', 1, '', 1260, 1, 1, 1393912492, 1393911842, '', 3, '', 'regex', '', 3, 'function'),
-(12321, 'token', 'Token', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1260, 0, 1, 1402454223, 1402454223, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12322, 'title', '标题', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1261, 1, 1, 1396624461, 1396061859, '', 3, '', 'regex', '', 3, 'function'),
-(12323, 'cTime', '发布时间', 'int(10) UNSIGNED NULL', 'datetime', '', '', 0, '', 1261, 0, 1, 1396624612, 1396075102, '', 3, '', 'regex', 'time', 1, 'function'),
-(12324, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1261, 0, 1, 1396602871, 1396602859, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12325, 'password', '表单密码', 'varchar(255) NULL', 'string', '', '如要用户输入密码才能进入表单，则填写此项。否则留空，用户可直接进入表单', 0, '', 1261, 0, 1, 1396871497, 1396672643, '', 3, '', 'regex', '', 3, 'function'),
-(12326, 'keyword_type', '关键词类型', 'tinyint(2) NOT NULL', 'select', '0', '', 1, '0:完全匹配\r\n1:左边匹配\r\n2:右边匹配\r\n3:模糊匹配', 1261, 1, 1, 1396624426, 1396061765, '', 3, '', 'regex', '', 3, 'function'),
-(12327, 'jump_url', '提交后跳转的地址', 'varchar(255) NULL', 'string', '', '要以http://开头的完整地址，为空时不跳转', 1, '', 1261, 0, 1, 1402458121, 1399800276, '', 3, '', 'regex', '', 3, 'function'),
-(12328, 'content', '详细介绍', 'text NULL', 'editor', '', '可不填', 1, '', 1261, 0, 1, 1396865295, 1396865295, '', 3, '', 'regex', '', 3, 'function'),
-(12329, 'finish_tip', '用户提交后提示内容', 'text NULL', 'string', '', '为空默认为：提交成功，谢谢参与', 1, '', 1261, 0, 1, 1447497102, 1396673689, '', 3, '', 'regex', '', 3, 'function'),
-(12330, 'can_edit', '是否允许编辑', 'tinyint(2) NULL', 'bool', '0', '用户提交表单是否可以再编辑', 1, '0:不允许\r\n1:允许', 1261, 0, 1, 1396688624, 1396688624, '', 3, '', 'regex', '', 3, 'function'),
-(12331, 'intro', '封面简介', 'text NULL', 'textarea', '', '', 1, '', 1261, 1, 1, 1439371986, 1396061947, '', 3, '', 'regex', '', 3, 'function'),
-(12332, 'mTime', '修改时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1261, 0, 1, 1396624664, 1396624664, '', 3, '', 'regex', 'time', 3, 'function'),
-(12333, 'cover', '封面图片', 'int(10) UNSIGNED NULL', 'picture', '', '', 1, '', 1261, 1, 1, 1439372018, 1396062093, '', 3, '', 'regex', '', 3, 'function'),
-(12334, 'keyword', '关键词', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1261, 1, 1, 1396866048, 1396061575, '', 3, '', 'regex', '', 3, 'function'),
-(12335, 'template', '模板', 'varchar(255) NULL', 'string', 'default', '', 1, '', 1261, 0, 1, 1431661124, 1431661124, '', 3, '', 'regex', '', 3, 'function'),
-(12336, 'is_show', '是否显示', 'tinyint(2) NULL', 'select', '1', '是否显示在表单中', 1, '1:显示\r\n0:不显示', 1262, 0, 1, 1396848437, 1396848437, '', 3, '', 'regex', '', 3, 'function'),
-(12337, 'forms_id', '表单ID', 'int(10) UNSIGNED NULL', 'num', '', '', 4, '', 1262, 0, 1, 1396710040, 1396690613, '', 3, '', 'regex', '', 3, 'function'),
-(12338, 'error_info', '出错提示', 'varchar(255) NULL', 'string', '', '验证不通过时的提示语', 1, '', 1262, 0, 1, 1396685920, 1396685920, '', 3, '', 'regex', '', 3, 'function'),
-(12339, 'sort', '排序号', 'int(10) UNSIGNED NULL', 'num', '0', '值越小越靠前', 1, '', 1262, 0, 1, 1396685825, 1396685825, '', 3, '', 'regex', '', 3, 'function'),
-(12340, 'validate_rule', '正则验证', 'varchar(255) NULL', 'string', '', '为空表示不作验证', 1, '', 1262, 0, 1, 1396685776, 1396685776, '', 3, '', 'regex', '', 3, 'function'),
-(12341, 'is_must', '是否必填', 'tinyint(2) NULL', 'bool', '', '用于自动验证', 1, '0:否\r\n1:是', 1262, 0, 1, 1396685579, 1396685579, '', 3, '', 'regex', '', 3, 'function'),
-(12342, 'remark', '字段备注', 'varchar(255) NULL', 'string', '', '用于表单中的提示', 1, '', 1262, 0, 1, 1396685482, 1396685482, '', 3, '', 'regex', '', 3, 'function'),
-(12343, 'name', '字段名', 'varchar(100) NULL', 'string', '', '请输入字段名 英文字母开头，长度不超过30', 1, '', 1262, 1, 1, 1447638080, 1396676792, '', 3, '', 'regex', '', 3, 'function'),
-(12344, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1262, 0, 1, 1396602871, 1396602859, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12345, 'value', '默认值', 'varchar(255) NULL', 'string', '', '字段的默认值', 1, '', 1262, 0, 1, 1396685291, 1396685291, '', 3, '', 'regex', '', 3, 'function'),
-(12346, 'title', '字段标题', 'varchar(255) NOT NULL', 'string', '', '请输入字段标题，用于表单显示', 1, '', 1262, 1, 1, 1396676830, 1396676830, '', 3, '', 'regex', '', 3, 'function'),
-(12347, 'mTime', '修改时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1262, 0, 1, 1396624664, 1396624664, '', 3, '', 'regex', 'time', 3, 'function'),
-(12348, 'extra', '参数', 'text NULL', 'textarea', '', '字段类型为单选、多选、下拉选择和级联选择时的定义数据，其它字段类型为空', 1, '', 1262, 0, 1, 1396835020, 1396685105, '', 3, '', 'regex', '', 3, 'function'),
-(12349, 'type', '字段类型', 'char(50) NOT NULL', 'select', 'string', '用于表单中的展示方式', 1, 'string:单行输入\r\ntextarea:多行输入\r\nradio:单选\r\ncheckbox:多选\r\nselect:下拉选择\r\ndatetime:时间\r\npicture:上传图片', 1262, 1, 1, 1396871262, 1396683600, '', 3, '', 'regex', '', 3, 'function'),
-(12350, 'forms_id', '表单ID', 'int(10) UNSIGNED NULL', 'num', '', '', 4, '', 1263, 0, 1, 1396710064, 1396688308, '', 3, '', 'regex', '', 1, 'function'),
-(12351, 'value', '表单值', 'text NULL', 'textarea', '', '', 0, '', 1263, 0, 1, 1396688355, 1396688355, '', 3, '', 'regex', '', 3, 'function'),
-(12352, 'cTime', '增加时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1263, 0, 1, 1396688434, 1396688434, '', 3, '', 'regex', 'time', 1, 'function'),
-(12353, 'openid', 'OpenId', 'varchar(255) NULL', 'string', '', '', 0, '', 1263, 0, 1, 1396688187, 1396688187, '', 3, '', 'regex', 'get_openid', 1, 'function'),
-(12354, 'uid', '用户ID', 'int(10) NULL', 'num', '', '', 0, '', 1263, 0, 1, 1396688042, 1396688042, '', 3, '', 'regex', '', 3, 'function'),
-(12355, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1263, 0, 1, 1396690911, 1396690911, '', 3, '', 'regex', 'get_token', 1, 'function'),
-(12356, 'cTime', '创建时间', 'int(10) NOT NULL', 'datetime', '', '', 0, '', 1264, 0, 1, 1393234678, 1393234678, '', 3, '', 'regex', 'time', 1, 'function'),
-(12357, 'content', '内容', 'text NOT NULL', 'textarea', '', '', 1, '', 1264, 1, 1, 1393234583, 1393234583, '', 3, '', 'regex', '', 3, 'function'),
-(12358, 'uid', '用户ID', 'int(10) NOT NULL', 'num', '0', '', 0, '', 1264, 0, 1, 1393234534, 1393234534, '', 3, '', 'regex', 'get_mid', 1, 'function'),
-(12359, 'nickname', '用户昵称', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1264, 0, 1, 1400687052, 1400687052, '', 3, '', 'regex', '', 3, 'function');
-INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
-(12360, 'mobile', '手机号', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1264, 0, 1, 1400687075, 1400687075, '', 3, '', 'regex', '', 3, 'function'),
-(12361, 'token', 'Token', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1264, 0, 1, 1400687900, 1400687900, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12494, 'cTime', '菜单发布时间', 'int(10) NULL', 'datetime', '', '菜单发布时间', 1, '', 1274, 0, 1, 1453116920, 1453116525, '', 3, '', 'regex', '', 3, 'function'),
+(12495, 'show', '是否发布', 'char(50) NULL', 'select', '0', '是否发布', 1, '0:未发布\r\n1:已发布', 1274, 0, 1, 1453306537, 1453219041, '', 3, '', 'regex', '', 3, 'function'),
+(12496, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1275, 0, 1, 1404485505, 1404475530, '', 3, '', 'regex', 'get_token', 3, 'function'),
+(12497, 'groupname', '分组名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1275, 0, 1, 1404475556, 1404475556, '', 3, '', 'regex', '', 3, 'function'),
+(12498, 'groupdata', '分组数据源', 'text NULL', 'textarea', '', '', 0, '', 1275, 0, 1, 1404476127, 1404476127, '', 3, '', 'regex', '', 3, 'function'),
+(12499, 'msgkeyword', '消息关键字', 'varchar(555) NULL', 'string', '', '当用户发送的消息中含有关键字时,将自动转到分配的客服人员', 1, '', 1276, 0, 1, 1404399336, 1404399336, '', 3, '', 'regex', '', 3, 'function'),
+(12500, 'msgkeyword_type', '关键字类型', 'char(50) NULL', 'select', '3', '选择关键字匹配的类型', 1, '0:完全匹配\r\n1:左边匹配\r\n2:右边匹配\r\n3:模糊匹配\r\n4:正则匹配\r\n5:随机匹配', 1276, 0, 1, 1404399466, 1404399466, '', 3, '', 'regex', '', 3, 'function'),
+(12501, 'msgkfaccount', '接待的客服人员', 'varchar(255) NULL', 'string', '', '', 0, '', 1276, 0, 1, 1404403340, 1404399587, '', 3, '', 'regex', '', 3, 'function'),
+(12502, 'cTime', '创建时间', 'int(10) NULL', 'date', '', '', 0, '', 1276, 0, 1, 1404399629, 1404399629, '', 3, '', 'regex', 'time', 3, 'function'),
+(12503, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1276, 0, 1, 1404399656, 1404399656, '', 3, '', 'regex', 'get_token', 3, 'function'),
+(12504, 'msgstate', '关键字状态', 'tinyint(2) NULL', 'bool', '1', '停用后用户将不会触发此关键词', 1, '0:停用\r\n1:启用', 1276, 0, 1, 1404399749, 1404399749, '', 3, '', 'regex', '', 3, 'function'),
+(12505, 'zjnum', '转接次数', 'int(10) NULL', 'num', '', '', 0, '', 1276, 0, 1, 1404399784, 1404399784, '', 3, '', 'regex', '', 3, 'function'),
+(12506, 'zdtype', '指定类型', 'char(10) NULL', 'radio', '0', '选择关键字匹配时是按指定人员或者指定客服组', 1, '0:指定客服人员\r\n1:指定客服组', 1276, 0, 1, 1404474672, 1404474672, '', 3, '', 'regex', '', 3, 'function'),
+(12507, 'kfgroupid', '客服分组id', 'int(10) NULL', 'num', '0', '', 0, '', 1276, 0, 1, 1404474777, 1404474777, '', 3, '', 'regex', '', 3, 'function'),
+(12508, 'kf_explain', '客服说明', 'varchar(255) NULL', 'string', '', '客服说明', 1, '', 1276, 0, 1, 1450018523, 1450018523, '', 3, '', 'regex', '', 3, 'function'),
+(12509, 'name', '客服昵称', 'varchar(60) NULL ', 'string', '', '', 1, '', 1277, 0, 1, 1403959775, 1403947255, '', 0, '', 'regex', '', 0, 'function'),
+(12510, 'token', 'token', 'varchar(60) NULL ', 'string', '', '', 0, '', 1277, 0, 1, 1403959638, 1403947256, '', 3, '', 'regex', 'get_token', 3, 'function'),
+(12511, 'userName', '客服帐号', 'varchar(60) NULL ', 'string', '', '', 1, '', 1277, 0, 1, 1403959752, 1403947256, '', 3, '', 'regex', '', 0, 'function'),
+(12512, 'userPwd', '客服密码', 'varchar(32) NULL ', 'string', '', '', 1, '', 1277, 0, 1, 1403959722, 1403947257, '', 0, '', 'regex', '', 0, 'function'),
+(12513, 'endJoinDate', '客服加入时间', 'int(11) NULL ', 'string', '', '', 0, '', 1277, 0, 1, 1403959825, 1403947257, '', 3, '', 'regex', 'time', 3, 'function'),
+(12514, 'status', '客服在线状态', 'tinyint(1) NULL ', 'bool', '0', '', 0, '0:离线\r\n1:在线', 1277, 0, 1, 1404016782, 1403947258, '', 0, '', 'regex', '', 0, 'function'),
+(12515, 'state', '客服状态', 'tinyint(2) NULL', 'bool', '0', '', 1, '0:停用\r\n1:启用', 1277, 0, 1, 1404016877, 1404016877, '', 3, '', 'regex', '', 3, 'function'),
+(12516, 'isdelete', '是否删除', 'tinyint(2) NULL', 'bool', '0', '', 0, '0:正常\r\n1:已被删除', 1277, 0, 1, 1404016931, 1404016931, '', 3, '', 'regex', '', 3, 'function'),
+(12517, 'kfid', '客服编号', 'varchar(255) NULL', 'string', '', '', 1, '', 1277, 0, 1, 1404398387, 1404398387, '', 3, '', 'regex', '', 3, 'function'),
+(12518, 'wxmchid', '微信支付商户号', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 1, 1, 1439364696, 1436437067, '', 3, '', 'regex', '', 3, 'function'),
+(12519, 'shop_id', '商店ID', 'int(10) NULL', 'num', '0', '', 0, '', 1278, 0, 1, 1436437020, 1436437003, '', 3, '', 'regex', '', 3, 'function'),
+(12520, 'quick_merid', '银联在线merid', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436949, 1436436949, '', 3, '', 'regex', '', 3, 'function'),
+(12521, 'quick_merabbr', '商户名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436970, 1436436970, '', 3, '', 'regex', '', 3, 'function'),
+(12522, 'wxpartnerid', '微信partnerid', 'varchar(255) NULL', 'string', '', '', 0, '', 1278, 0, 1, 1436437196, 1436436910, '', 3, '', 'regex', '', 3, 'function'),
+(12523, 'wxpartnerkey', '微信partnerkey', 'varchar(255) NULL', 'string', '', '', 0, '', 1278, 0, 1, 1436437236, 1436436888, '', 3, '', 'regex', '', 3, 'function'),
+(12524, 'partnerid', '财付通标识', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436798, 1436436798, '', 3, '', 'regex', '', 3, 'function'),
+(12525, 'key', 'KEY', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436771, 1436436771, '', 3, '', 'regex', '', 3, 'function'),
+(12526, 'ctime', '创建时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1278, 0, 1, 1436436498, 1436436498, '', 3, '', 'regex', '', 3, 'function'),
+(12527, 'quick_security_key', '银联在线Key', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436931, 1436436931, '', 3, '', 'regex', '', 3, 'function'),
+(12528, 'wappartnerkey', 'WAP财付通Key', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436863, 1436436863, '', 3, '', 'regex', '', 3, 'function'),
+(12529, 'wappartnerid', '财付通标识WAP', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436834, 1436436834, '', 3, '', 'regex', '', 3, 'function'),
+(12530, 'partnerkey', '财付通Key', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436816, 1436436816, '', 3, '', 'regex', '', 3, 'function'),
+(12531, 'pid', 'PID', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436707, 1436436707, '', 3, '', 'regex', '', 3, 'function'),
+(12532, 'zfbname', '帐号', 'varchar(255) NULL', 'string', '', '', 1, '', 1278, 0, 1, 1436436653, 1436436653, '', 3, '', 'regex', '', 3, 'function'),
+(12533, 'wxappsecret', 'AppSecret', 'varchar(255) NULL', 'string', '', '微信支付中的公众号应用密钥', 1, '', 1278, 1, 1, 1439364612, 1436436618, '', 3, '', 'regex', '', 3, 'function'),
+(12534, 'wxpaysignkey', '支付密钥', 'varchar(255) NULL', 'string', '', 'PartnerKey', 1, '', 1278, 1, 1, 1439364810, 1436436569, '', 3, '', 'regex', '', 3, 'function'),
+(12535, 'wxappid', 'AppID', 'varchar(255) NULL', 'string', '', '微信支付中的公众号应用ID', 1, '', 1278, 1, 1, 1439364573, 1436436534, '', 3, '', 'regex', '', 3, 'function'),
+(12536, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1278, 0, 1, 1436436415, 1436436415, '', 3, '', 'regex', '', 3, 'function'),
+(12537, 'wx_cert_pem', '上传证书', 'int(10) UNSIGNED NULL', 'file', '', 'apiclient_cert.pem', 1, '', 1278, 0, 1, 1439804529, 1439550487, '', 3, '', 'regex', '', 3, 'function'),
+(12538, 'wx_key_pem', '上传密匙', 'int(10) UNSIGNED NULL', 'file', '', 'apiclient_key.pem', 1, '', 1278, 0, 1, 1439804544, 1439804014, '', 3, '', 'regex', '', 3, 'function'),
+(12539, 'from', '回调地址', 'varchar(50) NOT NULL', 'string', '', '', 1, '', 1279, 0, 1, 1420596347, 1420596347, '', 3, '', 'regex', '', 3, 'function'),
+(12540, 'orderName', '订单名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1279, 0, 1, 1439976366, 1420596373, '', 3, '', 'regex', '', 3, 'function'),
+(12541, 'single_orderid', '订单号', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1279, 0, 1, 1420596415, 1420596415, '', 3, '', 'regex', '', 3, 'function'),
+(12542, 'price', '价格', 'decimal(10,2) NULL', 'num', '', '', 1, '', 1279, 0, 1, 1439812508, 1420596472, '', 3, '', 'regex', '', 3, 'function'),
+(12543, 'token', 'Token', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1279, 0, 1, 1420596492, 1420596492, '', 3, '', 'regex', '', 3, 'function'),
+(12544, 'wecha_id', 'OpenID', 'varchar(200) NOT NULL', 'string', '', '', 1, '', 1279, 0, 1, 1420596530, 1420596530, '', 3, '', 'regex', '', 3, 'function'),
+(12545, 'paytype', '支付方式', 'varchar(30) NOT NULL', 'string', '', '', 1, '', 1279, 0, 1, 1420596929, 1420596929, '', 3, '', 'regex', '', 3, 'function'),
+(12546, 'showwxpaytitle', '是否显示标题', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:不显示\r\n1:显示', 1279, 0, 1, 1420596980, 1420596980, '', 3, '', 'regex', '', 3, 'function'),
+(12547, 'status', '支付状态', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:未支付\r\n1:已支付\r\n2:支付失败', 1279, 0, 1, 1420597026, 1420597026, '', 3, '', 'regex', '', 3, 'function'),
+(12548, 'token', '公众号token', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1280, 0, 1, 1447736812, 1447736812, '', 3, '', 'regex', 'get_token', 3, 'function'),
+(12549, 'openid', '微信用户id', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1280, 0, 1, 1447736895, 1447736895, '', 3, '', 'regex', 'get_openid', 3, 'function'),
+(12550, 'name', '姓名', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447736947, 1447736947, '', 3, '', 'regex', '', 3, 'function'),
+(12551, 'sex', '性别', 'int(10) NOT NULL', 'select', '', '', 1, '0:保密\r\n1:男性\r\n2:女性', 1280, 0, 1, 1452331282, 1447737042, '', 3, '', 'regex', '', 3, 'function'),
+(12552, 'mobile', '手机号', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447737168, 1447737168, '', 3, '', 'regex', '', 3, 'function'),
+(12553, 'address', '详细地址', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447737246, 1447737246, '', 3, '', 'regex', '', 3, 'function'),
+(12554, 'country', '国家', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447737319, 1447737319, '', 3, '', 'regex', '', 3, 'function'),
+(12555, 'province', '省份', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447737345, 1447737345, '', 3, '', 'regex', '', 3, 'function'),
+(12556, 'city', '城市', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447737405, 1447737405, '', 3, '', 'regex', '', 3, 'function'),
+(12557, 'area', '地区', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1280, 0, 1, 1447737430, 1447737430, '', 3, '', 'regex', '', 3, 'function'),
+(12558, 'is_default', '是否默认', 'int(10) NOT NULL', 'select', '0', '', 1, '0:否\r\n1:是', 1280, 0, 1, 1452331302, 1447737493, '', 3, '', 'regex', '', 3, 'function'),
+(12559, 'postcode', '邮政编码', 'varchar(255) NULL', 'string', '', '', 1, '', 1280, 0, 1, 1452324019, 1452324019, '', 3, '', 'regex', '', 3, 'function'),
+(12560, 'token', '公众号Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1281, 0, 1, 1448517984, 1448517984, '', 3, '', 'regex', 'get_token', 3, 'function'),
+(12561, 'scene_name', '场景名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1281, 1, 1, 1448518657, 1448518006, '', 3, '', 'regex', '', 3, 'function'),
+(12562, 'keyword', '关联关键词', 'varchar(255) NULL', 'string', '', '', 1, '', 1281, 0, 1, 1448518039, 1448518039, '', 3, '', 'regex', '', 3, 'function'),
+(12563, 'scene_type', '二维码类型', 'char(10) NULL', 'radio', '0', '', 1, '0:临时二维码\r\n1:永久二维码', 1281, 0, 1, 1448518150, 1448518150, '', 3, '', 'regex', '', 3, 'function'),
+(12564, 'scene_id', '场景值ID', 'int(32) NULL', 'num', '', '', 0, '', 1281, 0, 1, 1448518272, 1448518252, '', 3, '', 'regex', '', 3, 'function'),
+(12565, 'scene_str', '场景值字符串', 'varchar(255) NULL', 'string', '', '临时二维码不用填。永久二维码填写字符串或汉字，也可以不填。', 1, '', 1281, 0, 1, 1448518467, 1448518467, '', 3, '', 'regex', '', 3, 'function'),
+(12566, 'expire', '过期时间', 'int(10) NULL', 'num', '', '以秒为单位， 最大不超过604800（即7天）。 只对临时二维码有效，永久二维码不用填。', 1, '', 1281, 0, 1, 1448526699, 1448518643, '', 3, '', 'regex', '', 3, 'function'),
+(12567, 'ticket', '二维码Ticket', 'varchar(255) NULL', 'string', '', '', 0, '', 1281, 0, 1, 1448519266, 1448519266, '', 3, '', 'regex', '', 3, 'function'),
+(12568, 'url', '二维码图片解析后的地址', 'varchar(255) NULL', 'string', '', '', 0, '', 1281, 0, 1, 1448519304, 1448519304, '', 3, '', 'regex', '', 3, 'function'),
+(12569, 'ctime', '二维码创建时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1281, 0, 1, 1448519406, 1448519406, '', 3, '', 'regex', 'time', 3, 'function'),
+(12570, 'short_url', '二维码短地址', 'varchar(255) NULL', 'string', '', '', 0, '', 1281, 0, 1, 1448526642, 1448524998, '', 3, '', 'regex', '', 3, 'function'),
+(12571, 'token', '公众号Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1282, 0, 1, 1448529447, 1448529447, '', 3, '', 'regex', 'get_token', 3, 'function'),
+(12572, 'openid', '扫码者openid', 'varchar(255) NULL', 'string', '', '', 0, '', 1282, 0, 1, 1448529507, 1448529507, '', 3, '', 'regex', 'get_openid', 3, 'function'),
+(12573, 'scene_name', '场景名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1282, 0, 1, 1448529541, 1448529541, '', 3, '', 'regex', '', 3, 'function'),
+(12574, 'keyword', '关联关键词', 'varchar(255) NULL', 'string', '', '', 1, '', 1282, 0, 1, 1448529562, 1448529562, '', 3, '', 'regex', '', 3, 'function'),
+(12575, 'scene_id', '场景ID/场景字符串', 'varchar(255) NULL', 'string', '', '', 1, '', 1282, 0, 1, 1448529722, 1448529722, '', 3, '', 'regex', '', 3, 'function'),
+(12576, 'scan_type', '扫描类型', 'varchar(255) NULL', 'string', '', '', 1, '', 1282, 0, 1, 1448529758, 1448529758, '', 3, '', 'regex', '', 3, 'function'),
+(12577, 'ctime', '扫描时间', 'int(10) NULL', 'datetime', '', '', 1, '', 1282, 0, 1, 1448529808, 1448529808, '', 3, '', 'regex', '', 3, 'function'),
+(12578, 'qrcode_id', '二维码ID', 'int(10) NULL', 'num', '', '', 0, '', 1282, 0, 1, 1448534367, 1448533103, '', 3, '', 'regex', '', 3, 'function'),
+(12579, 'keyword', '关键词', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1283, 1, 1, 1396061575, 1396061575, '', 3, '', 'regex', '', 3, 'function'),
+(12580, 'keyword_type', '关键词类型', 'tinyint(2) NULL', 'select', '', '', 1, '0:完全匹配\r\n1:左边匹配\r\n2:右边匹配\r\n3:模糊匹配\r\n4:正则匹配\r\n5:随机匹配', 1283, 0, 1, 1396061814, 1396061765, '', 3, '', 'regex', '', 3, 'function'),
+(12581, 'title', '标题', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1283, 1, 1, 1396061877, 1396061859, '', 3, '', 'regex', '', 3, 'function'),
+(12582, 'intro', '简介', 'text NULL', 'textarea', '', '', 1, '', 1283, 0, 1, 1396061947, 1396061947, '', 3, '', 'regex', '', 3, 'function'),
+(12583, 'cate_id', '所属类别', 'int(10) unsigned NULL ', 'select', '0', '要先在微官网分类里配置好分类才可选择', 1, '0:请选择分类', 1283, 0, 1, 1396078914, 1396062003, '', 3, '', 'regex', '', 3, 'function'),
+(12584, 'cover', '封面图片', 'int(10) unsigned NULL ', 'picture', '', '', 1, '', 1283, 0, 1, 1396062093, 1396062093, '', 3, '', 'regex', '', 3, 'function'),
+(12585, 'content', '内容', 'text NULL', 'editor', '', '', 1, '', 1283, 0, 1, 1396062146, 1396062146, '', 3, '', 'regex', '', 3, 'function'),
+(12586, 'cTime', '发布时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1283, 0, 1, 1396075102, 1396075102, '', 3, '', 'regex', 'time', 1, 'function'),
+(12587, 'sort', '排序号', 'int(10) unsigned NULL ', 'num', '0', '数值越小越靠前', 1, '', 1283, 0, 1, 1396510508, 1396510508, '', 3, '', 'regex', '', 3, 'function'),
+(12588, 'view_count', '浏览数', 'int(10) unsigned NULL ', 'num', '0', '', 0, '', 1283, 0, 1, 1396510630, 1396510630, '', 3, '', 'regex', '', 3, 'function'),
+(12589, 'title', '分类标题', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1284, 1, 1, 1408950771, 1395988016, '', 3, '', 'regex', '', 3, 'function'),
+(12590, 'icon', '分类图片', 'int(10) unsigned NULL ', 'picture', '', '', 1, '', 1284, 0, 1, 1395988966, 1395988966, '', 3, '', 'regex', '', 3, 'function'),
+(12591, 'url', '外链', 'varchar(255) NULL', 'string', '', '为空时默认跳转到该分类的文章列表页面', 1, '', 1284, 0, 1, 1401408363, 1395989660, '', 3, '', 'regex', '', 3, 'function'),
+(12592, 'is_show', '显示', 'tinyint(2) NULL', 'bool', '1', '', 1, '0: 不显示\r\n1: 显示', 1284, 0, 1, 1395989709, 1395989709, '', 3, '', 'regex', '', 3, 'function'),
+(12593, 'token', 'Token', 'varchar(100) NULL ', 'string', '', '', 0, '', 1284, 0, 1, 1395989760, 1395989760, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12594, 'sort', '排序号', 'int(10) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1284, 0, 1, 1396340334, 1396340334, '', 3, '', 'regex', '', 3, 'function'),
+(12595, 'pid', '一级目录', 'int(10) NULL', 'cascade', '0', '', 1, 'type=db&table=weisite_category&pid=id', 1284, 0, 1, 1439522271, 1439469294, '', 3, '', 'regex', '', 3, 'function'),
+(12596, 'title', '标题', 'varchar(255) NULL', 'string', '', '可为空', 1, '', 1285, 0, 1, 1396098316, 1396098316, '', 3, '', 'regex', '', 3, 'function'),
+(12597, 'img', '图片', 'int(10) unsigned NOT NULL ', 'picture', '', '', 1, '', 1285, 1, 1, 1396098349, 1396098349, '', 3, '', 'regex', '', 3, 'function'),
+(12598, 'url', '链接地址', 'varchar(255) NULL', 'string', '', '', 1, '', 1285, 0, 1, 1396098380, 1396098380, '', 3, '', 'regex', '', 3, 'function'),
+(12599, 'is_show', '是否显示', 'tinyint(2) NULL', 'bool', '1', '', 1, '0:不显示\r\n1:显示', 1285, 0, 1, 1396098464, 1396098464, '', 3, '', 'regex', '', 3, 'function'),
+(12600, 'sort', '排序', 'int(10) unsigned NULL ', 'num', '0', '值越小越靠前', 1, '', 1285, 0, 1, 1396098682, 1396098682, '', 3, '', 'regex', '', 3, 'function'),
+(12601, 'token', 'Token', 'varchar(100) NULL', 'string', '', '', 0, '', 1285, 0, 1, 1396098747, 1396098747, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12602, 'url', '关联URL', 'varchar(255) NULL ', 'string', '', '', 1, '', 1286, 0, 1, 1394519090, 1394519090, '', 3, '', 'regex', '', 3, 'function'),
+(12603, 'title', '菜单名', 'varchar(50) NOT NULL', 'string', '', '可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。', 1, '', 1286, 1, 1, 1408950832, 1394518988, '', 3, '', 'regex', '', 3, 'function'),
+(12604, 'pid', '一级菜单', 'tinyint(2) NULL', 'select', '0', '如果是一级菜单，选择“无”即可', 1, '0:无', 1286, 0, 1, 1409045931, 1394518930, '', 3, '', 'regex', '', 3, 'function'),
+(12605, 'sort', '排序号', 'tinyint(4) NULL ', 'num', '0', '数值越小越靠前', 1, '', 1286, 0, 1, 1394523288, 1394519175, '', 3, '', 'regex', '', 3, 'function'),
+(12606, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1286, 0, 1, 1394526820, 1394526820, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12607, 'icon', '图标', 'int(10) unsigned NULL ', 'picture', '', '根据选择的底部模板决定是否需要上传图标', 1, '', 1286, 0, 1, 1396506297, 1396506297, '', 3, '', 'regex', '', 3, 'function'),
 (12362, 'public_count', '可创建公众号数', 'int(10) NULL', 'num', '', '', 1, '', 1, 0, 1, 1452417198, 1452417198, '', 3, '', 'regex', '', 3, 'function'),
-(12363, 'token', '公众号token', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1265, 0, 1, 1447736812, 1447736812, '', 3, '', 'regex', 'get_token', 3, 'function'),
-(12364, 'openid', '微信用户id', 'varchar(255) NOT NULL', 'string', '', '', 0, '', 1265, 0, 1, 1447736895, 1447736895, '', 3, '', 'regex', 'get_openid', 3, 'function'),
-(12365, 'name', '姓名', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447736947, 1447736947, '', 3, '', 'regex', '', 3, 'function'),
-(12366, 'sex', '性别', 'int(10) NOT NULL', 'select', '', '', 1, '0:保密\r\n1:男性\r\n2:女性', 1265, 0, 1, 1452331282, 1447737042, '', 3, '', 'regex', '', 3, 'function'),
-(12367, 'mobile', '手机号', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447737168, 1447737168, '', 3, '', 'regex', '', 3, 'function'),
-(12368, 'address', '详细地址', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447737246, 1447737246, '', 3, '', 'regex', '', 3, 'function'),
-(12369, 'country', '国家', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447737319, 1447737319, '', 3, '', 'regex', '', 3, 'function'),
-(12370, 'province', '省份', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447737345, 1447737345, '', 3, '', 'regex', '', 3, 'function'),
-(12371, 'city', '城市', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447737405, 1447737405, '', 3, '', 'regex', '', 3, 'function'),
-(12372, 'area', '地区', 'varchar(255) NOT NULL', 'string', '', '', 1, '', 1265, 0, 1, 1447737430, 1447737430, '', 3, '', 'regex', '', 3, 'function'),
-(12373, 'is_default', '是否默认', 'int(10) NOT NULL', 'select', '0', '', 1, '0:否\r\n1:是', 1265, 0, 1, 1452331302, 1447737493, '', 3, '', 'regex', '', 3, 'function'),
-(12374, 'postcode', '邮政编码', 'varchar(255) NULL', 'string', '', '', 1, '', 1265, 0, 1, 1452324019, 1452324019, '', 3, '', 'regex', '', 3, 'function'),
-(12375, 'wxmchid', '微信支付商户号', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 1, 1, 1439364696, 1436437067, '', 3, '', 'regex', '', 3, 'function'),
-(12376, 'shop_id', '商店ID', 'int(10) NULL', 'num', '0', '', 0, '', 1266, 0, 1, 1436437020, 1436437003, '', 3, '', 'regex', '', 3, 'function'),
-(12377, 'quick_merid', '银联在线merid', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436949, 1436436949, '', 3, '', 'regex', '', 3, 'function'),
-(12378, 'quick_merabbr', '商户名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436970, 1436436970, '', 3, '', 'regex', '', 3, 'function'),
-(12379, 'wxpartnerid', '微信partnerid', 'varchar(255) NULL', 'string', '', '', 0, '', 1266, 0, 1, 1436437196, 1436436910, '', 3, '', 'regex', '', 3, 'function'),
-(12380, 'wxpartnerkey', '微信partnerkey', 'varchar(255) NULL', 'string', '', '', 0, '', 1266, 0, 1, 1436437236, 1436436888, '', 3, '', 'regex', '', 3, 'function'),
-(12381, 'partnerid', '财付通标识', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436798, 1436436798, '', 3, '', 'regex', '', 3, 'function'),
-(12382, 'key', 'KEY', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436771, 1436436771, '', 3, '', 'regex', '', 3, 'function'),
-(12383, 'ctime', '创建时间', 'int(10) NULL', 'datetime', '', '', 0, '', 1266, 0, 1, 1436436498, 1436436498, '', 3, '', 'regex', '', 3, 'function'),
-(12384, 'quick_security_key', '银联在线Key', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436931, 1436436931, '', 3, '', 'regex', '', 3, 'function'),
-(12385, 'wappartnerkey', 'WAP财付通Key', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436863, 1436436863, '', 3, '', 'regex', '', 3, 'function'),
-(12386, 'wappartnerid', '财付通标识WAP', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436834, 1436436834, '', 3, '', 'regex', '', 3, 'function'),
-(12387, 'partnerkey', '财付通Key', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436816, 1436436816, '', 3, '', 'regex', '', 3, 'function'),
-(12388, 'pid', 'PID', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436707, 1436436707, '', 3, '', 'regex', '', 3, 'function'),
-(12389, 'zfbname', '帐号', 'varchar(255) NULL', 'string', '', '', 1, '', 1266, 0, 1, 1436436653, 1436436653, '', 3, '', 'regex', '', 3, 'function'),
-(12390, 'wxappsecret', 'AppSecret', 'varchar(255) NULL', 'string', '', '微信支付中的公众号应用密钥', 1, '', 1266, 1, 1, 1439364612, 1436436618, '', 3, '', 'regex', '', 3, 'function'),
-(12391, 'wxpaysignkey', '支付密钥', 'varchar(255) NULL', 'string', '', 'PartnerKey', 1, '', 1266, 1, 1, 1439364810, 1436436569, '', 3, '', 'regex', '', 3, 'function'),
-(12392, 'wxappid', 'AppID', 'varchar(255) NULL', 'string', '', '微信支付中的公众号应用ID', 1, '', 1266, 1, 1, 1439364573, 1436436534, '', 3, '', 'regex', '', 3, 'function'),
-(12393, 'token', 'token', 'varchar(255) NULL', 'string', '', '', 0, '', 1266, 0, 1, 1436436415, 1436436415, '', 3, '', 'regex', '', 3, 'function'),
-(12394, 'wx_cert_pem', '上传证书', 'int(10) UNSIGNED NULL', 'file', '', 'apiclient_cert.pem', 1, '', 1266, 0, 1, 1439804529, 1439550487, '', 3, '', 'regex', '', 3, 'function'),
-(12395, 'wx_key_pem', '上传密匙', 'int(10) UNSIGNED NULL', 'file', '', 'apiclient_key.pem', 1, '', 1266, 0, 1, 1439804544, 1439804014, '', 3, '', 'regex', '', 3, 'function'),
-(12396, 'from', '回调地址', 'varchar(50) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596347, 1420596347, '', 3, '', 'regex', '', 3, 'function'),
-(12397, 'orderName', '订单名称', 'varchar(255) NULL', 'string', '', '', 1, '', 1267, 0, 1, 1439976366, 1420596373, '', 3, '', 'regex', '', 3, 'function'),
-(12398, 'single_orderid', '订单号', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596415, 1420596415, '', 3, '', 'regex', '', 3, 'function'),
-(12399, 'price', '价格', 'decimal(10,2) NULL', 'num', '', '', 1, '', 1267, 0, 1, 1439812508, 1420596472, '', 3, '', 'regex', '', 3, 'function'),
-(12400, 'token', 'Token', 'varchar(100) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596492, 1420596492, '', 3, '', 'regex', '', 3, 'function'),
-(12401, 'wecha_id', 'OpenID', 'varchar(200) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596530, 1420596530, '', 3, '', 'regex', '', 3, 'function'),
-(12402, 'paytype', '支付方式', 'varchar(30) NOT NULL', 'string', '', '', 1, '', 1267, 0, 1, 1420596929, 1420596929, '', 3, '', 'regex', '', 3, 'function'),
-(12403, 'showwxpaytitle', '是否显示标题', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:不显示\r\n1:显示', 1267, 0, 1, 1420596980, 1420596980, '', 3, '', 'regex', '', 3, 'function'),
-(12404, 'status', '支付状态', 'tinyint(2) NOT NULL', 'bool', '0', '', 1, '0:未支付\r\n1:已支付\r\n2:支付失败', 1267, 0, 1, 1420597026, 1420597026, '', 3, '', 'regex', '', 3, 'function'),
-(12416, 'jump_type', '推送类型', 'char(10) NULL', 'radio', '0', '', 1, '1:URL|keyword@hide,url@show\r\n0:关键词|keyword@show,url@hide', 1268, 0, 1, 1447208981, 1447208981, '', 3, '', 'regex', '', 3, 'function'),
-(12417, 'menu_id', '对应菜单ID，禁止修改', 'int(10) NULL', 'num', '', '', 1, '', 1268, 0, 1, 1453345667, 1453345667, '', 3, '', 'regex', '', 3, 'function'),
-(12418, 'title', '菜单标题', 'varchar(255) NULL', 'string', '', '用于区分菜单类型', 1, '', 1269, 1, 1, 1453098869, 1453098869, '', 3, '', 'regex', '', 3, 'function'),
-(12419, 'type', '菜单类型', 'char(50) NULL', 'select', '0', '菜单类型', 1, '0:默认菜单\r\n1:个性菜单', 1269, 1, 1, 1453098999, 1453098999, '', 3, '', 'regex', '', 3, 'function'),
-(12420, 'group_id', '用户分组id', 'varchar(255) NULL', 'string', '', '', 1, '', 1269, 0, 1, 1453305419, 1453099301, '', 3, '', 'regex', '', 3, 'function'),
-(12421, 'sex', '性别', 'char(50) NULL', 'select', '', '', 1, '1:男\r\n2:女', 1269, 0, 1, 1453099368, 1453099368, '', 3, '', 'regex', '', 3, 'function'),
-(12422, 'country', '国家信息', 'varchar(255) NULL', 'string', '', '国家信息', 1, '', 1269, 0, 1, 1453099469, 1453099469, '', 3, '', 'regex', '', 3, 'function'),
-(12423, 'province', '省份信息', 'varchar(255) NULL', 'string', '', '省份信息', 1, '', 1269, 0, 1, 1453099495, 1453099495, '', 3, '', 'regex', '', 3, 'function'),
-(12424, 'city', '城市信息', 'varchar(255) NULL', 'string', '', '城市信息', 1, '', 1269, 0, 1, 1453099551, 1453099551, '', 3, '', 'regex', '', 3, 'function'),
-(12425, 'client_platform_type', '手机操作系统类型', 'char(50) NULL', 'select', '', '手机操作系统类型', 1, '1:IOS\r\n2:Android\r\n3:Others', 1269, 0, 1, 1453099676, 1453099676, '', 3, '', 'regex', '', 3, 'function'),
-(12426, 'menuid', '微信端菜单ID', 'varchar(255) NULL', 'string', '', '', 1, '', 1269, 0, 1, 1453307372, 1453100271, '', 3, '', 'regex', '', 3, 'function'),
-(12427, 'token', 'Token', 'varchar(255) NULL', 'string', '', 'Token', 0, '', 1269, 0, 1, 1453116330, 1453116321, '', 3, '', 'regex', '', 3, 'function'),
-(12428, 'cTime', '菜单发布时间', 'int(10) NULL', 'datetime', '', '菜单发布时间', 1, '', 1269, 0, 1, 1453116920, 1453116525, '', 3, '', 'regex', '', 3, 'function'),
-(12429, 'show', '是否发布', 'char(50) NULL', 'select', '0', '是否发布', 1, '0:未发布\r\n1:已发布', 1269, 0, 1, 1453306537, 1453219041, '', 3, '', 'regex', '', 3, 'function');
+(12493, 'token', 'Token', 'varchar(255) NULL', 'string', '', 'Token', 0, '', 1274, 0, 1, 1453116330, 1453116321, '', 3, '', 'regex', '', 3, 'function'),
+(12492, 'menuid', '微信端菜单ID', 'varchar(255) NULL', 'string', '', '', 1, '', 1274, 0, 1, 1453307372, 1453100271, '', 3, '', 'regex', '', 3, 'function'),
+(12491, 'client_platform_type', '手机操作系统类型', 'char(50) NULL', 'select', '', '手机操作系统类型', 1, '1:IOS\r\n2:Android\r\n3:Others', 1274, 0, 1, 1453099676, 1453099676, '', 3, '', 'regex', '', 3, 'function'),
+(12490, 'city', '城市信息', 'varchar(255) NULL', 'string', '', '城市信息', 1, '', 1274, 0, 1, 1453099551, 1453099551, '', 3, '', 'regex', '', 3, 'function'),
+(12489, 'province', '省份信息', 'varchar(255) NULL', 'string', '', '省份信息', 1, '', 1274, 0, 1, 1453099495, 1453099495, '', 3, '', 'regex', '', 3, 'function'),
+(12487, 'sex', '性别', 'char(50) NULL', 'select', '', '', 1, '1:男\r\n2:女', 1274, 0, 1, 1453099368, 1453099368, '', 3, '', 'regex', '', 3, 'function'),
+(12486, 'group_id', '用户分组id', 'varchar(255) NULL', 'string', '', '', 1, '', 1274, 0, 1, 1453305419, 1453099301, '', 3, '', 'regex', '', 3, 'function'),
+(12485, 'type', '菜单类型', 'char(50) NULL', 'select', '0', '菜单类型', 1, '0:默认菜单\r\n1:个性菜单', 1274, 1, 1, 1453098999, 1453098999, '', 3, '', 'regex', '', 3, 'function'),
+(12483, 'menu_id', '对应菜单ID，禁止修改', 'int(10) NULL', 'num', '', '', 1, '', 1273, 0, 1, 1453345667, 1453345667, '', 3, '', 'regex', '', 3, 'function'),
+(12481, 'sucai_type', '素材类型', 'char(50) NULL', 'select', '0', '', 1, '0:请选择\r\n1:图文\r\n2:文本\r\n3:图片\r\n4:语音\r\n5:视频', 1273, 0, 1, 1447208890, 1447208890, '', 3, '', 'regex', '', 3, 'function'),
+(12482, 'jump_type', '推送类型', 'char(10) NULL', 'radio', '0', '', 1, '1:URL|keyword@hide,url@show\r\n0:关键词|keyword@show,url@hide', 1273, 0, 1, 1447208981, 1447208981, '', 3, '', 'regex', '', 3, 'function'),
+(12480, 'target_id', '选择内容', 'int(10) NULL', 'num', '', '', 4, '0:请选择', 1273, 0, 1, 1447208825, 1447208825, '', 3, '', 'regex', '', 3, 'function'),
+(12479, 'addon', '选择插件', 'char(50) NULL', 'select', '0', '', 1, '0:请选择', 1273, 0, 1, 1447208750, 1447208750, '', 3, '', 'regex', '', 3, 'function'),
+(12484, 'title', '菜单标题', 'varchar(255) NULL', 'string', '', '用于区分菜单类型', 1, '', 1274, 1, 1, 1453098869, 1453098869, '', 3, '', 'regex', '', 3, 'function'),
+(12478, 'from_type', '配置动作', 'char(50) NULL', 'select', '-1', '', 1, '0:站内信息|keyword@hide,url@hide,type@hide,sucai_type@hide,addon@show,jump_type@show\r\n1:站内素材|keyword@hide,url@hide,type@hide,sucai_type@show,addon@hide,jump_type@hide\r\n9:自定义|keyword@show,url@hide,type@show,addon@hide,sucai_type@hide,jump_type@hide\r\n-1:请选择|keyword@hide,url@hide,type@hide,addon@hide,sucai_type@hide,jump_type@hide', 1273, 0, 1, 1447318552, 1447208677, '', 3, '', 'regex', '', 3, 'function'),
+(12462, 'content', '文本内容', 'text NULL', 'textarea', '', '', 1, '', 1272, 0, 1, 1439195826, 1439195091, '', 3, '', 'regex', '', 3, 'function'),
+(12463, 'group_id', '图文', 'int(10) NULL', 'news', '', '', 1, '', 1272, 0, 1, 1439204192, 1439195901, '', 3, '', 'regex', '', 3, 'function'),
+(12464, 'image_id', '上传图片', 'int(10) UNSIGNED NULL', 'picture', '', '', 1, '', 1272, 0, 1, 1439195945, 1439195945, '', 3, '', 'regex', '', 3, 'function'),
+(12465, 'manager_id', '管理员ID', 'int(10) NULL', 'num', '', '', 0, '', 1272, 0, 1, 1439203621, 1439203575, '', 3, '', 'regex', 'get_mid', 1, 'function'),
+(12466, 'token', 'Token', 'varchar(50) NULL', 'string', '', '', 0, '', 1272, 0, 1, 1439203612, 1439203612, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12467, 'image_material', '素材图片id', 'int(10) NULL', 'num', '', '', 0, '', 1272, 0, 1, 1447738833, 1447738833, '', 3, '', 'regex', '', 3, 'function'),
+(12468, 'voice_id', '语音id', 'int(10) NULL', 'num', '0', '', 0, '', 1272, 0, 1, 1449152539, 1449150873, '', 3, '', 'regex', '', 3, 'function'),
+(12469, 'video_id', '视频id', 'int(10) NULL', 'num', '0', '', 0, '', 1272, 0, 1, 1449152532, 1449150935, '', 3, '', 'regex', '', 3, 'function'),
+(12470, 'reply_scene', '回复场景（0：关注时回复；1：默认回复；2：关键词回复）', 'int(10) NULL', 'num', '', '', 1, '', 1272, 0, 1, 1449154529, 1449154529, '', 3, '', 'regex', '', 3, 'function'),
+(12474, 'keyword', '关联关键词', 'varchar(100) NULL', 'string', '', '', 1, '', 1273, 0, 1, 1416812109, 1394519054, '', 3, '', 'regex', '', 3, 'function'),
+(12475, 'url', '关联URL', 'varchar(255) NULL ', 'string', '', '', 1, '', 1273, 0, 1, 1394519090, 1394519090, '', 3, '', 'regex', '', 3, 'function'),
+(12476, 'token', 'Token', 'varchar(255) NULL', 'string', '', '', 0, '', 1273, 0, 1, 1394526820, 1394526820, '', 3, '', 'regex', 'get_token', 1, 'function'),
+(12477, 'type', '类型', 'varchar(30) NULL', 'bool', 'click', '', 1, 'click:点击推事件|keyword@show,url@hide\r\nview:跳转URL|keyword@hide,url@show\r\nscancode_push:扫码推事件|keyword@show,url@hide\r\nscancode_waitmsg:扫码带提示|keyword@show,url@hide\r\npic_sysphoto:弹出系统拍照发图|keyword@show,url@hide\r\npic_photo_or_album:弹出拍照或者相册发图|keyword@show,url@hide\r\npic_weixin:弹出微信相册发图器|keyword@show,url@hide\r\nlocation_select:弹出地理位置选择器|keyword@show,url@hide\r\nnone:无事件的一级菜单|keyword@hide,url@hide', 1273, 0, 1, 1416812039, 1416810588, '', 3, '', 'regex', '', 3, 'function');
 
 -- --------------------------------------------------------
 
@@ -979,10 +790,7 @@ INSERT INTO `dc_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `re
 CREATE TABLE IF NOT EXISTS `dc_auth_extend` (
   `group_id` mediumint(10) unsigned NOT NULL COMMENT '用户id',
   `extend_id` mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id',
-  `type` tinyint(1) unsigned NOT NULL COMMENT '扩展类型标识 1:栏目分类权限;2:模型权限',
-  UNIQUE KEY `group_extend_type` (`group_id`,`extend_id`,`type`),
-  KEY `uid` (`group_id`),
-  KEY `group_id` (`extend_id`)
+  `type` tinyint(1) unsigned NOT NULL COMMENT '扩展类型标识 1:栏目分类权限;2:模型权限'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户组与分类的对应关系表';
 
 -- --------------------------------------------------------
@@ -992,7 +800,7 @@ CREATE TABLE IF NOT EXISTS `dc_auth_extend` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_auth_group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(30) DEFAULT NULL COMMENT '分组名称',
   `icon` int(10) unsigned DEFAULT NULL COMMENT '图标',
   `description` text COMMENT '描述信息',
@@ -1006,9 +814,8 @@ CREATE TABLE IF NOT EXISTS `dc_auth_group` (
   `wechat_group_id` int(10) DEFAULT '-1' COMMENT '微信端的分组ID',
   `wechat_group_name` varchar(100) DEFAULT NULL COMMENT '微信端的分组名',
   `wechat_group_count` int(10) DEFAULT NULL COMMENT '微信端用户数',
-  `is_del` tinyint(1) DEFAULT '0' COMMENT '是否已删除',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '是否已删除'
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `dc_auth_group`
@@ -1027,10 +834,7 @@ INSERT INTO `dc_auth_group` (`id`, `title`, `icon`, `description`, `status`, `ty
 
 CREATE TABLE IF NOT EXISTS `dc_auth_group_access` (
   `uid` int(10) DEFAULT NULL COMMENT '用户id',
-  `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id',
-  UNIQUE KEY `uid_group_id` (`uid`,`group_id`),
-  KEY `uid` (`uid`),
-  KEY `group_id` (`group_id`)
+  `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1047,15 +851,13 @@ INSERT INTO `dc_auth_group_access` (`uid`, `group_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `dc_auth_rule` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id,自增主键',
+  `id` mediumint(8) unsigned NOT NULL COMMENT '规则id,自增主键',
   `name` char(80) NOT NULL DEFAULT '' COMMENT '规则唯一英文标识',
   `title` char(100) NOT NULL DEFAULT '' COMMENT '规则中文描述',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否有效(0:无效,1:有效)',
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件',
-  `group` char(30) DEFAULT '默认分组',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=280 ;
+  `group` char(30) DEFAULT '默认分组'
+) ENGINE=MyISAM AUTO_INCREMENT=280 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `dc_auth_rule`
@@ -1073,7 +875,7 @@ INSERT INTO `dc_auth_rule` (`id`, `name`, `title`, `status`, `condition`, `group
 --
 
 CREATE TABLE IF NOT EXISTS `dc_auto_reply` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `keyword` varchar(255) DEFAULT NULL COMMENT '关键词',
   `msg_type` char(50) DEFAULT 'text' COMMENT '消息类型',
   `content` text COMMENT '文本内容',
@@ -1084,9 +886,8 @@ CREATE TABLE IF NOT EXISTS `dc_auto_reply` (
   `image_material` int(10) DEFAULT NULL COMMENT '素材图片id',
   `voice_id` int(10) DEFAULT '0' COMMENT '语音id',
   `video_id` int(10) DEFAULT '0' COMMENT '视频id',
-  `reply_scene` int(10) DEFAULT NULL COMMENT '回复场景（0：关注时回复；1：默认回复；2：关键词回复）',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `reply_scene` int(10) DEFAULT NULL COMMENT '回复场景（0：关注时回复；1：默认回复；2：关键词回复）'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1095,7 +896,7 @@ CREATE TABLE IF NOT EXISTS `dc_auto_reply` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_channel` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '频道ID',
+  `id` int(10) unsigned NOT NULL COMMENT '频道ID',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级频道ID',
   `title` char(30) NOT NULL COMMENT '频道标题',
   `url` char(100) NOT NULL COMMENT '频道连接',
@@ -1103,9 +904,8 @@ CREATE TABLE IF NOT EXISTS `dc_channel` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
-  `target` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '新窗口打开',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `target` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '新窗口打开'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1114,7 +914,7 @@ CREATE TABLE IF NOT EXISTS `dc_channel` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_common_category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '分类标识',
   `title` varchar(255) NOT NULL COMMENT '分类标题',
   `icon` int(10) unsigned DEFAULT NULL COMMENT '分类图标',
@@ -1125,9 +925,8 @@ CREATE TABLE IF NOT EXISTS `dc_common_category` (
   `is_show` tinyint(2) DEFAULT '1' COMMENT '是否显示',
   `intro` varchar(255) DEFAULT NULL COMMENT '分类描述',
   `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  `code` varchar(255) DEFAULT NULL COMMENT '分类扩展编号',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `code` varchar(255) DEFAULT NULL COMMENT '分类扩展编号'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1136,14 +935,13 @@ CREATE TABLE IF NOT EXISTS `dc_common_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_common_category_group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(100) NOT NULL COMMENT '分组标识',
   `title` varchar(255) NOT NULL COMMENT '分组标题',
   `cTime` int(10) unsigned DEFAULT NULL COMMENT '发布时间',
   `token` varchar(100) DEFAULT NULL COMMENT 'Token',
-  `level` tinyint(1) unsigned DEFAULT '3' COMMENT '最多级数',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `level` tinyint(1) unsigned DEFAULT '3' COMMENT '最多级数'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1152,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `dc_common_category_group` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_config` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '配置ID',
+  `id` int(10) unsigned NOT NULL COMMENT '配置ID',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '配置名称',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '配置说明',
@@ -1163,10 +961,8 @@ CREATE TABLE IF NOT EXISTS `dc_config` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `value` text NOT NULL COMMENT '配置值',
-  `sort` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统配置表' AUTO_INCREMENT=66 ;
+  `sort` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='系统配置表';
 
 --
 -- 转存表中的数据 `dc_config`
@@ -1205,7 +1001,7 @@ INSERT INTO `dc_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remar
 (44, 'DEFAULT_PUBLIC_GROUP_ID', 0, '公众号默认等级ID', 3, '', '前台新增加的公众号的默认等级，值为0表示不做权限控制，公众号拥有全部插件的权限', 1393759885, 1393759981, 1, '0', 2),
 (45, 'SYSTEM_UPDATE_REMIND', 4, '系统升级提醒', 4, '0:关闭\r\n1:开启', '开启后官方有新升级信息会及时在后台的网站设置页面头部显示升级提醒', 1393764263, 1393764263, 1, '0', 5),
 (46, 'SYSTEM_UPDATRE_VERSION', 0, '系统升级最新版本号', 4, '', '记录当前系统的版本号，这是与官方比较是否有升级包的唯一标识，不熟悉者只勿改变其数值', 1393764702, 1394337646, 1, '1.0.20160101', 0),
-(47, 'FOLLOW_YOUKE_UID', 0, '粉丝游客ID', 0, '', '', 1398927704, 1398927704, 1, '-11884', 0),
+(47, 'FOLLOW_YOUKE_UID', 0, '粉丝游客ID', 0, '', '', 1398927704, 1398927704, 1, '-11936', 0),
 (48, 'DEFAULT_PUBLIC', 0, '注册后默认可管理的公众号ID', 3, '', '可为空。配置用户注册后即可管理的公众号ID，多个时用英文逗号分割', 1398928794, 1398929088, 1, '', 3),
 (49, 'DEFAULT_PUBLIC_CREATE_MAX_NUMB', 0, '默认用户最多可创建的公众号数', 3, '', '注册用户最多的创建数，也可以在用户管理里对每个用户设置不同的值', 1398949652, 1398950115, 1, '5', 4),
 (50, 'COPYRIGHT', 1, '版权信息', 1, '', '', 1401018910, 1401018910, 1, '武汉市艾豆网络科技有限公司所有', 3),
@@ -1230,15 +1026,14 @@ INSERT INTO `dc_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remar
 --
 
 CREATE TABLE IF NOT EXISTS `dc_credit_config` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(255) NOT NULL COMMENT '积分描述',
   `name` varchar(50) DEFAULT NULL COMMENT '积分标识',
   `mTime` int(10) DEFAULT NULL COMMENT '修改时间',
   `experience` varchar(30) DEFAULT '0' COMMENT '经验值',
   `score` varchar(30) DEFAULT '0' COMMENT '金币值',
-  `token` varchar(255) DEFAULT '0' COMMENT 'Token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
+  `token` varchar(255) DEFAULT '0' COMMENT 'Token'
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `dc_credit_config`
@@ -1268,7 +1063,7 @@ INSERT INTO `dc_credit_config` (`id`, `title`, `name`, `mTime`, `experience`, `s
 --
 
 CREATE TABLE IF NOT EXISTS `dc_credit_data` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `uid` int(10) DEFAULT '0' COMMENT '用户ID',
   `credit_name` varchar(50) DEFAULT NULL COMMENT '积分标识',
   `experience` int(10) DEFAULT '0' COMMENT '体力值',
@@ -1276,9 +1071,8 @@ CREATE TABLE IF NOT EXISTS `dc_credit_data` (
   `cTime` int(10) DEFAULT NULL COMMENT '记录时间',
   `admin_uid` int(10) DEFAULT '0' COMMENT '操作者UID',
   `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  `credit_title` varchar(50) DEFAULT NULL COMMENT '积分标题',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `credit_title` varchar(50) DEFAULT NULL COMMENT '积分标题'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1287,7 +1081,7 @@ CREATE TABLE IF NOT EXISTS `dc_credit_data` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_customer` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL,
   `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `name` varchar(50) DEFAULT '',
   `sex` varchar(4) DEFAULT '',
@@ -1311,9 +1105,8 @@ CREATE TABLE IF NOT EXISTS `dc_customer` (
   `createTime` int(10) unsigned NOT NULL DEFAULT '0',
   `groupId` varchar(20) NOT NULL DEFAULT '',
   `groupName` varchar(200) DEFAULT '',
-  `group` varchar(50) DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `group` varchar(50) DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1322,7 +1115,7 @@ CREATE TABLE IF NOT EXISTS `dc_customer` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_custom_menu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `sort` tinyint(4) DEFAULT '0' COMMENT '排序号',
   `pid` int(10) DEFAULT '0' COMMENT '一级菜单',
   `title` varchar(50) NOT NULL COMMENT '菜单名',
@@ -1335,9 +1128,8 @@ CREATE TABLE IF NOT EXISTS `dc_custom_menu` (
   `target_id` int(10) DEFAULT NULL COMMENT '选择内容',
   `sucai_type` char(50) DEFAULT '0' COMMENT '素材类型',
   `jump_type` char(10) DEFAULT '0' COMMENT '推送类型',
-  `menu_id` int(10) DEFAULT NULL COMMENT '对应菜单ID，禁止修改',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `menu_id` int(10) DEFAULT NULL COMMENT '对应菜单ID，禁止修改'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1346,7 +1138,7 @@ CREATE TABLE IF NOT EXISTS `dc_custom_menu` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_custom_menu_type` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(255) DEFAULT NULL COMMENT '菜单标题',
   `type` char(50) DEFAULT '0' COMMENT '菜单类型',
   `group_id` varchar(255) DEFAULT NULL COMMENT '用户分组id',
@@ -1358,9 +1150,8 @@ CREATE TABLE IF NOT EXISTS `dc_custom_menu_type` (
   `menuid` varchar(255) DEFAULT NULL COMMENT '微信端菜单ID',
   `token` varchar(255) DEFAULT NULL COMMENT 'Token',
   `cTime` int(10) DEFAULT NULL COMMENT '菜单发布时间',
-  `show` char(50) DEFAULT '0' COMMENT '是否发布',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `show` char(50) DEFAULT '0' COMMENT '是否发布'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1369,7 +1160,7 @@ CREATE TABLE IF NOT EXISTS `dc_custom_menu_type` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_custom_sendall` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `ToUserName` varchar(255) DEFAULT NULL COMMENT 'token',
   `FromUserName` varchar(255) DEFAULT NULL COMMENT 'openid',
   `cTime` int(10) DEFAULT NULL COMMENT '创建时间',
@@ -1389,60 +1180,8 @@ CREATE TABLE IF NOT EXISTS `dc_custom_sendall` (
   `send_type` int(10) DEFAULT NULL COMMENT '发送方式',
   `send_opends` text COMMENT '指定用户',
   `group_id` int(10) DEFAULT NULL COMMENT '分组id',
-  `diff` int(10) DEFAULT '0' COMMENT '区分消息标识',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_donations_list`
---
-
-CREATE TABLE IF NOT EXISTS `dc_donations_list` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `content` text COMMENT '捐赠者留言',
-  `money` float DEFAULT NULL COMMENT '捐赠金额',
-  `email` varchar(255) DEFAULT NULL COMMENT '捐赠者邮箱',
-  `nickname` varchar(255) DEFAULT NULL COMMENT '捐赠者昵称',
-  `ctime` int(10) DEFAULT NULL COMMENT '捐赠时间',
-  `openid` varchar(255) DEFAULT NULL COMMENT '捐赠者openid',
-  `token` varchar(255) DEFAULT NULL COMMENT '公众号token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_donations_money`
---
-
-CREATE TABLE IF NOT EXISTS `dc_donations_money` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `desc` text COMMENT '描述',
-  `money` int(10) DEFAULT NULL COMMENT '金额',
-  `token` varchar(255) DEFAULT NULL COMMENT '公众号token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_extensions`
---
-
-CREATE TABLE IF NOT EXISTS `dc_extensions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `keyword_type` tinyint(2) DEFAULT '0' COMMENT '关键词匹配类型',
-  `api_token` varchar(255) NOT NULL COMMENT 'Token',
-  `cTime` int(10) NOT NULL COMMENT '创建时间',
-  `api_url` varchar(255) NOT NULL COMMENT '第三方URL',
-  `output_format` tinyint(1) DEFAULT '0' COMMENT '数据输出格式',
-  `keyword_filter` tinyint(2) NOT NULL DEFAULT '0' COMMENT '关键词过滤',
-  `keyword` varchar(255) NOT NULL COMMENT '关键词',
-  `token` varchar(255) NOT NULL COMMENT 'Token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `diff` int(10) DEFAULT '0' COMMENT '区分消息标识'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1451,7 +1190,7 @@ CREATE TABLE IF NOT EXISTS `dc_extensions` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_file` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文件ID',
+  `id` int(10) unsigned NOT NULL COMMENT '文件ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '原始文件名',
   `savename` char(20) NOT NULL DEFAULT '' COMMENT '保存名称',
   `savepath` char(30) NOT NULL DEFAULT '' COMMENT '文件保存路径',
@@ -1461,77 +1200,8 @@ CREATE TABLE IF NOT EXISTS `dc_file` (
   `md5` char(32) DEFAULT '' COMMENT '文件md5',
   `sha1` char(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   `location` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '文件保存位置',
-  `create_time` int(10) unsigned NOT NULL COMMENT '上传时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_md5` (`md5`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文件表' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_forms`
---
-
-CREATE TABLE IF NOT EXISTS `dc_forms` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(255) NOT NULL COMMENT '标题',
-  `cTime` int(10) unsigned DEFAULT NULL COMMENT '发布时间',
-  `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  `password` varchar(255) DEFAULT NULL COMMENT '表单密码',
-  `keyword_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '关键词类型',
-  `jump_url` varchar(255) DEFAULT NULL COMMENT '提交后跳转的地址',
-  `content` text COMMENT '详细介绍',
-  `finish_tip` text COMMENT '用户提交后提示内容',
-  `can_edit` tinyint(2) DEFAULT '0' COMMENT '是否允许编辑',
-  `intro` text COMMENT '封面简介',
-  `mTime` int(10) DEFAULT NULL COMMENT '修改时间',
-  `cover` int(10) unsigned DEFAULT NULL COMMENT '封面图片',
-  `keyword` varchar(100) NOT NULL COMMENT '关键词',
-  `template` varchar(255) DEFAULT 'default' COMMENT '模板',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_forms_attribute`
---
-
-CREATE TABLE IF NOT EXISTS `dc_forms_attribute` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `is_show` tinyint(2) DEFAULT '1' COMMENT '是否显示',
-  `forms_id` int(10) unsigned DEFAULT NULL COMMENT '表单ID',
-  `error_info` varchar(255) DEFAULT NULL COMMENT '出错提示',
-  `sort` int(10) unsigned DEFAULT '0' COMMENT '排序号',
-  `validate_rule` varchar(255) DEFAULT NULL COMMENT '正则验证',
-  `is_must` tinyint(2) DEFAULT NULL COMMENT '是否必填',
-  `remark` varchar(255) DEFAULT NULL COMMENT '字段备注',
-  `name` varchar(100) DEFAULT NULL COMMENT '字段名',
-  `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  `value` varchar(255) DEFAULT NULL COMMENT '默认值',
-  `title` varchar(255) NOT NULL COMMENT '字段标题',
-  `mTime` int(10) DEFAULT NULL COMMENT '修改时间',
-  `extra` text COMMENT '参数',
-  `type` char(50) NOT NULL DEFAULT 'string' COMMENT '字段类型',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_forms_value`
---
-
-CREATE TABLE IF NOT EXISTS `dc_forms_value` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `forms_id` int(10) unsigned DEFAULT NULL COMMENT '表单ID',
-  `value` text COMMENT '表单值',
-  `cTime` int(10) DEFAULT NULL COMMENT '增加时间',
-  `openid` varchar(255) DEFAULT NULL COMMENT 'OpenId',
-  `uid` int(10) DEFAULT NULL COMMENT '用户ID',
-  `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `create_time` int(10) unsigned NOT NULL COMMENT '上传时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文件表';
 
 -- --------------------------------------------------------
 
@@ -1540,7 +1210,7 @@ CREATE TABLE IF NOT EXISTS `dc_forms_value` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_forum` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(255) NOT NULL COMMENT '标题',
   `uid` int(10) DEFAULT '0' COMMENT '用户ID',
   `content` text COMMENT '内容',
@@ -1549,9 +1219,8 @@ CREATE TABLE IF NOT EXISTS `dc_forum` (
   `is_top` int(10) DEFAULT '0' COMMENT '置顶',
   `cid` tinyint(4) DEFAULT NULL COMMENT '分类',
   `view_count` int(11) unsigned DEFAULT '0' COMMENT '浏览数',
-  `reply_count` int(11) unsigned DEFAULT '0' COMMENT '回复数',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `reply_count` int(11) unsigned DEFAULT '0' COMMENT '回复数'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1560,15 +1229,13 @@ CREATE TABLE IF NOT EXISTS `dc_forum` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_hooks` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(40) NOT NULL DEFAULT '' COMMENT '钩子名称',
   `description` text NOT NULL COMMENT '描述',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `addons` text NOT NULL COMMENT '钩子挂载的插件 ''，''分割',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `搜索索引` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件钩子表' AUTO_INCREMENT=22 ;
+  `addons` text NOT NULL COMMENT '钩子挂载的插件 ''，''分割'
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='插件钩子表';
 
 --
 -- 转存表中的数据 `dc_hooks`
@@ -1586,7 +1253,7 @@ INSERT INTO `dc_hooks` (`id`, `name`, `description`, `type`, `update_time`, `add
 (13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam'),
 (14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, 'Editor'),
 (16, 'app_begin', '应用开始', 2, 1384481614, ''),
-(17, 'weixin', '微信插件必须加载的钩子', 1, 1388810858, 'Hitegg,Diy,RedBag,WeMedia,ShopCoupon,Card,SingIn,Seckill,WeiSite,AutoReply,YouaskService,Tmplmsg,SceneQrcode,UserCenter,Shop,Example,Donations,Extensions,Forms,Dg,Suggestions,Leaflets,AddressManage,Payment,Idioms,Tuling,CustomMenu'),
+(17, 'weixin', '微信插件必须加载的钩子', 1, 1388810858, 'Hitegg,Diy,RedBag,WeMedia,ShopCoupon,Card,SingIn,Seckill,AutoReply,CustomMenu,YouaskService,Payment,UserCenter,AddressManage,SceneQrcode,WeiSite,Example'),
 (18, 'cascade', '级联菜单', 1, 1398694587, 'Cascade'),
 (19, 'page_diy', '万能页面的钩子', 1, 1399040364, 'Diy'),
 (20, 'dynamic_select', '动态下拉菜单', 1, 1435223189, 'DynamicSelect'),
@@ -1599,10 +1266,9 @@ INSERT INTO `dc_hooks` (`id`, `name`, `description`, `type`, `update_time`, `add
 --
 
 CREATE TABLE IF NOT EXISTS `dc_import` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `attach` int(10) unsigned NOT NULL COMMENT '上传文件',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
+  `attach` int(10) unsigned NOT NULL COMMENT '上传文件'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1611,11 +1277,10 @@ CREATE TABLE IF NOT EXISTS `dc_import` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_invite_code` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `openid` varchar(100) DEFAULT NULL,
-  `code` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `code` varchar(50) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1625,12 +1290,10 @@ CREATE TABLE IF NOT EXISTS `dc_invite_code` (
 
 CREATE TABLE IF NOT EXISTS `dc_join_count` (
   `follow_id` int(10) DEFAULT NULL,
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL,
   `aim_id` int(10) DEFAULT NULL,
-  `count` int(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fid_aim` (`follow_id`,`aim_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `count` int(10) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1639,7 +1302,7 @@ CREATE TABLE IF NOT EXISTS `dc_join_count` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_keyword` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `keyword` varchar(100) NOT NULL COMMENT '关键词',
   `token` varchar(100) DEFAULT NULL COMMENT 'Token',
   `addon` varchar(255) NOT NULL COMMENT '关键词所属插件',
@@ -1649,10 +1312,8 @@ CREATE TABLE IF NOT EXISTS `dc_keyword` (
   `keyword_type` tinyint(2) DEFAULT '0' COMMENT '匹配类型',
   `extra_text` text COMMENT '文本扩展',
   `extra_int` int(10) DEFAULT NULL COMMENT '数字扩展',
-  `request_count` int(10) DEFAULT '0' COMMENT '请求数',
-  PRIMARY KEY (`id`),
-  KEY `keyword_token` (`keyword`,`token`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `request_count` int(10) DEFAULT '0' COMMENT '请求数'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1668,16 +1329,8 @@ CREATE TABLE IF NOT EXISTS `dc_manager` (
   `GammaSecret` varchar(100) DEFAULT NULL COMMENT '摇电视的Secret',
   `copy_right` varchar(255) DEFAULT NULL COMMENT '授权信息',
   `tongji_code` text COMMENT '统计代码',
-  `website_logo` int(10) unsigned DEFAULT NULL COMMENT '网站LOGO',
-  PRIMARY KEY (`uid`)
+  `website_logo` int(10) unsigned DEFAULT NULL COMMENT '网站LOGO'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `dc_manager`
---
-
-INSERT INTO `dc_manager` (`uid`, `has_public`, `headface_url`, `GammaAppId`, `GammaSecret`, `copy_right`, `tongji_code`, `website_logo`) VALUES
-(1, 0, 1, NULL, NULL, '', '', 2);
 
 -- --------------------------------------------------------
 
@@ -1686,7 +1339,7 @@ INSERT INTO `dc_manager` (`uid`, `has_public`, `headface_url`, `GammaAppId`, `Ga
 --
 
 CREATE TABLE IF NOT EXISTS `dc_manager_menu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `menu_type` tinyint(2) DEFAULT '0' COMMENT '菜单类型',
   `pid` varchar(50) DEFAULT '0' COMMENT '上级菜单',
   `title` varchar(50) DEFAULT NULL COMMENT '菜单名',
@@ -1696,9 +1349,8 @@ CREATE TABLE IF NOT EXISTS `dc_manager_menu` (
   `target` char(50) DEFAULT '_self' COMMENT '打开方式',
   `is_hide` tinyint(2) DEFAULT '0' COMMENT '是否隐藏',
   `sort` int(10) DEFAULT '0' COMMENT '排序号',
-  `uid` int(10) DEFAULT NULL COMMENT '管理员ID',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=356 ;
+  `uid` int(10) DEFAULT NULL COMMENT '管理员ID'
+) ENGINE=MyISAM AUTO_INCREMENT=356 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `dc_manager_menu`
@@ -1717,7 +1369,7 @@ INSERT INTO `dc_manager_menu` (`id`, `menu_type`, `pid`, `title`, `url_type`, `a
 --
 
 CREATE TABLE IF NOT EXISTS `dc_material_file` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `file_id` int(10) DEFAULT NULL COMMENT '上传文件',
   `cover_url` varchar(255) DEFAULT NULL COMMENT '本地URL',
   `media_id` varchar(100) DEFAULT '0' COMMENT '微信端图文消息素材的media_id',
@@ -1730,9 +1382,8 @@ CREATE TABLE IF NOT EXISTS `dc_material_file` (
   `introduction` text COMMENT '描述',
   `is_use` int(10) DEFAULT '1' COMMENT '可否使用',
   `aim_id` int(10) DEFAULT NULL COMMENT '添加来源标识id',
-  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1741,7 +1392,7 @@ CREATE TABLE IF NOT EXISTS `dc_material_file` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_material_image` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `cover_id` int(10) DEFAULT NULL COMMENT '图片在本地的ID',
   `cover_url` varchar(255) DEFAULT NULL COMMENT '本地URL',
   `media_id` varchar(100) DEFAULT '0' COMMENT '微信端图文消息素材的media_id',
@@ -1751,9 +1402,8 @@ CREATE TABLE IF NOT EXISTS `dc_material_image` (
   `token` varchar(100) DEFAULT NULL COMMENT 'Token',
   `is_use` int(10) DEFAULT '1' COMMENT '可否使用',
   `aim_id` int(10) DEFAULT NULL COMMENT '添加来源标识id',
-  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1762,7 +1412,7 @@ CREATE TABLE IF NOT EXISTS `dc_material_image` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_material_news` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(100) DEFAULT NULL COMMENT '标题',
   `author` varchar(30) DEFAULT NULL COMMENT '作者',
   `cover_id` int(10) unsigned DEFAULT NULL COMMENT '封面',
@@ -1778,9 +1428,8 @@ CREATE TABLE IF NOT EXISTS `dc_material_news` (
   `url` varchar(255) DEFAULT NULL COMMENT '图文页url',
   `is_use` int(10) DEFAULT '1' COMMENT '可否使用',
   `aim_id` int(10) DEFAULT NULL COMMENT '添加来源标识id',
-  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1789,15 +1438,14 @@ CREATE TABLE IF NOT EXISTS `dc_material_news` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_material_text` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `content` text COMMENT '文本内容',
   `token` varchar(50) DEFAULT NULL COMMENT 'Token',
   `uid` int(10) DEFAULT NULL COMMENT 'uid',
   `is_use` int(10) DEFAULT '1' COMMENT '可否使用',
   `aim_id` int(10) DEFAULT NULL COMMENT '添加来源标识id',
-  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `aim_table` varchar(255) DEFAULT NULL COMMENT '来源表名'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1806,7 +1454,7 @@ CREATE TABLE IF NOT EXISTS `dc_material_text` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_menu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
+  `id` int(10) unsigned NOT NULL COMMENT '文档ID',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID',
   `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序（同级有效）',
@@ -1814,9 +1462,8 @@ CREATE TABLE IF NOT EXISTS `dc_menu` (
   `hide` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否隐藏',
   `tip` varchar(255) NOT NULL DEFAULT '' COMMENT '提示',
   `group` varchar(50) DEFAULT '' COMMENT '分组',
-  `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='后台导航数据表' AUTO_INCREMENT=153 ;
+  `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见'
+) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COMMENT='后台导航数据表';
 
 --
 -- 转存表中的数据 `dc_menu`
@@ -1962,7 +1609,7 @@ INSERT INTO `dc_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `grou
 --
 
 CREATE TABLE IF NOT EXISTS `dc_message` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `bind_keyword` varchar(50) DEFAULT NULL COMMENT '关联关键词',
   `preview_openids` text COMMENT '预览人OPENID',
   `group_id` int(10) DEFAULT '0' COMMENT '群发对象',
@@ -1977,9 +1624,8 @@ CREATE TABLE IF NOT EXISTS `dc_message` (
   `appmsg_id` int(10) DEFAULT NULL COMMENT '图文id',
   `voice_id` int(10) DEFAULT NULL COMMENT '语音id',
   `video_id` int(10) DEFAULT NULL COMMENT '视频id',
-  `cTime` int(10) DEFAULT NULL COMMENT '群发时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `cTime` int(10) DEFAULT NULL COMMENT '群发时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1988,7 +1634,7 @@ CREATE TABLE IF NOT EXISTS `dc_message` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_model` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型ID',
+  `id` int(10) unsigned NOT NULL COMMENT '模型ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '模型标识',
   `title` char(30) NOT NULL DEFAULT '' COMMENT '模型名称',
   `extend` int(10) unsigned DEFAULT '0' COMMENT '继承的模型',
@@ -2008,10 +1654,8 @@ CREATE TABLE IF NOT EXISTS `dc_model` (
   `update_time` int(10) unsigned DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(3) unsigned DEFAULT '0' COMMENT '状态',
   `engine_type` varchar(25) DEFAULT 'MyISAM' COMMENT '数据库引擎',
-  `addon` varchar(50) DEFAULT NULL COMMENT '所属插件',
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统模型表' AUTO_INCREMENT=1270 ;
+  `addon` varchar(50) DEFAULT NULL COMMENT '所属插件'
+) ENGINE=MyISAM AUTO_INCREMENT=1287 DEFAULT CHARSET=utf8 COMMENT='系统模型表';
 
 --
 -- 转存表中的数据 `dc_model`
@@ -2049,39 +1693,21 @@ INSERT INTO `dc_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, 
 (30, 'material_text', '文本素材', 0, '', 1, '["content"]', '1:基础', '', '', '', '', 'id:编号\r\ncontent:文本内容\r\nids:操作:text_edit?id=[id]|编辑,text_del?id=[id]|删除', 10, 'content:请输入文本内容搜索', '', 1442976119, 1442977453, 1, 'MyISAM', 'Core'),
 (31, 'material_file', '文件素材', 0, '', 1, '["title","file_id"]', '1:基础', '', '', '', '', '', 10, '', '', 1438684613, 1442982212, 1, 'MyISAM', 'Core'),
 (32, 'update_score_log', '修改积分记录', 0, '', 1, '', '1:基础', NULL, '', '', '', NULL, 10, '', '', 1444302325, 1444302325, 1, 'MyISAM', 'Core'),
-(1235, 'weisite_cms', '文章管理', 0, '', 1, '["keyword","keyword_type","title","intro","cate_id","cover","content","sort"]', '1:基础', '', '', '', '', 'keyword:关键词\r\nkeyword_type|get_name_by_status:关键词类型\r\ntitle:标题\r\ncate_id:所属分类\r\nsort:排序号\r\nview_count:浏览数\r\nids:操作:[EDIT]&module_id=[pid]|编辑,[DELETE]|删除', 20, 'title', '', 1396061373, 1408326292, 1, 'MyISAM', NULL),
-(1236, 'weisite_category', '微官网分类', 0, '', 1, '["title","icon","url","is_show","sort","pid"]', '1:基础', '', '', '', '', 'title:15%分类标题\r\nicon|get_img_html:分类图片\r\nurl:30%外链\r\nsort:10%排序号\r\npid:10%一级目录\r\nis_show|get_name_by_status:10%显示\r\nid:10%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1395987942, 1439522869, 1, 'MyISAM', NULL),
-(1237, 'weisite_slideshow', '幻灯片', 0, '', 1, '["title","img","url","is_show","sort"]', '1:基础', '', '', '', '', 'title:标题\r\nimg:图片\r\nurl:链接地址\r\nis_show|get_name_by_status:显示\r\nsort:排序\r\nids:操作:[EDIT]&module_id=[pid]|编辑,[DELETE]|删除', 20, 'title', '', 1396098264, 1408323347, 1, 'MyISAM', NULL),
-(1238, 'weisite_footer', '底部导航', 0, '', 1, '["pid","title","url","sort"]', '1:基础', '', '', '', '', 'title:菜单名\r\nicon:图标\r\nurl:关联URL\r\nsort:排序号\r\nids:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1396507698, 1, 'MyISAM', NULL),
-(1239, 'auto_reply', '自动回复', 0, '', 1, '["keyword","content","group_id","image_id","reply_scene"]', '1:基础', '', '', '', '', 'keyword:关键词\r\nmsg_type:回复类型\r\ncontent:文本\r\ngroup_id:图文\r\nimage_id:图片\r\nid:操作:add&id=[id]|编辑,[DELETE]|删除', 10, 'keyword:请输入关键词', '', 1439194522, 1449200272, 1, 'MyISAM', 'AutoReply'),
-(1268, 'custom_menu', '自定义菜单', 0, '', 1, '["pid","title","from_type","type","jump_type","addon","sucai_type","keyword","url","sort"]', '1:基础', '', '', '', '', 'title:10%菜单名\r\nkeyword:10%关联关键词\r\nurl:50%关联URL\r\nsort:5%排序号\r\nid:10%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1447317015, 1, 'MyISAM', 'CustomMenu'),
-(1241, 'youaskservice_group', '你问我答-客服分组', 0, '', 1, '["groupname"]', '1:基础', '', '', '', '', 'id:编号\r\ngroupname:分组名称\r\ntoken:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'groupname', '', 1404475456, 1404491410, 1, 'MyISAM', 'YouaskService'),
-(1242, 'youaskservice_keyword', '你问我答-关键词指配', 0, '', 1, '["msgkeyword","msgkeyword_type","zdtype","msgstate"]', '1:基础', '', '', '', '', 'id:编号\r\nmsgkeyword:关键字\r\nkf_explain:客服说明\r\nmsgkeyword_type|get_name_by_status:匹配类型\r\nmsgkfaccount:指定的接待客服或分组\r\nmsgstate|get_name_by_status:状态\r\nzdtype:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'msgkeyword', '', 1404399143, 1450018481, 1, 'MyISAM', 'YouaskService'),
-(1243, 'youaskservice_user', '你问我答-客服工号', 0, '', 1, '["name","userName","userPwd","state","kfid"]', '1:基础', '', '', '', '', 'kfid:客服编号\r\nname:客服昵称\r\nuserName:客服帐号\r\ntoken:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'name', 'userName', 1403947253, 1450018368, 1, 'MyISAM', 'YouaskService'),
-(1244, 'tmplmsg', '模板消息', 0, '', 1, '{"1":["openid","template_id","message","MsgID","sendstatus","Status","ctime"]}', '1:基础', '', '', '', '', 'id:ID\r\nopenid:OPENID\r\ntemplate_id:模板ID\r\nsendstatus|get_name_by_status:发送状态\r\nStatus|get_name_by_status:送达报告\r\nMsgID:消息ID\r\nctime|time_format:发送时间\r\nid:操作:[DELETE]|删除', 10, 'openid', '', 1409247434, 1409276606, 1, 'MyISAM', NULL),
-(1246, 'scene_qrcode', '场景二维码', 0, '', 1, '["scene_name","keyword","scene_type","scene_str","expire"]', '1:基础', '', '', '', '', 'scene_name:场景名称\r\nkeyword:关联关键词\r\nscene_type:类型\r\nid|getSceneIdOrStr:场景值ID/字符串\r\nshort_url:二维码\r\nexpire:过期时间\r\nid|getScanTimes:扫描次数\r\nid|getScanPersons:扫描人数\r\nctime|time_format:创建时间\r\nid|getExpiretime:到期时间\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除,viewScan&id=[id]|查看扫描统计', 10, 'scene_name', '', 1448517943, 1448544430, 1, 'MyISAM', NULL),
-(1247, 'scene_qrcode_statistics', '场景二维码扫描统计', 0, '', 1, '["scene_name","keyword","scene_id","scan_type","ctime"]', '1:基础', '', '', '', '', 'scene_name:场景名称\r\nkeyword:关联关键词\r\nopenid|getFollowNickname:扫码者昵称\r\nopenid|getFollowHeadimg:扫码者头像\r\nscan_type|getScanType:扫码类型\r\nctime|time_format:扫码时间', 10, 'scene_name', '', 1448529386, 1448530035, 1, 'MyISAM', NULL),
-(1248, 'shop', '微商城', 0, '', 1, '["title","logo","intro","mobile","qq","wechat","content"]', '1:基础', '', '', '', '', 'title:商店名称\r\nlogo|get_img_html:商店LOGO\r\nmobile:联系电话\r\nqq:QQ号\r\nwechat:微信号\r\nids:操作:[EDIT]&id=[id]|编辑,lists&_controller=Category&target=_blank&shop_id=[id]|商品分类,lists&_controller=Slideshow&target=_blank&shop_id=[id]|幻灯片,lists&_controller=Goods&target=_blank&shop_id=[id]|商品管理,lists&_controller=Order&target=_blank&shop_id=[id]|订单管理,lists&_addons=Payment&_controller=Payment&target=_blank&shop_id=[id]|支付配置,lists&_controller=Template&target=_blank&shop_id=[id]|模板选择,[DELETE]|删除,index&_controller=Wap&target=_blank&shop_id=[id]|预览', 20, 'title:请输入商店名称', '', 1422670956, 1423640744, 1, 'MyISAM', NULL),
-(1249, 'shop_goods', '商品列表', 0, '', 1, '["title","imgs","category_id","price","is_recommend","content","cover","inventory","is_show","old_price"]', '1:基础', '', '', '', '', 'category_id:商品分类\r\ncover|get_img_html:封面图\r\ntitle:商品名称\r\nprice:价格\r\ninventory:库存量\r\nsale_count:销售量\r\nis_show|get_name_by_status:是否上架\r\nids:操作:set_show?id=[id]&is_show=[is_show]|改变上架状态,[EDIT]|编辑,[DELETE]|删除', 20, 'title:请输入商品名称', '', 1422672084, 1440124560, 1, 'MyISAM', NULL),
-(1250, 'shop_collect', '商品收藏', 0, '', 1, '', '1:基础', '', '', '', '', '', 20, '', '', 1423471275, 1423471275, 1, 'MyISAM', NULL),
-(1251, 'shop_cart', '购物车', 0, '', 1, '', '1:基础', '', '', '', '', '', 20, '', '', 1419577864, 1419577864, 1, 'MyISAM', NULL),
-(1252, 'shop_address', '收货地址', 0, '', 1, '', '1:基础', '', '', '', '', '', 20, '', '', 1423477477, 1423477477, 1, 'MyISAM', NULL),
-(1253, 'shop_slideshow', '幻灯片', 0, '', 1, '["title","img","url","is_show","sort"]', '1:基础', '', '', '', '', 'title:标题\r\nimg:图片\r\nurl:链接地址\r\nis_show|get_name_by_status:显示\r\nsort:排序\r\nids:操作:[EDIT]&module_id=[pid]|编辑,[DELETE]|删除', 20, 'title', '', 1396098264, 1408323347, 1, 'MyISAM', NULL),
-(1254, 'shop_order_log', '订单跟踪', 0, '', 1, '', '1:基础', '', '', '', '', '', 10, '', '', 1439525562, 1439525562, 1, 'MyISAM', NULL),
-(1255, 'shop_order', '订单记录', 0, '', 1, '["uid","goods_datas","remark","order_number","cTime","total_price","address_id","is_send","send_code","send_number","send_type","shop_id"]', '1:基础', '', '', '', '', 'order_number:15%订单编号\r\ngoods:20%下单商品\r\nuid:10%客户\r\ntotal_price:7%总价\r\ncTime|time_format:17%下单时间\r\ncommon|get_name_by_status:10%支付类型\r\nstatus_code|get_name_by_status:10%订单跟踪\r\naction:11%操作', 20, 'order_number:请输入订单编号 或 客户昵称', '', 1420269240, 1440147136, 1, 'MyISAM', NULL),
-(1256, 'shop_goods_score', '商品评分记录', 0, '', 1, '', '1:基础', '', '', '', '', '', 20, '', '', 1422930901, 1422930901, 1, 'MyISAM', NULL),
-(1257, 'shop_goods_category', '商品分类', 0, '', 1, '["title","icon","sort","is_show","is_recommend"]', '1:基础', '', '', '', '', 'title:20%分组\r\nicon|get_img_html:20%图标\r\nsort:20%排序号\r\nis_show|get_name_by_status:20%显示\r\nids:20%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1397529095, 1438326713, 1, 'MyISAM', NULL),
-(1258, 'donations_list', '捐赠列表', 0, '', 1, '["nickname","email","money","content"]', '1:基础', '', '', '', '', 'nickname:捐赠者姓名\r\nmoney:捐赠金额\r\nemail:捐赠者邮箱\r\ncontent:捐赠者留言\r\nctime|time_format:捐赠时间\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'nickname', '', 1446094856, 1446095155, 1, 'MyISAM', NULL),
-(1259, 'donations_money', '捐赠说明', 0, '', 1, '["money","desc"]', '1:基础', '', '', '', '', 'money:金额\r\ndesc:回报\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'money', '', 1446094664, 1446094831, 1, 'MyISAM', NULL),
-(1260, 'extensions', '融合第三方', 0, '', 1, '', '1:基础', '', '', '', '', 'keyword:关键词\r\nkeyword_filter|get_name_by_status:关键词过滤\r\noutput_format|get_name_by_status:数据输出格式\r\napi_url:第三方地址\r\napi_token:Token\r\ncTime|time_format:增加时间\r\nid:操作:[EDIT]|编辑,[DELETE]|删除', 10, 'keyword', '', 1393911774, 1394267850, 1, 'MyISAM', 'Extensions'),
-(1261, 'forms', '通用表单', 0, '', 1, '["keyword","keyword_type","title","intro","cover","can_edit","finish_tip","jump_url","content","template"]', '1:基础', '', '', '', '', 'id:通用表单ID\r\nkeyword:关键词\r\nkeyword_type|get_name_by_status:关键词类型\r\ntitle:标题\r\ncTime|time_format:发布时间\r\nids:操作:[EDIT]|编辑,[DELETE]|删除,forms_attribute&id=[id]|字段管理,forms_value&id=[id]|数据管理,preview&id=[id]|预览', 20, 'title', '', 1396061373, 1437450012, 1, 'MyISAM', 'Forms'),
-(1262, 'forms_attribute', '表单字段', 0, '', 1, '["name","title","type","extra","value","remark","is_must","validate_rule","error_info","sort"]', '1:基础', '', '', '', '', 'title:字段标题\r\nname:字段名\r\ntype|get_name_by_status:字段类型\r\nids:操作:[EDIT]&forms_id=[forms_id]|编辑,[DELETE]|删除', 20, 'title', '', 1396061373, 1396710959, 1, 'MyISAM', 'Forms'),
-(1263, 'forms_value', '通用表单数据', 0, '', 1, '', '1:基础', '', '', '', '', '', 20, '', '', 1396687959, 1396687959, 1, 'MyISAM', 'Forms'),
-(1264, 'suggestions', '建议意见', 0, '', 1, '{"1":["content","nickname","mobile"]}', '1:基础', '', '', '', '', 'nickname:昵称\r\ncontent:内容\r\nmobile:联系方式\r\ncTime|time_format:创建时间\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'content', '', 1393234169, 1400687145, 1, 'MyISAM', NULL),
-(1265, 'address', '用户地址表', 0, '', 1, '["name","sex","mobile","address","country","province","city","area","is_default","postcode"]', '1:基础', '', '', '', '', 'openid|get_nickname:用户昵称\r\nname:用户姓名\r\nsex|getSex:用户性别\r\nmobile:用户手机号\r\nprovince:所在省份\r\ncity:所在城市\r\narea:所在地区\r\naddress:详细地址\r\npostcode:邮政编码\r\nis_default|getYesOrNo:是否默认\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'name', '', 1447736688, 1452331063, 1, 'MyISAM', ''),
-(1266, 'payment_set', '支付配置', 0, '', 1, '["wxappid","wxappsecret","wxpaysignkey","zfbname","pid","key","partnerid","partnerkey","wappartnerid","wappartnerkey","quick_security_key","quick_merid","quick_merabbr","wxmchid"]', '1:基础', '', '', '', '', '', 10, '', '', 1406958084, 1439364636, 1, 'MyISAM', NULL),
-(1267, 'payment_order', '订单支付记录', 0, '', 1, '["from","orderName","single_orderid","price","token","wecha_id","paytype","showwxpaytitle","status"]', '1:基础', '', '', '', '', '', 20, '', '', 1420596259, 1423534012, 1, 'MyISAM', NULL),
-(1269, 'custom_menu_type', '自定义菜单类型', 0, '', 1, '["title","type","group_id","sex","country","province","city","client_platform_type","menuid","cTime","show"]', '1:基础', '', '', '', '', 'type:菜单类型\r\ntitle:菜单标题\r\nmenuid:微信端菜单ID\r\nsex:性别筛选\r\nshow:是否发布\r\ngroup_id:用户分组\r\ncountry:国家信息\r\nprovince:省份信息\r\ncity:城市信息\r\nclient_platform_type:手机操作系统\r\nid:操作:[EDIT]&[id]|编辑,[DELETE]&id=[id]|删除', 20, 'title', '', 1453098567, 1453281147, 1, 'MyISAM', 'CustomMenu');
+(1275, 'youaskservice_group', '你问我答-客服分组', 0, '', 1, '["groupname"]', '1:基础', '', '', '', '', 'id:编号\r\ngroupname:分组名称\r\ntoken:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'groupname', '', 1404475456, 1404491410, 1, 'MyISAM', 'YouaskService'),
+(1276, 'youaskservice_keyword', '你问我答-关键词指配', 0, '', 1, '["msgkeyword","msgkeyword_type","zdtype","msgstate"]', '1:基础', '', '', '', '', 'id:编号\r\nmsgkeyword:关键字\r\nkf_explain:客服说明\r\nmsgkeyword_type|get_name_by_status:匹配类型\r\nmsgkfaccount:指定的接待客服或分组\r\nmsgstate|get_name_by_status:状态\r\nzdtype:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'msgkeyword', '', 1404399143, 1450018481, 1, 'MyISAM', 'YouaskService'),
+(1277, 'youaskservice_user', '你问我答-客服工号', 0, '', 1, '["name","userName","userPwd","state","kfid"]', '1:基础', '', '', '', '', 'kfid:客服编号\r\nname:客服昵称\r\nuserName:客服帐号\r\ntoken:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'name', 'userName', 1403947253, 1450018368, 1, 'MyISAM', 'YouaskService'),
+(1278, 'payment_set', '支付配置', 0, '', 1, '["wxappid","wxappsecret","wxpaysignkey","zfbname","pid","key","partnerid","partnerkey","wappartnerid","wappartnerkey","quick_security_key","quick_merid","quick_merabbr","wxmchid"]', '1:基础', '', '', '', '', '', 10, '', '', 1406958084, 1439364636, 1, 'MyISAM', NULL),
+(1279, 'payment_order', '订单支付记录', 0, '', 1, '["from","orderName","single_orderid","price","token","wecha_id","paytype","showwxpaytitle","status"]', '1:基础', '', '', '', '', '', 20, '', '', 1420596259, 1423534012, 1, 'MyISAM', NULL),
+(1280, 'address', '用户地址表', 0, '', 1, '["name","sex","mobile","address","country","province","city","area","is_default","postcode"]', '1:基础', '', '', '', '', 'openid|get_nickname:用户昵称\r\nname:用户姓名\r\nsex|getSex:用户性别\r\nmobile:用户手机号\r\nprovince:所在省份\r\ncity:所在城市\r\narea:所在地区\r\naddress:详细地址\r\npostcode:邮政编码\r\nis_default|getYesOrNo:是否默认\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', 10, 'name', '', 1447736688, 1452331063, 1, 'MyISAM', ''),
+(1281, 'scene_qrcode', '场景二维码', 0, '', 1, '["scene_name","keyword","scene_type","scene_str","expire"]', '1:基础', '', '', '', '', 'scene_name:场景名称\r\nkeyword:关联关键词\r\nscene_type:类型\r\nid|getSceneIdOrStr:场景值ID/字符串\r\nshort_url:二维码\r\nexpire:过期时间\r\nid|getScanTimes:扫描次数\r\nid|getScanPersons:扫描人数\r\nctime|time_format:创建时间\r\nid|getExpiretime:到期时间\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除,viewScan&id=[id]|查看扫描统计', 10, 'scene_name', '', 1448517943, 1448544430, 1, 'MyISAM', NULL),
+(1282, 'scene_qrcode_statistics', '场景二维码扫描统计', 0, '', 1, '["scene_name","keyword","scene_id","scan_type","ctime"]', '1:基础', '', '', '', '', 'scene_name:场景名称\r\nkeyword:关联关键词\r\nopenid|getFollowNickname:扫码者昵称\r\nopenid|getFollowHeadimg:扫码者头像\r\nscan_type|getScanType:扫码类型\r\nctime|time_format:扫码时间', 10, 'scene_name', '', 1448529386, 1448530035, 1, 'MyISAM', NULL),
+(1283, 'weisite_cms', '文章管理', 0, '', 1, '["keyword","keyword_type","title","intro","cate_id","cover","content","sort"]', '1:基础', '', '', '', '', 'keyword:关键词\r\nkeyword_type|get_name_by_status:关键词类型\r\ntitle:标题\r\ncate_id:所属分类\r\nsort:排序号\r\nview_count:浏览数\r\nids:操作:[EDIT]&module_id=[pid]|编辑,[DELETE]|删除', 20, 'title', '', 1396061373, 1408326292, 1, 'MyISAM', NULL),
+(1284, 'weisite_category', '微官网分类', 0, '', 1, '["title","icon","url","is_show","sort","pid"]', '1:基础', '', '', '', '', 'title:15%分类标题\r\nicon|get_img_html:分类图片\r\nurl:30%外链\r\nsort:10%排序号\r\npid:10%一级目录\r\nis_show|get_name_by_status:10%显示\r\nid:10%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1395987942, 1439522869, 1, 'MyISAM', NULL),
+(1285, 'weisite_slideshow', '幻灯片', 0, '', 1, '["title","img","url","is_show","sort"]', '1:基础', '', '', '', '', 'title:标题\r\nimg:图片\r\nurl:链接地址\r\nis_show|get_name_by_status:显示\r\nsort:排序\r\nids:操作:[EDIT]&module_id=[pid]|编辑,[DELETE]|删除', 20, 'title', '', 1396098264, 1408323347, 1, 'MyISAM', NULL),
+(1286, 'weisite_footer', '底部导航', 0, '', 1, '["pid","title","url","sort"]', '1:基础', '', '', '', '', 'title:菜单名\r\nicon:图标\r\nurl:关联URL\r\nsort:排序号\r\nids:操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1396507698, 1, 'MyISAM', NULL),
+(1272, 'auto_reply', '自动回复', 0, '', 1, '["keyword","content","group_id","image_id","reply_scene"]', '1:基础', '', '', '', '', 'keyword:关键词\r\nmsg_type:回复类型\r\ncontent:文本\r\ngroup_id:图文\r\nimage_id:图片\r\nid:操作:add&id=[id]|编辑,[DELETE]|删除', 10, 'keyword:请输入关键词', '', 1439194522, 1449200272, 1, 'MyISAM', 'AutoReply'),
+(1273, 'custom_menu', '自定义菜单', 0, '', 1, '["pid","title","from_type","type","jump_type","addon","sucai_type","keyword","url","sort"]', '1:基础', '', '', '', '', 'title:10%菜单名\r\nkeyword:10%关联关键词\r\nurl:50%关联URL\r\nsort:5%排序号\r\nid:10%操作:[EDIT]|编辑,[DELETE]|删除', 20, 'title', '', 1394518309, 1447317015, 1, 'MyISAM', 'CustomMenu'),
+(1274, 'custom_menu_type', '自定义菜单类型', 0, '', 1, '["title","type","group_id","sex","country","province","city","client_platform_type","menuid","cTime","show"]', '1:基础', '', '', '', '', 'type:菜单类型\r\ntitle:菜单标题\r\nmenuid:微信端菜单ID\r\nsex:性别筛选\r\nshow:是否发布\r\ngroup_id:用户分组\r\ncountry:国家信息\r\nprovince:省份信息\r\ncity:城市信息\r\nclient_platform_type:手机操作系统\r\nid:操作:[EDIT]&[id]|编辑,[DELETE]&id=[id]|删除', 20, 'title', '', 1453098567, 1453281147, 1, 'MyISAM', 'CustomMenu');
 
 -- --------------------------------------------------------
 
@@ -2090,7 +1716,7 @@ INSERT INTO `dc_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, 
 --
 
 CREATE TABLE IF NOT EXISTS `dc_model_copy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型ID',
+  `id` int(10) unsigned NOT NULL COMMENT '模型ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '模型标识',
   `title` char(30) NOT NULL DEFAULT '' COMMENT '模型名称',
   `extend` int(10) unsigned DEFAULT '0' COMMENT '继承的模型',
@@ -2110,10 +1736,8 @@ CREATE TABLE IF NOT EXISTS `dc_model_copy` (
   `update_time` int(10) unsigned DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(3) unsigned DEFAULT '0' COMMENT '状态',
   `engine_type` varchar(25) DEFAULT 'MyISAM' COMMENT '数据库引擎',
-  `addon` varchar(50) DEFAULT NULL COMMENT '所属插件',
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统模型表' AUTO_INCREMENT=1144 ;
+  `addon` varchar(50) DEFAULT NULL COMMENT '所属插件'
+) ENGINE=MyISAM AUTO_INCREMENT=1144 DEFAULT CHARSET=utf8 COMMENT='系统模型表';
 
 -- --------------------------------------------------------
 
@@ -2126,8 +1750,7 @@ CREATE TABLE IF NOT EXISTS `dc_online_count` (
   `addon` varchar(30) DEFAULT NULL,
   `aim_id` int(11) DEFAULT NULL,
   `time` bigint(12) DEFAULT NULL,
-  `count` int(11) DEFAULT NULL,
-  KEY `tc` (`time`,`count`)
+  `count` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2137,7 +1760,7 @@ CREATE TABLE IF NOT EXISTS `dc_online_count` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_payment_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `from` varchar(50) NOT NULL COMMENT '回调地址',
   `orderName` varchar(255) DEFAULT NULL COMMENT '订单名称',
   `single_orderid` varchar(100) NOT NULL COMMENT '订单号',
@@ -2146,9 +1769,8 @@ CREATE TABLE IF NOT EXISTS `dc_payment_order` (
   `wecha_id` varchar(200) NOT NULL COMMENT 'OpenID',
   `paytype` varchar(30) NOT NULL COMMENT '支付方式',
   `showwxpaytitle` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否显示标题',
-  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2157,7 +1779,7 @@ CREATE TABLE IF NOT EXISTS `dc_payment_order` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_payment_set` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `wxmchid` varchar(255) DEFAULT NULL COMMENT '微信支付商户号',
   `shop_id` int(10) DEFAULT '0' COMMENT '商店ID',
   `quick_merid` varchar(255) DEFAULT NULL COMMENT '银联在线merid',
@@ -2178,9 +1800,8 @@ CREATE TABLE IF NOT EXISTS `dc_payment_set` (
   `wxappid` varchar(255) DEFAULT NULL COMMENT 'AppID',
   `token` varchar(255) DEFAULT NULL COMMENT 'token',
   `wx_cert_pem` int(10) unsigned DEFAULT NULL COMMENT '上传证书',
-  `wx_key_pem` int(10) unsigned DEFAULT NULL COMMENT '上传密匙',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `wx_key_pem` int(10) unsigned DEFAULT NULL COMMENT '上传密匙'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2189,17 +1810,15 @@ CREATE TABLE IF NOT EXISTS `dc_payment_set` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_picture` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id自增',
+  `id` int(10) unsigned NOT NULL COMMENT '主键id自增',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路径',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '图片链接',
   `md5` char(32) NOT NULL DEFAULT '' COMMENT '文件md5',
   `sha1` char(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Token',
-  PRIMARY KEY (`id`),
-  KEY `status` (`id`,`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Token'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2208,7 +1827,7 @@ CREATE TABLE IF NOT EXISTS `dc_picture` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_plugin` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(40) NOT NULL COMMENT '插件名或标识',
   `title` varchar(20) NOT NULL DEFAULT '' COMMENT '中文名',
   `description` text COMMENT '插件描述',
@@ -2219,11 +1838,8 @@ CREATE TABLE IF NOT EXISTS `dc_plugin` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
   `has_adminlist` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否有后台列表',
   `cate_id` int(11) DEFAULT NULL,
-  `is_show` tinyint(2) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `sti` (`status`,`is_show`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='系统插件表' AUTO_INCREMENT=126 ;
+  `is_show` tinyint(2) DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COMMENT='系统插件表';
 
 --
 -- 转存表中的数据 `dc_plugin`
@@ -2247,7 +1863,7 @@ INSERT INTO `dc_plugin` (`id`, `name`, `title`, `description`, `status`, `config
 --
 
 CREATE TABLE IF NOT EXISTS `dc_public` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `uid` int(10) DEFAULT NULL COMMENT '用户ID',
   `public_name` varchar(50) DEFAULT NULL COMMENT '公众号名称',
   `public_id` varchar(100) DEFAULT NULL COMMENT '公众号原始id',
@@ -2270,10 +1886,8 @@ CREATE TABLE IF NOT EXISTS `dc_public` (
   `mp_username` varchar(255) DEFAULT NULL COMMENT '公众号登陆用户名',
   `mp_password` varchar(255) DEFAULT NULL COMMENT '公众号登陆密码',
   `mp_token` varchar(255) DEFAULT NULL COMMENT '公众号接入验证Token',
-  `qrcode_url` varchar(255) DEFAULT NULL COMMENT '二维码地址',
-  PRIMARY KEY (`id`),
-  KEY `token` (`token`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `qrcode_url` varchar(255) DEFAULT NULL COMMENT '二维码地址'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2287,8 +1901,7 @@ CREATE TABLE IF NOT EXISTS `dc_public_auth` (
   `type_0` tinyint(1) DEFAULT '0' COMMENT '普通订阅号的开关',
   `type_1` tinyint(1) DEFAULT '0' COMMENT '微信认证订阅号的开关',
   `type_2` tinyint(1) DEFAULT '0' COMMENT '普通服务号的开关',
-  `type_3` tinyint(1) DEFAULT '0' COMMENT '微信认证服务号的开关',
-  PRIMARY KEY (`name`)
+  `type_3` tinyint(1) DEFAULT '0' COMMENT '微信认证服务号的开关'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -2344,8 +1957,7 @@ CREATE TABLE IF NOT EXISTS `dc_public_follow` (
   `uid` int(11) DEFAULT NULL,
   `has_subscribe` tinyint(1) DEFAULT '0',
   `syc_status` tinyint(1) DEFAULT '2' COMMENT '0 开始同步中 1 更新用户信息中 2 完成同步',
-  `remark` varchar(100) DEFAULT NULL,
-  UNIQUE KEY `openid` (`openid`,`token`)
+  `remark` varchar(100) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2355,11 +1967,10 @@ CREATE TABLE IF NOT EXISTS `dc_public_follow` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_public_group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(50) DEFAULT NULL COMMENT '等级名',
-  `addon_status` text COMMENT '插件权限',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `addon_status` text COMMENT '插件权限'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2368,15 +1979,13 @@ CREATE TABLE IF NOT EXISTS `dc_public_group` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_public_link` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `uid` int(10) DEFAULT NULL COMMENT '管理员UID',
   `mp_id` int(10) unsigned NOT NULL COMMENT '公众号ID',
   `is_creator` tinyint(2) DEFAULT '0' COMMENT '是否为创建者',
   `addon_status` text COMMENT '插件权限',
-  `is_use` tinyint(2) DEFAULT '0' COMMENT '是否为当前管理的公众号',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `um` (`uid`,`mp_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `is_use` tinyint(2) DEFAULT '0' COMMENT '是否为当前管理的公众号'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2385,7 +1994,7 @@ CREATE TABLE IF NOT EXISTS `dc_public_link` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_qr_code` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `qr_code` varchar(255) NOT NULL COMMENT '二维码',
   `addon` varchar(255) NOT NULL COMMENT '二维码所属插件',
   `aim_id` int(10) unsigned NOT NULL COMMENT '插件表里的ID值',
@@ -2395,9 +2004,8 @@ CREATE TABLE IF NOT EXISTS `dc_qr_code` (
   `extra_text` text COMMENT '文本扩展',
   `extra_int` int(10) DEFAULT NULL COMMENT '数字扩展',
   `request_count` int(10) DEFAULT '0' COMMENT '请求数',
-  `scene_id` int(10) DEFAULT '0' COMMENT '场景ID',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `scene_id` int(10) DEFAULT '0' COMMENT '场景ID'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2406,7 +2014,7 @@ CREATE TABLE IF NOT EXISTS `dc_qr_code` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_scene_qrcode` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `token` varchar(255) DEFAULT NULL COMMENT '公众号Token',
   `scene_name` varchar(255) DEFAULT NULL COMMENT '场景名称',
   `keyword` varchar(255) DEFAULT NULL COMMENT '关联关键词',
@@ -2417,9 +2025,8 @@ CREATE TABLE IF NOT EXISTS `dc_scene_qrcode` (
   `ticket` varchar(255) DEFAULT NULL COMMENT '二维码Ticket',
   `url` varchar(255) DEFAULT NULL COMMENT '二维码图片解析后的地址',
   `ctime` int(10) DEFAULT NULL COMMENT '二维码创建时间',
-  `short_url` varchar(255) DEFAULT NULL COMMENT '二维码短地址',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `short_url` varchar(255) DEFAULT NULL COMMENT '二维码短地址'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2428,7 +2035,7 @@ CREATE TABLE IF NOT EXISTS `dc_scene_qrcode` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_scene_qrcode_statistics` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `token` varchar(255) DEFAULT NULL COMMENT '公众号Token',
   `openid` varchar(255) DEFAULT NULL COMMENT '扫码者openid',
   `scene_name` varchar(255) DEFAULT NULL COMMENT '场景名称',
@@ -2436,201 +2043,8 @@ CREATE TABLE IF NOT EXISTS `dc_scene_qrcode_statistics` (
   `scene_id` varchar(255) DEFAULT NULL COMMENT '场景ID/场景字符串',
   `scan_type` varchar(255) DEFAULT NULL COMMENT '扫描类型',
   `ctime` int(10) DEFAULT NULL COMMENT '扫描时间',
-  `qrcode_id` int(10) DEFAULT NULL COMMENT '二维码ID',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(255) NOT NULL COMMENT '商店名称',
-  `logo` int(10) DEFAULT NULL COMMENT '商店LOGO',
-  `intro` text COMMENT '店铺简介',
-  `mobile` varchar(30) DEFAULT NULL COMMENT '联系电话',
-  `qq` int(10) DEFAULT NULL COMMENT 'QQ',
-  `wechat` varchar(50) DEFAULT NULL COMMENT '微信',
-  `template` varchar(30) DEFAULT NULL COMMENT '模板',
-  `content` text COMMENT '店铺介绍',
-  `token` varchar(100) DEFAULT NULL COMMENT 'Token',
-  `manager_id` int(10) DEFAULT NULL COMMENT '管理员ID',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_address`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_address` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `uid` int(10) DEFAULT NULL COMMENT '用户ID',
-  `truename` varchar(100) DEFAULT NULL COMMENT '收货人姓名',
-  `mobile` varchar(50) DEFAULT NULL COMMENT '手机号码',
-  `city` varchar(255) DEFAULT NULL COMMENT '城市',
-  `address` varchar(255) DEFAULT NULL COMMENT '具体地址',
-  `is_use` tinyint(2) DEFAULT '0' COMMENT '是否设置为默认',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_cart`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_cart` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
-  `shop_id` varchar(255) NOT NULL COMMENT '商店id',
-  `goods_id` varchar(255) NOT NULL COMMENT '商品id',
-  `num` int(10) unsigned NOT NULL COMMENT '数量',
-  `price` varchar(30) NOT NULL COMMENT '单价',
-  `goods_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '商品类型',
-  `openid` varchar(255) NOT NULL COMMENT 'openid',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_collect`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_collect` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `uid` int(10) DEFAULT NULL COMMENT '使用UID',
-  `goods_id` int(10) DEFAULT NULL COMMENT '商品ID',
-  `cTime` int(10) DEFAULT NULL COMMENT '收藏时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_goods`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_goods` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `cover` int(10) unsigned DEFAULT NULL COMMENT '商品封面图',
-  `content` text NOT NULL COMMENT '商品介绍',
-  `title` varchar(255) NOT NULL COMMENT '商品名称',
-  `price` decimal(10,2) DEFAULT '0.00' COMMENT '价格',
-  `imgs` varchar(255) NOT NULL COMMENT '商品图片',
-  `inventory` int(10) DEFAULT '0' COMMENT '库存数量',
-  `shop_id` int(10) DEFAULT '0' COMMENT '商店ID',
-  `is_show` tinyint(2) DEFAULT '0' COMMENT '是否上架',
-  `sale_count` int(10) DEFAULT '0' COMMENT '销售量',
-  `is_recommend` tinyint(2) DEFAULT NULL COMMENT '是否推荐',
-  `rank` int(10) DEFAULT '0' COMMENT '热销度',
-  `show_time` int(10) DEFAULT '0' COMMENT '上架时间',
-  `old_price` int(10) DEFAULT NULL COMMENT '原价',
-  `type` tinyint(2) DEFAULT '0' COMMENT '商品类型',
-  `category_id` char(50) DEFAULT NULL COMMENT '商品分类',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_goods_category`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_goods_category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(255) NOT NULL COMMENT '分类标题',
-  `icon` int(10) unsigned DEFAULT NULL COMMENT '分类图标',
-  `pid` int(10) unsigned DEFAULT '0' COMMENT '上一级分类',
-  `path` varchar(255) DEFAULT NULL COMMENT '分类路径',
-  `sort` int(10) unsigned DEFAULT '0' COMMENT '排序号',
-  `is_show` tinyint(2) DEFAULT '1' COMMENT '是否显示',
-  `shop_id` int(10) NOT NULL DEFAULT '0' COMMENT '商店ID',
-  `is_recommend` tinyint(2) DEFAULT '0' COMMENT '是否推荐',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_goods_score`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_goods_score` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `uid` int(10) DEFAULT NULL COMMENT '用户ID',
-  `goods_id` int(10) DEFAULT NULL COMMENT '商品ID',
-  `score` int(10) DEFAULT '0' COMMENT '得分',
-  `cTime` int(10) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_order`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `goods_datas` text NOT NULL COMMENT '商品序列化数据',
-  `uid` int(10) unsigned NOT NULL COMMENT '用户id',
-  `remark` text NOT NULL COMMENT '备注',
-  `order_number` varchar(255) NOT NULL COMMENT '订单编号',
-  `cTime` int(10) NOT NULL COMMENT '订单时间',
-  `total_price` decimal(10,2) DEFAULT NULL COMMENT '总价',
-  `openid` varchar(255) NOT NULL COMMENT 'OpenID',
-  `pay_status` int(10) DEFAULT NULL COMMENT '支付状态',
-  `pay_type` int(10) DEFAULT NULL COMMENT '支付类型',
-  `address_id` int(10) DEFAULT NULL COMMENT '配送信息',
-  `is_send` int(10) DEFAULT '0' COMMENT '是否发货',
-  `send_code` varchar(255) DEFAULT NULL COMMENT '快递公司编号',
-  `send_number` varchar(255) DEFAULT NULL COMMENT '快递单号',
-  `send_type` char(10) DEFAULT NULL COMMENT '发货类型',
-  `is_new` tinyint(2) DEFAULT '1' COMMENT '是否为新订单',
-  `shop_id` int(10) DEFAULT '0' COMMENT '商店编号',
-  `status_code` char(50) DEFAULT '0' COMMENT '订单跟踪状态码',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_order_log`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_order_log` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `order_id` int(10) DEFAULT NULL COMMENT '订单ID',
-  `status_code` char(50) DEFAULT '0' COMMENT '状态码',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注内容',
-  `cTime` int(10) DEFAULT NULL COMMENT '时间',
-  `extend` varchar(255) DEFAULT NULL COMMENT '扩展信息',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_shop_slideshow`
---
-
-CREATE TABLE IF NOT EXISTS `dc_shop_slideshow` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(255) DEFAULT NULL COMMENT '标题',
-  `img` int(10) unsigned NOT NULL COMMENT '图片',
-  `url` varchar(255) DEFAULT NULL COMMENT '链接地址',
-  `is_show` tinyint(2) DEFAULT '1' COMMENT '是否显示',
-  `sort` int(10) unsigned DEFAULT '0' COMMENT '排序',
-  `token` varchar(100) DEFAULT NULL COMMENT 'Token',
-  `shop_id` int(10) DEFAULT '0' COMMENT '商店ID',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `qrcode_id` int(10) DEFAULT NULL COMMENT '二维码ID'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2639,7 +2053,7 @@ CREATE TABLE IF NOT EXISTS `dc_shop_slideshow` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_smalltools` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `tooltype` tinyint(2) DEFAULT '0' COMMENT '工具类型',
   `keyword` varchar(255) DEFAULT NULL COMMENT ' 关键词 ',
   `cTime` int(10) DEFAULT NULL COMMENT '创建时间',
@@ -2647,9 +2061,8 @@ CREATE TABLE IF NOT EXISTS `dc_smalltools` (
   `tooldes` text COMMENT '工具描述',
   `toolnum` varchar(255) DEFAULT NULL COMMENT '工具唯一编号',
   `toolstate` tinyint(2) DEFAULT '0' COMMENT '工具状态',
-  `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `token` varchar(255) DEFAULT NULL COMMENT 'Token'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2658,7 +2071,7 @@ CREATE TABLE IF NOT EXISTS `dc_smalltools` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_sucai` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(100) DEFAULT NULL COMMENT '素材名称',
   `status` char(10) DEFAULT 'UnSubmit' COMMENT '状态',
   `cTime` int(10) DEFAULT NULL COMMENT '提交时间',
@@ -2671,9 +2084,8 @@ CREATE TABLE IF NOT EXISTS `dc_sucai` (
   `source` varchar(50) DEFAULT NULL COMMENT '来源',
   `source_id` int(10) DEFAULT NULL COMMENT '来源ID',
   `wechat_id` int(10) DEFAULT NULL COMMENT '微信端的素材ID',
-  `uid` int(10) DEFAULT NULL COMMENT 'uid',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `uid` int(10) DEFAULT NULL COMMENT 'uid'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2682,30 +2094,12 @@ CREATE TABLE IF NOT EXISTS `dc_sucai` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_sucai_template` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `uid` int(10) DEFAULT NULL COMMENT '管理员id',
   `token` varchar(255) DEFAULT NULL COMMENT '用户token',
   `addons` varchar(255) DEFAULT NULL COMMENT '插件名称',
-  `template` varchar(255) DEFAULT NULL COMMENT '模版名称',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_suggestions`
---
-
-CREATE TABLE IF NOT EXISTS `dc_suggestions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `cTime` int(10) NOT NULL COMMENT '创建时间',
-  `content` text NOT NULL COMMENT '内容',
-  `uid` int(10) NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `nickname` varchar(255) NOT NULL COMMENT '用户昵称',
-  `mobile` varchar(255) NOT NULL COMMENT '手机号',
-  `token` varchar(255) NOT NULL COMMENT 'Token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `template` varchar(255) DEFAULT NULL COMMENT '模版名称'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2714,31 +2108,11 @@ CREATE TABLE IF NOT EXISTS `dc_suggestions` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_system_notice` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(255) DEFAULT NULL COMMENT '公告标题',
   `content` text COMMENT '公告内容',
-  `create_time` int(10) DEFAULT NULL COMMENT '发布时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dc_tmplmsg`
---
-
-CREATE TABLE IF NOT EXISTS `dc_tmplmsg` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `openid` varchar(255) NOT NULL COMMENT 'openid',
-  `template_id` varchar(500) NOT NULL COMMENT '模板ID',
-  `message` text NOT NULL COMMENT '消息内容',
-  `MsgID` varchar(255) NOT NULL COMMENT '消息ID',
-  `sendstatus` char(50) NOT NULL COMMENT '发送状态',
-  `Status` char(50) NOT NULL COMMENT '送达报告',
-  `token` varchar(255) NOT NULL COMMENT 'token',
-  `ctime` int(10) NOT NULL COMMENT '发送时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `create_time` int(10) DEFAULT NULL COMMENT '发布时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2747,16 +2121,15 @@ CREATE TABLE IF NOT EXISTS `dc_tmplmsg` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_update_score_log` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `score` int(10) DEFAULT NULL COMMENT '修改积分',
   `branch_id` int(10) DEFAULT NULL COMMENT '修改门店',
   `operator` varchar(255) DEFAULT NULL COMMENT '操作员',
   `cTime` int(10) DEFAULT NULL COMMENT '修改时间',
   `token` varchar(255) DEFAULT NULL COMMENT 'token',
   `member_id` int(10) DEFAULT NULL COMMENT '会员卡id',
-  `manager_id` int(10) DEFAULT NULL COMMENT '管理员id',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `manager_id` int(10) DEFAULT NULL COMMENT '管理员id'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2765,15 +2138,14 @@ CREATE TABLE IF NOT EXISTS `dc_update_score_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_update_version` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `version` int(10) unsigned NOT NULL COMMENT '版本号',
   `title` varchar(50) NOT NULL COMMENT '升级包名',
   `description` text COMMENT '描述',
   `create_date` int(10) DEFAULT NULL COMMENT '创建时间',
   `download_count` int(10) unsigned DEFAULT '0' COMMENT '下载统计',
-  `package` varchar(255) NOT NULL COMMENT '升级包地址',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `package` varchar(255) NOT NULL COMMENT '升级包地址'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2782,7 +2154,7 @@ CREATE TABLE IF NOT EXISTS `dc_update_version` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_user` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
   `nickname` text COMMENT '用户名',
   `password` varchar(100) DEFAULT NULL COMMENT '登录密码',
   `truename` varchar(30) DEFAULT NULL COMMENT '真实姓名',
@@ -2814,10 +2186,8 @@ CREATE TABLE IF NOT EXISTS `dc_user` (
   `manager_id` int(10) DEFAULT '0' COMMENT '公众号管理员ID',
   `level` tinyint(2) DEFAULT '0' COMMENT '管理等级',
   `membership` char(50) DEFAULT '0' COMMENT '会员等级',
-  `public_count` int(10) DEFAULT NULL COMMENT '可创建公众号数',
-  PRIMARY KEY (`uid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
+  `public_count` int(10) DEFAULT NULL COMMENT '可创建公众号数'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2826,13 +2196,12 @@ CREATE TABLE IF NOT EXISTS `dc_user` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_user_follow` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `uid` int(11) DEFAULT NULL,
   `publicid` int(11) DEFAULT NULL,
   `follow_id` int(11) DEFAULT NULL,
-  `url` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `url` varchar(250) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2841,7 +2210,7 @@ CREATE TABLE IF NOT EXISTS `dc_user_follow` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_visit_log` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `publicid` int(10) DEFAULT '0' COMMENT 'publicid',
   `module_name` varchar(30) DEFAULT NULL COMMENT 'module_name',
   `controller_name` varchar(30) DEFAULT NULL COMMENT 'controller_name',
@@ -2851,9 +2220,8 @@ CREATE TABLE IF NOT EXISTS `dc_visit_log` (
   `brower` varchar(30) DEFAULT NULL COMMENT 'brower',
   `param` text COMMENT 'param',
   `referer` varchar(255) DEFAULT NULL COMMENT 'referer',
-  `cTime` int(10) DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `cTime` int(10) DEFAULT NULL COMMENT '时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2862,16 +2230,15 @@ CREATE TABLE IF NOT EXISTS `dc_visit_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_weisite_category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(100) NOT NULL COMMENT '分类标题',
   `icon` int(10) unsigned DEFAULT NULL COMMENT '分类图片',
   `url` varchar(255) DEFAULT NULL COMMENT '外链',
   `is_show` tinyint(2) DEFAULT '1' COMMENT '显示',
   `token` varchar(100) DEFAULT NULL COMMENT 'Token',
   `sort` int(10) DEFAULT '0' COMMENT '排序号',
-  `pid` int(10) DEFAULT '0' COMMENT '一级目录',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `pid` int(10) DEFAULT '0' COMMENT '一级目录'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2880,7 +2247,7 @@ CREATE TABLE IF NOT EXISTS `dc_weisite_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_weisite_cms` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `keyword` varchar(100) NOT NULL COMMENT '关键词',
   `keyword_type` tinyint(2) DEFAULT NULL COMMENT '关键词类型',
   `title` varchar(255) NOT NULL COMMENT '标题',
@@ -2890,9 +2257,8 @@ CREATE TABLE IF NOT EXISTS `dc_weisite_cms` (
   `content` text COMMENT '内容',
   `cTime` int(10) DEFAULT NULL COMMENT '发布时间',
   `sort` int(10) unsigned DEFAULT '0' COMMENT '排序号',
-  `view_count` int(10) unsigned DEFAULT '0' COMMENT '浏览数',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `view_count` int(10) unsigned DEFAULT '0' COMMENT '浏览数'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2901,15 +2267,14 @@ CREATE TABLE IF NOT EXISTS `dc_weisite_cms` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_weisite_footer` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `url` varchar(255) DEFAULT NULL COMMENT '关联URL',
   `title` varchar(50) NOT NULL COMMENT '菜单名',
   `pid` tinyint(2) DEFAULT '0' COMMENT '一级菜单',
   `sort` tinyint(4) DEFAULT '0' COMMENT '排序号',
   `token` varchar(255) DEFAULT NULL COMMENT 'Token',
-  `icon` int(10) unsigned DEFAULT NULL COMMENT '图标',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `icon` int(10) unsigned DEFAULT NULL COMMENT '图标'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2918,15 +2283,14 @@ CREATE TABLE IF NOT EXISTS `dc_weisite_footer` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_weisite_slideshow` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `img` int(10) unsigned NOT NULL COMMENT '图片',
   `url` varchar(255) DEFAULT NULL COMMENT '链接地址',
   `is_show` tinyint(2) DEFAULT '1' COMMENT '是否显示',
   `sort` int(10) unsigned DEFAULT '0' COMMENT '排序',
-  `token` varchar(100) DEFAULT NULL COMMENT 'Token',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `token` varchar(100) DEFAULT NULL COMMENT 'Token'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2935,13 +2299,12 @@ CREATE TABLE IF NOT EXISTS `dc_weisite_slideshow` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_weixin_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `cTime` int(11) DEFAULT NULL,
   `cTime_format` varchar(30) DEFAULT NULL,
   `data` text,
-  `data_post` text,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data_post` text
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2950,7 +2313,7 @@ CREATE TABLE IF NOT EXISTS `dc_weixin_log` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_weixin_message` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `ToUserName` varchar(100) DEFAULT NULL COMMENT 'Token',
   `FromUserName` varchar(100) DEFAULT NULL COMMENT 'OpenID',
   `CreateTime` int(10) DEFAULT NULL COMMENT '创建时间',
@@ -2968,9 +2331,8 @@ CREATE TABLE IF NOT EXISTS `dc_weixin_message` (
   `deal` tinyint(1) DEFAULT '0' COMMENT '处理状态',
   `is_read` tinyint(1) DEFAULT '0' COMMENT '是否已读',
   `type` tinyint(1) DEFAULT '0' COMMENT '消息分类',
-  `is_material` int(10) DEFAULT '0' COMMENT '设置为文本素材',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `is_material` int(10) DEFAULT '0' COMMENT '设置为文本素材'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2979,16 +2341,15 @@ CREATE TABLE IF NOT EXISTS `dc_weixin_message` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_xdlog` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `userid_int` int(11) NOT NULL,
   `biztitle` text,
   `biztype` int(11) NOT NULL DEFAULT '0',
   `opttime` bigint(20) DEFAULT NULL,
   `xd` bigint(20) DEFAULT NULL,
   `sceneid` bigint(20) DEFAULT '0',
-  `remark` longtext,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `remark` longtext
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2997,12 +2358,11 @@ CREATE TABLE IF NOT EXISTS `dc_xdlog` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_youaskservice_group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `token` varchar(255) DEFAULT NULL COMMENT 'token',
   `groupname` varchar(255) DEFAULT NULL COMMENT '分组名称',
-  `groupdata` text COMMENT '分组数据源',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `groupdata` text COMMENT '分组数据源'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -3011,7 +2371,7 @@ CREATE TABLE IF NOT EXISTS `dc_youaskservice_group` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_youaskservice_keyword` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `msgkeyword` varchar(555) DEFAULT NULL COMMENT '消息关键字',
   `msgkeyword_type` char(50) DEFAULT '3' COMMENT '关键字类型',
   `msgkfaccount` varchar(255) DEFAULT NULL COMMENT '接待的客服人员',
@@ -3021,9 +2381,8 @@ CREATE TABLE IF NOT EXISTS `dc_youaskservice_keyword` (
   `zjnum` int(10) DEFAULT NULL COMMENT '转接次数',
   `zdtype` char(10) DEFAULT '0' COMMENT '指定类型',
   `kfgroupid` int(10) DEFAULT '0' COMMENT '客服分组id',
-  `kf_explain` varchar(255) DEFAULT NULL COMMENT '客服说明',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `kf_explain` varchar(255) DEFAULT NULL COMMENT '客服说明'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -3032,7 +2391,7 @@ CREATE TABLE IF NOT EXISTS `dc_youaskservice_keyword` (
 --
 
 CREATE TABLE IF NOT EXISTS `dc_youaskservice_user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(10) unsigned NOT NULL COMMENT '主键',
   `name` varchar(60) DEFAULT NULL COMMENT '客服昵称',
   `token` varchar(60) DEFAULT NULL COMMENT 'token',
   `userName` varchar(60) DEFAULT NULL COMMENT '客服帐号',
@@ -3041,10 +2400,825 @@ CREATE TABLE IF NOT EXISTS `dc_youaskservice_user` (
   `status` tinyint(1) DEFAULT '0' COMMENT '客服在线状态',
   `state` tinyint(2) DEFAULT '0' COMMENT '客服状态',
   `isdelete` tinyint(2) DEFAULT '0' COMMENT '是否删除',
-  `kfid` varchar(255) DEFAULT NULL COMMENT '客服编号',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=1 ;
+  `kfid` varchar(255) DEFAULT NULL COMMENT '客服编号'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `dc_action`
+--
+ALTER TABLE `dc_action`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_action_log`
+--
+ALTER TABLE `dc_action_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `action_ip_ix` (`action_ip`),
+  ADD KEY `action_id_ix` (`action_id`),
+  ADD KEY `user_id_ix` (`user_id`);
+
+--
+-- Indexes for table `dc_addons`
+--
+ALTER TABLE `dc_addons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`),
+  ADD KEY `sti` (`status`,`is_show`);
+
+--
+-- Indexes for table `dc_addon_category`
+--
+ALTER TABLE `dc_addon_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_address`
+--
+ALTER TABLE `dc_address`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_analysis`
+--
+ALTER TABLE `dc_analysis`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_article_style`
+--
+ALTER TABLE `dc_article_style`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_article_style_group`
+--
+ALTER TABLE `dc_article_style_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_attachment`
+--
+ALTER TABLE `dc_attachment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_record_status` (`record_id`,`status`);
+
+--
+-- Indexes for table `dc_attribute`
+--
+ALTER TABLE `dc_attribute`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `model_id` (`model_id`);
+
+--
+-- Indexes for table `dc_auth_extend`
+--
+ALTER TABLE `dc_auth_extend`
+  ADD UNIQUE KEY `group_extend_type` (`group_id`,`extend_id`,`type`),
+  ADD KEY `uid` (`group_id`),
+  ADD KEY `group_id` (`extend_id`);
+
+--
+-- Indexes for table `dc_auth_group`
+--
+ALTER TABLE `dc_auth_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_auth_group_access`
+--
+ALTER TABLE `dc_auth_group_access`
+  ADD UNIQUE KEY `uid_group_id` (`uid`,`group_id`),
+  ADD KEY `uid` (`uid`),
+  ADD KEY `group_id` (`group_id`);
+
+--
+-- Indexes for table `dc_auth_rule`
+--
+ALTER TABLE `dc_auth_rule`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `dc_auto_reply`
+--
+ALTER TABLE `dc_auto_reply`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_channel`
+--
+ALTER TABLE `dc_channel`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_common_category`
+--
+ALTER TABLE `dc_common_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_common_category_group`
+--
+ALTER TABLE `dc_common_category_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_config`
+--
+ALTER TABLE `dc_config`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_name` (`name`);
+
+--
+-- Indexes for table `dc_credit_config`
+--
+ALTER TABLE `dc_credit_config`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_credit_data`
+--
+ALTER TABLE `dc_credit_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_customer`
+--
+ALTER TABLE `dc_customer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_custom_menu`
+--
+ALTER TABLE `dc_custom_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_custom_menu_type`
+--
+ALTER TABLE `dc_custom_menu_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_custom_sendall`
+--
+ALTER TABLE `dc_custom_sendall`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_file`
+--
+ALTER TABLE `dc_file`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_md5` (`md5`);
+
+--
+-- Indexes for table `dc_forum`
+--
+ALTER TABLE `dc_forum`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_hooks`
+--
+ALTER TABLE `dc_hooks`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `搜索索引` (`name`);
+
+--
+-- Indexes for table `dc_import`
+--
+ALTER TABLE `dc_import`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_invite_code`
+--
+ALTER TABLE `dc_invite_code`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_join_count`
+--
+ALTER TABLE `dc_join_count`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fid_aim` (`follow_id`,`aim_id`);
+
+--
+-- Indexes for table `dc_keyword`
+--
+ALTER TABLE `dc_keyword`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `keyword_token` (`keyword`,`token`);
+
+--
+-- Indexes for table `dc_manager`
+--
+ALTER TABLE `dc_manager`
+  ADD PRIMARY KEY (`uid`);
+
+--
+-- Indexes for table `dc_manager_menu`
+--
+ALTER TABLE `dc_manager_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_material_file`
+--
+ALTER TABLE `dc_material_file`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_material_image`
+--
+ALTER TABLE `dc_material_image`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_material_news`
+--
+ALTER TABLE `dc_material_news`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_material_text`
+--
+ALTER TABLE `dc_material_text`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_menu`
+--
+ALTER TABLE `dc_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_message`
+--
+ALTER TABLE `dc_message`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_model`
+--
+ALTER TABLE `dc_model`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `dc_model_copy`
+--
+ALTER TABLE `dc_model_copy`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `dc_online_count`
+--
+ALTER TABLE `dc_online_count`
+  ADD KEY `tc` (`time`,`count`);
+
+--
+-- Indexes for table `dc_payment_order`
+--
+ALTER TABLE `dc_payment_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_payment_set`
+--
+ALTER TABLE `dc_payment_set`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_picture`
+--
+ALTER TABLE `dc_picture`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `status` (`id`,`status`);
+
+--
+-- Indexes for table `dc_plugin`
+--
+ALTER TABLE `dc_plugin`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`),
+  ADD KEY `sti` (`status`,`is_show`);
+
+--
+-- Indexes for table `dc_public`
+--
+ALTER TABLE `dc_public`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `token` (`token`);
+
+--
+-- Indexes for table `dc_public_auth`
+--
+ALTER TABLE `dc_public_auth`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `dc_public_follow`
+--
+ALTER TABLE `dc_public_follow`
+  ADD UNIQUE KEY `openid` (`openid`,`token`);
+
+--
+-- Indexes for table `dc_public_group`
+--
+ALTER TABLE `dc_public_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_public_link`
+--
+ALTER TABLE `dc_public_link`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `um` (`uid`,`mp_id`);
+
+--
+-- Indexes for table `dc_qr_code`
+--
+ALTER TABLE `dc_qr_code`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_scene_qrcode`
+--
+ALTER TABLE `dc_scene_qrcode`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_scene_qrcode_statistics`
+--
+ALTER TABLE `dc_scene_qrcode_statistics`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_smalltools`
+--
+ALTER TABLE `dc_smalltools`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_sucai`
+--
+ALTER TABLE `dc_sucai`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_sucai_template`
+--
+ALTER TABLE `dc_sucai_template`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_system_notice`
+--
+ALTER TABLE `dc_system_notice`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_update_score_log`
+--
+ALTER TABLE `dc_update_score_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_update_version`
+--
+ALTER TABLE `dc_update_version`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_user`
+--
+ALTER TABLE `dc_user`
+  ADD PRIMARY KEY (`uid`);
+
+--
+-- Indexes for table `dc_user_follow`
+--
+ALTER TABLE `dc_user_follow`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_visit_log`
+--
+ALTER TABLE `dc_visit_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_weisite_category`
+--
+ALTER TABLE `dc_weisite_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_weisite_cms`
+--
+ALTER TABLE `dc_weisite_cms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_weisite_footer`
+--
+ALTER TABLE `dc_weisite_footer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_weisite_slideshow`
+--
+ALTER TABLE `dc_weisite_slideshow`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_weixin_log`
+--
+ALTER TABLE `dc_weixin_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_weixin_message`
+--
+ALTER TABLE `dc_weixin_message`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_xdlog`
+--
+ALTER TABLE `dc_xdlog`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_youaskservice_group`
+--
+ALTER TABLE `dc_youaskservice_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_youaskservice_keyword`
+--
+ALTER TABLE `dc_youaskservice_keyword`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dc_youaskservice_user`
+--
+ALTER TABLE `dc_youaskservice_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `dc_action`
+--
+ALTER TABLE `dc_action`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `dc_action_log`
+--
+ALTER TABLE `dc_action_log`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `dc_addons`
+--
+ALTER TABLE `dc_addons`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=229;
+--
+-- AUTO_INCREMENT for table `dc_addon_category`
+--
+ALTER TABLE `dc_addon_category`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `dc_address`
+--
+ALTER TABLE `dc_address`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_analysis`
+--
+ALTER TABLE `dc_analysis`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_article_style`
+--
+ALTER TABLE `dc_article_style`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `dc_article_style_group`
+--
+ALTER TABLE `dc_article_style_group`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `dc_attachment`
+--
+ALTER TABLE `dc_attachment`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dc_attribute`
+--
+ALTER TABLE `dc_attribute`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12608;
+--
+-- AUTO_INCREMENT for table `dc_auth_group`
+--
+ALTER TABLE `dc_auth_group`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `dc_auth_rule`
+--
+ALTER TABLE `dc_auth_rule`
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id,自增主键',AUTO_INCREMENT=280;
+--
+-- AUTO_INCREMENT for table `dc_auto_reply`
+--
+ALTER TABLE `dc_auto_reply`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_channel`
+--
+ALTER TABLE `dc_channel`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '频道ID';
+--
+-- AUTO_INCREMENT for table `dc_common_category`
+--
+ALTER TABLE `dc_common_category`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_common_category_group`
+--
+ALTER TABLE `dc_common_category_group`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_config`
+--
+ALTER TABLE `dc_config`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '配置ID',AUTO_INCREMENT=66;
+--
+-- AUTO_INCREMENT for table `dc_credit_config`
+--
+ALTER TABLE `dc_credit_config`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=40;
+--
+-- AUTO_INCREMENT for table `dc_credit_data`
+--
+ALTER TABLE `dc_credit_data`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_customer`
+--
+ALTER TABLE `dc_customer`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dc_custom_menu`
+--
+ALTER TABLE `dc_custom_menu`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_custom_menu_type`
+--
+ALTER TABLE `dc_custom_menu_type`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_custom_sendall`
+--
+ALTER TABLE `dc_custom_sendall`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_file`
+--
+ALTER TABLE `dc_file`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文件ID';
+--
+-- AUTO_INCREMENT for table `dc_forum`
+--
+ALTER TABLE `dc_forum`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_hooks`
+--
+ALTER TABLE `dc_hooks`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT for table `dc_import`
+--
+ALTER TABLE `dc_import`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_invite_code`
+--
+ALTER TABLE `dc_invite_code`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dc_join_count`
+--
+ALTER TABLE `dc_join_count`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dc_keyword`
+--
+ALTER TABLE `dc_keyword`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `dc_manager_menu`
+--
+ALTER TABLE `dc_manager_menu`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=356;
+--
+-- AUTO_INCREMENT for table `dc_material_file`
+--
+ALTER TABLE `dc_material_file`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_material_image`
+--
+ALTER TABLE `dc_material_image`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_material_news`
+--
+ALTER TABLE `dc_material_news`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_material_text`
+--
+ALTER TABLE `dc_material_text`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_menu`
+--
+ALTER TABLE `dc_menu`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',AUTO_INCREMENT=153;
+--
+-- AUTO_INCREMENT for table `dc_message`
+--
+ALTER TABLE `dc_message`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_model`
+--
+ALTER TABLE `dc_model`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型ID',AUTO_INCREMENT=1287;
+--
+-- AUTO_INCREMENT for table `dc_model_copy`
+--
+ALTER TABLE `dc_model_copy`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型ID',AUTO_INCREMENT=1144;
+--
+-- AUTO_INCREMENT for table `dc_payment_order`
+--
+ALTER TABLE `dc_payment_order`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_payment_set`
+--
+ALTER TABLE `dc_payment_set`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_picture`
+--
+ALTER TABLE `dc_picture`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id自增';
+--
+-- AUTO_INCREMENT for table `dc_plugin`
+--
+ALTER TABLE `dc_plugin`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',AUTO_INCREMENT=126;
+--
+-- AUTO_INCREMENT for table `dc_public`
+--
+ALTER TABLE `dc_public`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_public_group`
+--
+ALTER TABLE `dc_public_group`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_public_link`
+--
+ALTER TABLE `dc_public_link`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_qr_code`
+--
+ALTER TABLE `dc_qr_code`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_scene_qrcode`
+--
+ALTER TABLE `dc_scene_qrcode`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_scene_qrcode_statistics`
+--
+ALTER TABLE `dc_scene_qrcode_statistics`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_smalltools`
+--
+ALTER TABLE `dc_smalltools`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_sucai`
+--
+ALTER TABLE `dc_sucai`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_sucai_template`
+--
+ALTER TABLE `dc_sucai_template`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_system_notice`
+--
+ALTER TABLE `dc_system_notice`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_update_score_log`
+--
+ALTER TABLE `dc_update_score_log`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_update_version`
+--
+ALTER TABLE `dc_update_version`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_user`
+--
+ALTER TABLE `dc_user`
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `dc_user_follow`
+--
+ALTER TABLE `dc_user_follow`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dc_visit_log`
+--
+ALTER TABLE `dc_visit_log`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_weisite_category`
+--
+ALTER TABLE `dc_weisite_category`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_weisite_cms`
+--
+ALTER TABLE `dc_weisite_cms`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_weisite_footer`
+--
+ALTER TABLE `dc_weisite_footer`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_weisite_slideshow`
+--
+ALTER TABLE `dc_weisite_slideshow`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_weixin_log`
+--
+ALTER TABLE `dc_weixin_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `dc_weixin_message`
+--
+ALTER TABLE `dc_weixin_message`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_xdlog`
+--
+ALTER TABLE `dc_xdlog`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dc_youaskservice_group`
+--
+ALTER TABLE `dc_youaskservice_group`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_youaskservice_keyword`
+--
+ALTER TABLE `dc_youaskservice_keyword`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
+--
+-- AUTO_INCREMENT for table `dc_youaskservice_user`
+--
+ALTER TABLE `dc_youaskservice_user`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
