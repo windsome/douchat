@@ -16,7 +16,7 @@ use Common\Controller\Addon;
             'description'=>'对豆信框架的功能进行演示',
             'status'=>1,
             'author'=>'艾逗笔',
-            'version'=>'1.0',
+            'version'=>'0.1',
             'has_adminlist'=>0
         );
 

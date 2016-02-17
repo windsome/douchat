@@ -4,18 +4,18 @@ namespace Addons\Payment;
 use Common\Controller\Addon;
 
 /**
- * 支付通插件
- * @author 拉帮姐派(陌路生人)
+ * 支付设置插件
+ * @author 艾逗笔
  */
 
     class PaymentAddon extends Addon{
 
         public $info = array(
             'name'=>'Payment',
-            'title'=>'支付通',
+            'title'=>'支付设置',
             'description'=>'微信支付,财富通,支付宝',
             'status'=>1,
-            'author'=>'拉帮姐派(陌路生人)',
+            'author'=>'艾逗笔',
             'version'=>'0.1',
             'has_adminlist'=>1,
             'type'=>1         
