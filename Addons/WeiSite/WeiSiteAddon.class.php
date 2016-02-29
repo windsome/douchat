@@ -4,7 +4,7 @@ namespace Addons\WeiSite;
 use Common\Controller\Addon;
 
 /**
- * 微官网插件
+ * 微网站插件
  * @author 艾逗笔
  */
 
@@ -12,11 +12,11 @@ use Common\Controller\Addon;
 
         public $info = array(
             'name'=>'WeiSite',
-            'title'=>'微官网',
+            'title'=>'微网站',
             'description'=>'微3G网站、支持分类管理，文章管理、底部导航管理、微信引导信息配置，微网站统计代码部署。同时支持首页多模板切换、信息列表多模板切换、信息详情模板切换、底部导航多模板切换。并配置有详细的模板二次开发教程',
             'status'=>1,
             'author'=>'艾逗笔',
-            'version'=>'1.0',
+            'version'=>'0.1',
             'has_adminlist'=>0,
             'type'=>1         
         );

@@ -147,9 +147,9 @@ class UserController extends HomeController {
 		} else { // 显示登录表单
 			if (isMobile ()) {
 				// 跳转到手机版的个人空间
-				redirect ( addons_url ( 'UserCenter://Wap/userCenter', array (
-						'from' => 1 
-				) ) );
+				// redirect ( addons_url ( 'UserCenter://Wap/userCenter', array (
+				// 		'from' => 1 
+				// ) ) );
 			}
 			$html = 'login';
 			$_GET ['from'] == 'store' && $html = 'simple_login';

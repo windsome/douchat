@@ -16,7 +16,7 @@ use Common\Controller\Addon;
             'description'=>'通用地址管理插件',
             'status'=>1,
             'author'=>'艾逗笔',
-            'version'=>'1.0',
+            'version'=>'0.1',
             'has_adminlist'=>1,
             'type'=>1         
         );

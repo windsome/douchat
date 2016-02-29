@@ -16,7 +16,7 @@ use Common\Controller\Addon;
             'description'=>'实现配置关键词，用户回复此关键词后自动回复对应的文件，图文，图片信息',
             'status'=>1,
             'author'=>'艾逗笔',
-            'version'=>'1.0',
+            'version'=>'0.1',
             'has_adminlist'=>1
         );
 

@@ -4,8 +4,8 @@ namespace Addons\YouaskService;
 use Common\Controller\Addon;
 
 /**
- * 你问我答客服系统插件
- * @author 陌路生人
+ * 多客服插件
+ * @author 艾逗笔
  */
 
     class YouaskServiceAddon extends Addon{
@@ -15,7 +15,7 @@ use Common\Controller\Addon;
             'title'=>'多客服',
             'description'=>'微信多客服管理，智能化控制',
             'status'=>1,
-            'author'=>'梦醒',
+            'author'=>'艾逗笔',
             'version'=>'0.1',
             'has_adminlist'=>1,
             'type'=>1         
