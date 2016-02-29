@@ -1,4 +1,5 @@
 <block name="header"></block>
+<block name="style">
 <style type="text/css">
 a{
   text-decoration: none !important;
@@ -11,7 +12,7 @@ a{
   redirect(U('home/user/login',array('from'=>4)));
   } </php>
  -->
-<php>
+  <php>
 $m = strtolower(MODULE_NAME);
 $c = strtolower(CONTROLLER_NAME);
 $a = strtolower(ACTION_NAME);
@@ -36,46 +37,15 @@ foreach($categorys as &$cate){
    }
 }
 </php>
-
 <div id="main-container" class="admin_container">
   
-  <notempty name="core_side_menu">
     <div class="sidebar">
-      <ul class="sidenav">
-        <li>
-          <notempty name="now_top_menu_name"><a class="sidenav_parent" href="javascript:;"> 
-            <img src="__IMG__/icon_menu_function.png"/>
-            {$now_top_menu_name}</a></notempty>
-          <ul class="sidenav_sub">
-            <volist name='core_side_menu' id='vo'>
-              <li class="{$vo.class}" data-id="{$vo.id}"> <a href="{$vo.url}"> {$vo.title} </a><b class="active_arrow"></b></li>
-            </volist>
-          </ul>
-        </li>
-        <notempty name="addonList">
-          <!-- <li> <a class="sidenav_parent" href="javascript:;"> <img src="__IMG__/ico1.png"/> 其它功能</a>
-            <ul class="sidenav_sub" style="display:none">
-              <volist name='addonList' id='vo'>
-                <li class="{$navClass[$vo[name]]}"> <a href="{$vo[addons_url]}" title="{$vo.description}"> <i class="icon-chevron-right">
-                  <php>if(!empty($vo['icon'])) { </php>
-                  <img src="{$vo.icon}" />
-                  <php> } </php>
-                  </i> {$vo.title} </a> </li>
-              </volist>
-            </ul>
-          </li> -->
-        </notempty>
-      </ul>
-    </div>
-  <else />
-
-  <div class="sidebar">
 
      
 
       <ul class="sidenav">
 
-        <!-- <li>
+        <li>
           <a class="sidenav_parent" href="javascript:;"> 
             <img src="https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_function.png"/>
             管理</a>
@@ -88,7 +58,7 @@ foreach($categorys as &$cate){
               <li class="" data-id=""> <a href="{:U('Home/Message/add')}">群发管理</a><b class="active_arrow"></b></li>
             
           </ul>
-        </li>   -->
+        </li>  
         
         <volist name='categorys' id='ca'>
         <if condition="$ca['addons'] neq ''">
@@ -129,9 +99,20 @@ foreach($categorys as &$cate){
         
       </ul>
     </div>
-    
-  </notempty>
+ 
   <div class="main_body">
     <block name="body"></block>
   </div>
 </div>
+
+<script type="text/javascript">
+    $(function(){
+       
+      // $("ul.nav li[class='active'] a").attr("target","_self");
+       
+      var now_url = "<?php echo GetCurUrl(); ?>";  // 获取当前浏览地址
+      // alert(now_url);
+      $(".sidenav_sub a[href='"+now_url+"']").parent().addClass("active");
+       
+    })
+</script>
