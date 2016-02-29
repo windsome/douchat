@@ -2,17 +2,10 @@
 -- version 4.4.15.1
 -- http://www.phpmyadmin.net
 --
-<<<<<<< HEAD
--- 主机: localhost
--- 生成日期: 2016 年 02 月 17 日 01:26
--- 服务器版本: 5.5.20
--- PHP 版本: 5.3.10
-=======
 -- Host: localhost
 -- Generation Time: 2016-02-17 18:46:15
 -- 服务器版本： 5.6.27-log
 -- PHP Version: 5.5.30
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -78,17 +71,8 @@ CREATE TABLE IF NOT EXISTS `dc_action_log` (
   `record_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '触发行为的数据id',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '日志备注',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态',
-<<<<<<< HEAD
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行行为的时间',
-  PRIMARY KEY (`id`),
-  KEY `action_ip_ix` (`action_ip`),
-  KEY `action_id_ix` (`action_id`),
-  KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='行为日志表' AUTO_INCREMENT=7 ;
-=======
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行行为的时间'
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='行为日志表';
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -117,27 +101,6 @@ CREATE TABLE IF NOT EXISTS `dc_addons` (
 --
 
 INSERT INTO `dc_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`, `type`, `cate_id`, `is_show`) VALUES
-<<<<<<< HEAD
-(198, 'WeiSite', '微官网', '微3G网站、支持分类管理，文章管理、底部导航管理、微信引导信息配置，微网站统计代码部署。同时支持首页多模板切换、信息列表多模板切换、信息详情模板切换、底部导航多模板切换。并配置有详细的模板二次开发教程', 1, '{"title":"\\u70b9\\u51fb\\u8fdb\\u5165\\u9996\\u9875","cover":"","info":"","background":"","code":"","template_index":"ColorV1","template_footer":"V1","template_lists":"V1","template_detail":"V1"}', '艾逗笔', '1.0', 1450450573, 0, 0, 0, 1),
-(199, 'AutoReply', '自动回复', '实现配置关键词，用户回复此关键词后自动回复对应的文件，图文，图片信息', 1, 'null', '艾逗笔', '1.0', 1450450576, 1, 0, 0, 1),
-(218, 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', 1, 'null', '艾逗笔', '1.0', 1453347048, 1, 0, 0, 1),
-(201, 'YouaskService', '多客服', '一个支持指定客服，未识别回复，智能聊天(图灵机器人)的微信客服系统', 1, '{"state":"0","zrg":"\\u4eba\\u5de5\\u5ba2\\u670d","kfbz":"\\u60a8\\u597d\\uff0c\\u5ba2\\u670d\\u5de5\\u4f5c\\u65f6\\u95f4\\uff1a\\u5468\\u4e00\\u81f3\\u5468\\u4e948:00-17:00","zdkfbz":"\\u60a8\\u597d\\uff0c\\u60a8\\u6307\\u5b9a\\u7684\\u5ba2\\u670d\\u6682\\u65f6\\u4e0d\\u5728\\u7ebf\\uff0c\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u5ba2\\u670d,\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868\\uff0c\\u8bf7\\u56de\\u590d\\u201c\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u201d","model":"1","model2":"2","model3":"0","tcrg":"\\u9000\\u51fa\\u4eba\\u5de5\\u5ba2\\u670d","type":"1","title":"","description":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5173\\u95ed\\uff01\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u65b9\\u5f0f\\u8ddf\\u6211\\u4eec\\u8054\\u7cfb\\uff01","pic_url":"","url":"","type2":"1","title2":"","description2":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5f00\\u542f\\uff0c\\u6709\\u4ec0\\u4e48\\u95ee\\u9898\\u53ef\\u8f6c\\u4eba\\u5de5\\u5ba2\\u670d\\u3002\\u8f93\\u5165\\u76f8\\u5173\\u7684\\u5173\\u952e\\u8bcd\\u6307\\u5b9a\\u76f8\\u5173\\u5ba2\\u670d\\uff01","pic_url2":"","url2":"","cxkey":"\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d","type3":"1","title3":"\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868","pic_url3":"","description_head":"\\u5ba2\\u670d\\u5217\\u8868\\u9876\\u90e8\\u5185\\u5bb9\\u533a","description_foot":"\\u5ba2\\u670d\\u5217\\u8868\\u5e95\\u90e8\\u5185\\u5bb9\\u533a","tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api"}', '梦醒', '0.1', 1451825104, 1, 0, 0, 1),
-(202, 'Tmplmsg', '模板消息', '通用的模板消息发送插件', 1, 'null', '艾逗笔', '1.0', 1451825112, 1, 0, 0, 1),
-(204, 'SceneQrcode', '场景二维码', '设置不同的场景生成对应的二维码，用于营销推广、用户绑定、数据统计等场景。', 1, 'null', '艾逗笔', '1.0', 1451825121, 1, 0, 0, 1),
-(205, 'UserCenter', '微信用户中心', '实现3G首页、微信登录，微信用户绑定，微信用户信息初始化等基本功能', 1, '{"score":"100","experience":"100","need_bind":"0","bind_start":"0","jumpurl":""}', '凡星', '0.1', 1451825125, 1, 0, NULL, 1),
-(206, 'Shop', '微商城', '支持后台发布商品 banner管理 前端多模板选择 订单管理等', 1, 'null', '艾逗笔', '1.0', 1451825141, 1, 0, 5, 1),
-(207, 'Example', '功能演示', '对豆信框架的功能进行演示', 1, '{"random":"1"}', '艾逗笔', '1.0', 1451825144, 0, 0, 10, 1),
-(208, 'Donations', '微捐赠', '在线捐赠功能，用户可以在微信端捐赠', 1, '{"title":"\\u6350\\u8d60\\u6211\\u4eec","cover":"","desc":"\\u60a8\\u7684\\u652f\\u6301\\uff0c\\u662f\\u6211\\u4eec\\u524d\\u8fdb\\u7684\\u52a8\\u529b"}', '洛杉矶豪哥', '1.0', 1451825173, 0, 0, 1, 1),
-(209, 'Extensions', '融合第三方', '第三方功能扩展', 1, 'null', '凡星', '0.1', 1451825178, 1, 0, 4, 1),
-(210, 'Forms', '通用表单', '管理员可以轻松地增加一个表单用于收集用户的信息，如活动报名、调查反馈、预约填单等', 1, 'null', '凡星', '0.1', 1451825181, 1, 0, 1, 1),
-(211, 'Dg', '在线点歌', '使用百度音乐api实现微信端在线点歌功能', 1, '{"keyword":"\\u70b9\\u6b4c"}', '艾逗笔', '1.0', 1451825183, 0, 0, 1, 1),
-(212, 'Suggestions', '意见反馈', '用户在微信里输入“意见反馈”四个字时，返回一个图文信息，引导用户进入填写建议意见的3G页面，用户填写信息提交后显示感谢之意并提示关闭页面返回微信\r\n管理员可以在管理中心里看到用户反馈的内容列表，并对内容进行编辑，删除操作', 1, '{"title":"\\u610f\\u89c1\\u53cd\\u9988","cover":"","desc":"\\u70b9\\u6b64\\u8fdb\\u5165","need_nickname":"1","need_mobile":"1","admin_id":""}', '艾逗笔', '1.0', 1451825186, 0, 0, 2, 1),
-(213, 'Leaflets', '微信宣传页', '微信公众号二维码推广页面，用作推广或者制作广告易拉宝，可以发布到QQ群微博博客论坛等等...', 1, '{"title":"\\u8c46\\u4fe1\\u5b98\\u65b9\\u5fae\\u4fe1\\u516c\\u4f17\\u53f7","img":"","info":"\\u8c46\\u4fe1\\u662f\\u4e00\\u4e2a\\u4f18\\u96c5\\u7684\\u5fae\\u4fe1\\u516c\\u4f17\\u53f7\\u5f00\\u53d1\\u6846\\u67b6\\uff0c\\u4ea7\\u54c1\\u7406\\u5ff5\\u662f\\u201c\\u9ad8\\u5ea6\\u5c01\\u88c5\\u3001\\u7075\\u6d3b\\u8c03\\u7528\\u201d","copyright":"\\u00a92015 \\u8c46\\u4fe1\\u7248\\u6743\\u6240\\u6709"}', '凡星', '1.0', 1451825189, 0, 0, 3, 1),
-(214, 'AddressManage', '地址管理', '通用地址管理插件', 1, 'null', '艾逗笔', '1.0', 1452417210, 1, 0, 0, 1),
-(215, 'Payment', '支付通', '微信支付,财富通,支付宝', 1, '{"isopen":"1","isopenload":"1","isopenwx":"1"}', '拉帮姐派(陌路生人)', '0.1', 1452417237, 1, 0, 0, 1),
-(216, 'Idioms', '成语接龙', 'weiphp成语接龙插件，当用户在微信中回复“成语接龙”时开始成语接龙游戏', 1, 'null', '艾逗笔', '1.0', 1452417267, 0, 0, 1, 1),
-(217, 'Tuling', '图灵机器人', '使用图灵机器人接口实现微信端智能聊天，支持语音识别', 1, '{"tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api","rand_reply":"\\r\\n\\u6211\\u4eca\\u5929\\u7d2f\\u4e86\\uff0c\\u660e\\u5929\\u518d\\u966a\\u4f60\\u804a\\u5929\\u5427\\r\\n\\u54c8\\u54c8~~\\r\\n\\u4f60\\u8bdd\\u597d\\u591a\\u554a\\uff0c\\u4e0d\\u8ddf\\u4f60\\u804a\\u4e86\\r\\n\\u867d\\u7136\\u4e0d\\u61c2\\uff0c\\u4f46\\u89c9\\u5f97\\u4f60\\u8bf4\\u5f97\\u5f88\\u5bf9"}', '艾逗笔', '2.0', 1452477316, 0, 0, 1, 1);
-=======
 (223, 'Payment', '支付设置', '微信支付,财富通,支付宝', 1, '{"isopen":"1","isopenload":"1","isopenwx":"1"}', '艾逗笔', '0.1', 1455705718, 1, 0, 1, 1),
 (224, 'UserCenter', '用户管理', '实现3G首页、微信登录，微信用户绑定，微信用户信息初始化等基本功能', 1, '{"score":"100","experience":"100","need_bind":"0","bind_start":"0","jumpurl":""}', '艾逗笔', '0.1', 1455705730, 1, 0, 1, 1),
 (225, 'AddressManage', '地址管理', '通用地址管理插件', 1, 'null', '艾逗笔', '0.1', 1455705745, 1, 0, 1, 1),
@@ -147,7 +110,6 @@ INSERT INTO `dc_addons` (`id`, `name`, `title`, `description`, `status`, `config
 (220, 'AutoReply', '自动回复', '实现配置关键词，用户回复此关键词后自动回复对应的文件，图文，图片信息', 1, 'null', '艾逗笔', '0.1', 1455705608, 1, 0, 1, 1),
 (221, 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', 1, 'null', '艾逗笔', '0.1', 1455705621, 1, 0, 1, 1),
 (222, 'YouaskService', '多客服', '微信多客服管理，智能化控制', 1, '{"state":"0","zrg":"\\u4eba\\u5de5\\u5ba2\\u670d","kfbz":"\\u60a8\\u597d\\uff0c\\u5ba2\\u670d\\u5de5\\u4f5c\\u65f6\\u95f4\\uff1a\\u5468\\u4e00\\u81f3\\u5468\\u4e948:00-17:00","zdkfbz":"\\u60a8\\u597d\\uff0c\\u60a8\\u6307\\u5b9a\\u7684\\u5ba2\\u670d\\u6682\\u65f6\\u4e0d\\u5728\\u7ebf\\uff0c\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u5ba2\\u670d,\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868\\uff0c\\u8bf7\\u56de\\u590d\\u201c\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d\\u201d","model":"1","model2":"2","model3":"0","tcrg":"\\u9000\\u51fa\\u4eba\\u5de5\\u5ba2\\u670d","type":"1","title":"","description":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5173\\u95ed\\uff01\\u8bf7\\u9009\\u62e9\\u5176\\u4ed6\\u65b9\\u5f0f\\u8ddf\\u6211\\u4eec\\u8054\\u7cfb\\uff01","pic_url":"","url":"","type2":"1","title2":"","description2":"\\u60a8\\u597d\\uff0c\\u4eba\\u5de5\\u5ba2\\u670d\\u5df2\\u5f00\\u542f\\uff0c\\u6709\\u4ec0\\u4e48\\u95ee\\u9898\\u53ef\\u8f6c\\u4eba\\u5de5\\u5ba2\\u670d\\u3002\\u8f93\\u5165\\u76f8\\u5173\\u7684\\u5173\\u952e\\u8bcd\\u6307\\u5b9a\\u76f8\\u5173\\u5ba2\\u670d\\uff01","pic_url2":"","url2":"","cxkey":"\\u67e5\\u8be2\\u5728\\u7ebf\\u5ba2\\u670d","type3":"1","title3":"\\u5728\\u7ebf\\u5ba2\\u670d\\u5217\\u8868","pic_url3":"","description_head":"\\u5ba2\\u670d\\u5217\\u8868\\u9876\\u90e8\\u5185\\u5bb9\\u533a","description_foot":"\\u5ba2\\u670d\\u5217\\u8868\\u5e95\\u90e8\\u5185\\u5bb9\\u533a","tuling_key":"d812d695a5e0df258df952698faca6cc","tuling_url":"http:\\/\\/www.tuling123.com\\/openapi\\/api"}', '艾逗笔', '0.1', 1455705661, 1, 0, 1, 1);
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -159,31 +121,16 @@ CREATE TABLE IF NOT EXISTS `dc_addon_category` (
   `id` int(10) unsigned NOT NULL COMMENT '主键',
   `icon` int(10) unsigned DEFAULT NULL COMMENT '分类图标',
   `title` varchar(255) DEFAULT NULL COMMENT '分类名',
-<<<<<<< HEAD
-  `sort` int(10) DEFAULT '0' COMMENT '排序号',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件分类表' AUTO_INCREMENT=11 ;
-=======
   `sort` int(10) DEFAULT '0' COMMENT '排序号'
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='插件分类表';
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 --
 -- 转存表中的数据 `dc_addon_category`
 --
 
 INSERT INTO `dc_addon_category` (`id`, `icon`, `title`, `sort`) VALUES
-<<<<<<< HEAD
-(1, 0, '主要业务', 1),
-(2, 0, '客户关系', 2),
-(3, 0, '营销及活动', 3),
-(4, 0, '常用服务及工具', 4),
-(5, 0, '行业解决方案', 5),
-(10, 0, '其他', 6);
-=======
 (1, 0, '核心功能', 1),
 (2, 0, '扩展功能', 2);
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -895,9 +842,7 @@ CREATE TABLE IF NOT EXISTS `dc_auth_group_access` (
 --
 
 INSERT INTO `dc_auth_group_access` (`uid`, `group_id`) VALUES
-(1, 3),
-(2, 3),
-(3, 3);
+(1, 3);
 
 -- --------------------------------------------------------
 
@@ -1056,11 +1001,7 @@ INSERT INTO `dc_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remar
 (44, 'DEFAULT_PUBLIC_GROUP_ID', 0, '公众号默认等级ID', 3, '', '前台新增加的公众号的默认等级，值为0表示不做权限控制，公众号拥有全部插件的权限', 1393759885, 1393759981, 1, '0', 2),
 (45, 'SYSTEM_UPDATE_REMIND', 4, '系统升级提醒', 4, '0:关闭\r\n1:开启', '开启后官方有新升级信息会及时在后台的网站设置页面头部显示升级提醒', 1393764263, 1393764263, 1, '0', 5),
 (46, 'SYSTEM_UPDATRE_VERSION', 0, '系统升级最新版本号', 4, '', '记录当前系统的版本号，这是与官方比较是否有升级包的唯一标识，不熟悉者只勿改变其数值', 1393764702, 1394337646, 1, '1.0.20160101', 0),
-<<<<<<< HEAD
-(47, 'FOLLOW_YOUKE_UID', 0, '粉丝游客ID', 0, '', '', 1398927704, 1398927704, 1, '-11895', 0),
-=======
 (47, 'FOLLOW_YOUKE_UID', 0, '粉丝游客ID', 0, '', '', 1398927704, 1398927704, 1, '-11936', 0),
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 (48, 'DEFAULT_PUBLIC', 0, '注册后默认可管理的公众号ID', 3, '', '可为空。配置用户注册后即可管理的公众号ID，多个时用英文逗号分割', 1398928794, 1398929088, 1, '', 3),
 (49, 'DEFAULT_PUBLIC_CREATE_MAX_NUMB', 0, '默认用户最多可创建的公众号数', 3, '', '注册用户最多的创建数，也可以在用户管理里对每个用户设置不同的值', 1398949652, 1398950115, 1, '5', 4),
 (50, 'COPYRIGHT', 1, '版权信息', 1, '', '', 1401018910, 1401018910, 1, '武汉市艾豆网络科技有限公司所有', 3),
@@ -1408,49 +1349,18 @@ CREATE TABLE IF NOT EXISTS `dc_manager_menu` (
   `target` char(50) DEFAULT '_self' COMMENT '打开方式',
   `is_hide` tinyint(2) DEFAULT '0' COMMENT '是否隐藏',
   `sort` int(10) DEFAULT '0' COMMENT '排序号',
-<<<<<<< HEAD
-  `uid` int(10) DEFAULT NULL COMMENT '管理员ID',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
-=======
   `uid` int(10) DEFAULT NULL COMMENT '管理员ID'
 ) ENGINE=MyISAM AUTO_INCREMENT=356 DEFAULT CHARSET=utf8;
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 --
 -- 转存表中的数据 `dc_manager_menu`
 --
 
 INSERT INTO `dc_manager_menu` (`id`, `menu_type`, `pid`, `title`, `url_type`, `addon_name`, `url`, `target`, `is_hide`, `sort`, `uid`) VALUES
-(1, 0, '', '系统管理', 1, '', 'Home/Index/main', '_self', 0, 0, 1),
-(2, 1, '1', '公众号管理', 1, '', 'Home/Public/lists', '_self', 0, 2, 1),
-(3, 1, '1', '消息管理', 1, '', 'Home/WeixinMessage/lists', '_self', 0, 3, 1),
-(4, 1, '1', '素材管理', 1, '', 'Home/Material/material_lists', '_self', 0, 4, 1),
-(5, 1, '1', '群发管理', 1, '', 'Home/Message/add', '_self', 0, 5, 1),
-(6, 0, '', '基本功能', 0, 'AutoReply', '', '_self', 0, 0, 1),
-(7, 1, '6', '自动回复', 0, 'AutoReply', '', '_self', 0, 0, 1),
-(8, 1, '6', '自定义菜单', 0, 'CustomMenu', '', '_self', 0, 0, 1),
-(9, 0, '', '高级功能', 0, 'YouaskService', '', '_self', 0, 0, 1),
-(10, 1, '9', '多客服', 0, 'YouaskService', '', '_self', 0, 0, 1),
-(11, 1, '9', '模板消息', 0, 'Tmplmsg', '', '_self', 0, 0, 1),
-(12, 1, '9', '场景二维码', 0, 'SceneQrcode', '', '_self', 0, 0, 1),
-(13, 1, '9', '地址管理', 0, 'AddressManage', '', '_self', 0, 0, 1),
-(14, 1, '9', '支付通', 0, 'Payment', '', '_self', 0, 0, 1),
-(15, 0, '', '微站功能', 0, 'WeiSite', '', '_self', 0, 0, 1),
-(16, 1, '15', '微站设置', 1, '', 'addon/WeiSite/WeiSite/config', '_self', 0, 0, 1),
-(17, 1, '15', '首页幻灯片', 1, '', 'addon/WeiSite/Slideshow/lists', '_self', 0, 0, 1),
-(18, 1, '15', '分类管理', 1, '', 'addon/WeiSite/Category/lists', '_self', 0, 0, 1),
-(19, 1, '15', '文章管理', 1, '', 'addon/WeiSite/Category/lists', '_self', 0, 0, 1),
-(20, 1, '15', '底部导航', 1, '', 'addon/WeiSite/Footer/lists', '_self', 0, 0, 1),
-(21, 1, '15', '模板管理', 1, '', 'addon/WeiSite/Template/index', '_self', 0, 0, 1),
-(22, 0, '', '粉丝营销', 1, '', 'Home/UserCenter/lists', '_self', 0, 0, 1),
-(23, 1, '22', '用户列表', 1, '', 'Home/UserCenter/lists', '_self', 0, 0, 1),
-(24, 1, '22', '用户分组', 1, '', 'Home/AuthGroup/lists', '_self', 0, 0, 1),
-(25, 1, '22', '积分记录', 1, '', 'Home/CreditData/lists', '_self', 0, 0, 1),
-(26, 1, '22', '积分配置', 1, '', 'Home/CreditConfig/lists', '_self', 0, 0, 1),
-(27, 1, '22', '基础配置', 1, '', 'addon/UserCenter/UserCenter/config', '_self', 0, 0, 1),
-(28, 0, '', '扩展功能', 1, '', 'Home/Index/addons_list', '_self', 0, 0, 1),
-(29, 1, '1', '首页', 1, '', 'Home/Index/main', '_self', 0, 1, 1);
+(1, 0, '', '豆信官网', 1, '', 'http://douchat.cc/', '_blank', 0, 1, 1),
+(2, 0, '', '应用商城', 1, '', 'http://douchat.cc/wenda/?/shop/', '_blank', 0, 2, 1),
+(3, 0, '', '交流社区', 1, '', 'http://douchat.cc/wenda/?/question/', '_blank', 0, 3, 1),
+(4, 0, '', '开发手册', 1, '', 'http://doc.douchat.cc/', '_blank', 0, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -1907,15 +1817,8 @@ CREATE TABLE IF NOT EXISTS `dc_picture` (
   `sha1` char(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-<<<<<<< HEAD
-  `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Token',
-  PRIMARY KEY (`id`),
-  KEY `status` (`id`,`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-=======
   `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'Token'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -1983,15 +1886,8 @@ CREATE TABLE IF NOT EXISTS `dc_public` (
   `mp_username` varchar(255) DEFAULT NULL COMMENT '公众号登陆用户名',
   `mp_password` varchar(255) DEFAULT NULL COMMENT '公众号登陆密码',
   `mp_token` varchar(255) DEFAULT NULL COMMENT '公众号接入验证Token',
-<<<<<<< HEAD
-  `qrcode_url` varchar(255) DEFAULT NULL COMMENT '二维码地址',
-  PRIMARY KEY (`id`),
-  KEY `token` (`token`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-=======
   `qrcode_url` varchar(255) DEFAULT NULL COMMENT '二维码地址'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -2088,15 +1984,8 @@ CREATE TABLE IF NOT EXISTS `dc_public_link` (
   `mp_id` int(10) unsigned NOT NULL COMMENT '公众号ID',
   `is_creator` tinyint(2) DEFAULT '0' COMMENT '是否为创建者',
   `addon_status` text COMMENT '插件权限',
-<<<<<<< HEAD
-  `is_use` tinyint(2) DEFAULT '0' COMMENT '是否为当前管理的公众号',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `um` (`uid`,`mp_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-=======
   `is_use` tinyint(2) DEFAULT '0' COMMENT '是否为当前管理的公众号'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -2297,14 +2186,8 @@ CREATE TABLE IF NOT EXISTS `dc_user` (
   `manager_id` int(10) DEFAULT '0' COMMENT '公众号管理员ID',
   `level` tinyint(2) DEFAULT '0' COMMENT '管理等级',
   `membership` char(50) DEFAULT '0' COMMENT '会员等级',
-<<<<<<< HEAD
-  `public_count` int(10) DEFAULT NULL COMMENT '可创建公众号数',
-  PRIMARY KEY (`uid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-=======
   `public_count` int(10) DEFAULT NULL COMMENT '可创建公众号数'
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
@@ -2337,14 +2220,8 @@ CREATE TABLE IF NOT EXISTS `dc_visit_log` (
   `brower` varchar(30) DEFAULT NULL COMMENT 'brower',
   `param` text COMMENT 'param',
   `referer` varchar(255) DEFAULT NULL COMMENT 'referer',
-<<<<<<< HEAD
-  `cTime` int(10) DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=454 ;
-=======
   `cTime` int(10) DEFAULT NULL COMMENT '时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
->>>>>>> b4f47411ae26da9ba2089d7924fb0296ef1cdd2b
 
 -- --------------------------------------------------------
 
