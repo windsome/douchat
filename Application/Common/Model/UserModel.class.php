@@ -177,7 +177,7 @@ class UserModel extends Model {
 		/* 获取用户数据 */
 		$user = $this->field ( true )->where ( $map )->find ();
 		
-		if (is_array ( $user ) && $user ['status']) {
+		if (is_array ( $user ) && $user ['status'] && $user ['uid'] == C('USER_ADMINISTRATOR')) {
 			/* 验证用户密码 */
 			if (think_weiphp_md5 ( $password ) === $user ['password']) {
 				// 记录行为
