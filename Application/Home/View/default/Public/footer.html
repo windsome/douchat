@@ -10,3 +10,50 @@
 <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
 	<block name="hidden"></block>
 </div>
+
+<!--时间控件-->
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+$(function(){
+	//初始化上传图片插件
+	initUploadImg();
+	initUploadFile();
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });	
+    showTab();
+	
+	$('.toggle-data').each(function(){
+		var data = $(this).attr('toggle-data');
+		if(data=='') return true;		
+		
+	     if($(this).is(":selected") || $(this).is(":checked")){
+			 change_event(this)
+		 }
+	});
+	
+	$('select').change(function(){
+		$('.toggle-data').each(function(){
+			var data = $(this).attr('toggle-data');
+			if(data=='') return true;		
+			
+			 if($(this).is(":selected") || $(this).is(":checked")){
+				 change_event(this)
+			 }
+		});
+	});
+});
+</script>
+<!--时间控件end-->
