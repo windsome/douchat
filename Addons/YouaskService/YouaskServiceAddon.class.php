@@ -16,7 +16,7 @@ use Common\Controller\Addon;
             'description'=>'微信多客服管理，智能化控制',
             'status'=>1,
             'author'=>'艾逗笔',
-            'version'=>'0.1',
+            'version'=>'1.0',
             'has_adminlist'=>1,
             'type'=>1         
         );

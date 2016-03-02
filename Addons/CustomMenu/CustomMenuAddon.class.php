@@ -16,7 +16,7 @@ class CustomMenuAddon extends Addon {
 			'description' => '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能',
 			'status' => 1,
 			'author' => '艾逗笔',
-			'version' => '0.1',
+			'version' => '1.0',
 			'has_adminlist' => 1,
 			'type' => 1 
 	);

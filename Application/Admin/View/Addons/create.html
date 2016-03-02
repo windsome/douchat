@@ -23,9 +23,9 @@
 	<!-- 表单 -->
 	<form id="form" action="{:U('build')}" method="post" class="form-horizontal doc-modal-form">
 		<div class="form-item">
-			<label class="item-label"><span class="must">*</span>标识名 <span class="check-tips">（插件的英文字，只能英文字母，不能有数字，下划线等，多个单词组合时首字母大写，如 UserCenter）</span></label>
+			<label class="item-label"><span class="must">*</span>标识名 <span class="check-tips">（插件的英文字，为了防止标识名冲突，请以作者名打头，如 IdouExample）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="info[name]" value="Example">
+				<input type="text" class="text input-large" name="info[name]" value="IdouExample">
 			</div>
 		</div>
 		<div class="form-item">
@@ -37,7 +37,7 @@
 		<div class="form-item">
 			<label class="item-label">版本<span class="check-tips">（请输入插件版本）</span></label>
 			<div class="controls">
-				<input type="text" class="text input-large" name="info[version]" value="0.1">
+				<input type="text" class="text input-large" name="info[version]" value="1.0">
 			</div>
 		</div>
 		<div class="form-item">

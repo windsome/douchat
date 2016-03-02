@@ -16,7 +16,7 @@ use Common\Controller\Addon;
             'description'=>'设置不同的场景生成对应的二维码，用于营销推广、用户绑定、数据统计等场景。',
             'status'=>1,
             'author'=>'艾逗笔',
-            'version'=>'0.1',
+            'version'=>'1.0',
             'has_adminlist'=>1
         );
 

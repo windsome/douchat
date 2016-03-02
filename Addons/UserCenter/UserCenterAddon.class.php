@@ -17,7 +17,7 @@ class UserCenterAddon extends Addon {
 			'status' => 1,
 			'author' => '艾逗笔',
 			'has_adminlist' => 1,
-			'version' => '0.1' 
+			'version' => '1.0' 
 	);
 	public $admin_list = array ();
 	public function install() {
