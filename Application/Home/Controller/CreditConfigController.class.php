@@ -32,10 +32,10 @@ class CreditConfigController extends HomeController {
 		$res ['class'] = $controller == 'creditdata' || $controller == 'creditconfig' ? 'current' : '';
 		$nav [] = $res;
 
-		$res ['title'] = '基础配置';
-		$res ['url'] = addons_url('UserCenter://UserCenter/config');
-		$res ['class'] = $controller == 'usecnter' ? 'current' : '';
-		$nav [] = $res;
+		// $res ['title'] = '基础配置';
+		// $res ['url'] = addons_url('UserCenter://UserCenter/config');
+		// $res ['class'] = $controller == 'usecnter' ? 'current' : '';
+		// $nav [] = $res;
 
 		$this->assign ( 'nav', $nav );
 

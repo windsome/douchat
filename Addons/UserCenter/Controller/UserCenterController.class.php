@@ -11,20 +11,20 @@ class UserCenterController extends AddonsController {
 		parent::_initialize ();
 		$this->syc_wechat = C ( 'USER_LIST' );
 
-		$res ['title'] = '用户列表';
-		$res ['url'] = U ( 'Home/UserCenter/lists' );
-		$res ['class'] = $controller == 'usercenter' ? 'current' : '';
-		$nav [] = $res;
+		// $res ['title'] = '用户列表';
+		// $res ['url'] = U ( 'Home/UserCenter/lists' );
+		// $res ['class'] = $controller == 'usercenter' ? 'current' : '';
+		// $nav [] = $res;
 		
-		$res ['title'] = '用户分组';
-		$res ['url'] = U ( 'Home/AuthGroup/lists' );
-		$res ['class'] = $controller == 'authgroup' ? 'current' : '';
-		$nav [] = $res;
+		// $res ['title'] = '用户分组';
+		// $res ['url'] = U ( 'Home/AuthGroup/lists' );
+		// $res ['class'] = $controller == 'authgroup' ? 'current' : '';
+		// $nav [] = $res;
 		
-		$res ['title'] = '用户积分';
-		$res ['url'] = U ( 'Home/CreditData/lists' );
-		$res ['class'] = $controller == 'creditdata' || $controller == 'creditconfig' ? 'current' : '';
-		$nav [] = $res;
+		// $res ['title'] = '用户积分';
+		// $res ['url'] = U ( 'Home/CreditData/lists' );
+		// $res ['class'] = $controller == 'creditdata' || $controller == 'creditconfig' ? 'current' : '';
+		// $nav [] = $res;
 
 		$res ['title'] = '基础配置';
 		$res ['url'] = addons_url('UserCenter://UserCenter/config');
