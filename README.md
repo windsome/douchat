@@ -1,9 +1,8 @@
+##产品介绍
+
 ####豆信是一个专注于微信公众号开发的开源框架，秉承着ThinkPHP“大道至简，开发由我”的理念，有着”高度封装，灵活调用“的特色。豆信框架封装了诸多微信公众号开发常用功能，诸如”三行代码搞定微信支付“、”三行代码搞定多图上传“、”一行代码实现自定义分享“等。使用豆信公众号开发框架，微信公众号开发如此简单。
 
-####产品特点
-
-####高度封装，灵活调用。
-####豆信模块可拆卸，系统只保留核心的功能，其余功能通过扩展模块来实现。内含插件机制，可以方便在不改动系统核心源码的基础上局部扩展功能。微应用插件化，应用中心海量分享。
+##产品特色
 
 ####1、引入了Github上最为流行的Wechat-php-sdk类库，对微信接口实现高度封装。
 ####2、利用onethink的钩子机制，将微信消息分发到各个插件中进行处理，开发者可以在插件中对微信端的文本、图片、语音、视频、位置、链接、事件等多种类型的消息进行处理。
@@ -17,9 +16,9 @@
 ####10、集成BUG反馈系统，用户可以随时反馈，豆信团队能够及时修复BUG。
 ####11、集成应用商城，开发者可上传自主开发的应用。
 
-####豆信官网：http://douchat.cc/
-####在线体验：http://demo.douchat.cc/
-####开发手册：http://doc.douchat.cc/
-####产品交流QQ群：<a href="http://shang.qq.com/wpa/qunwpa?idkey=713f26b3320286ac0fb30d17337c49668ffce5daacada9bf8c5d87ac789d9512" target="_blank"><img src="http://pub.idqqimg.com/wpa/images/group.png" alt="艾豆乐园" title="艾豆乐园" border="0"></a>
+####豆信官网：<a href="http://douchat.cc/" target="_blank">http://douchat.cc/</a>
+####在线体验：<a href="http://demo.douchat.cc/" target="_blank">http://demo.douchat.cc/</a>
+####开发手册：<a href="http://doc.douchat.cc/" target="_blank">http://doc.douchat.cc/</a>
+####产品交流QQ群：<a href="http://shang.qq.com/wpa/qunwpa?idkey=713f26b3320286ac0fb30d17337c49668ffce5daacada9bf8c5d87ac789d9512" target="_blank">452207697</a>
 ####演示公众号 
 ####<img src="http://douchat.cc/static/img/qrcode.jpg" alt="">
