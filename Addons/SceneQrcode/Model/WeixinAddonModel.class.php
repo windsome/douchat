@@ -10,7 +10,6 @@ class WeixinAddonModel extends WeixinModel{
 	function reply($dataArr, $keywordArr = array()) {
 		$config = getAddonConfig ( 'SceneQrcode' ); // 获取后台插件的配置参数	
 		//dump($config);
-		$this->replyText(json_encode($keywordArr)."adasd");
 	}
 
 	// 扫码统计
