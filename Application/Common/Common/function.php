@@ -4307,3 +4307,91 @@ function get_weixinmenu_time($id) {
 	$cTime = time_format($cTime, $format = 'Y-m-d H:i');
 	return  $cTime;
 }
+
+
+/**
+ * 网页授权
+ * @param string snsapi_userinfo scope参数值
+ * @param string $redirect_uri 跳转地址
+ * @param mixed $state 参数
+ * @author 洛杉矶豪哥 2016年3月3日 16:17:43
+ */
+function get_authorize_url($redirect_uri = '', $state = '')
+{
+	$token = get_token();
+    $info = get_token_appinfo ( $token );
+    $redirect_uri = urlencode($redirect_uri);
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$info['appid']}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";  
+    echo "<script language='javascript' type='text/javascript'>";  
+    echo "window.location.href='$url'";  
+    echo "</script>"; 
+}
+
+/**
+ * 获取授权token
+ * @param string $code 通过get_authorize_url获取到的code
+ * @return 数组（例如：$arr['access_token']和$arr['openid']）
+ * @author 洛杉矶豪哥 2016年3月3日 16:17:43
+ */
+function get_access_token_by_code($code = '')
+{
+	$token = get_token();
+    $info = get_token_appinfo ( $token );
+    $token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$info['appid'].'&secret='.$info['secret'].'&code='.$code.'&grant_type=authorization_code';
+    $token_data = file_get_contents($token_url);
+    if(!empty($token_data))
+    {
+        return json_decode($token_data, TRUE);
+    }
+    
+    return FALSE;
+}   
+
+/**
+ * 通过accesstoken获取授权后的微信用户信息
+ * @param string $access_token
+ * @param string $open_id
+ * @author 洛杉矶豪哥 2016年3月3日 16:17:43
+ */
+function get_user_info($access_token = '', $open_id = '')
+{
+    if($access_token && $open_id)
+    {
+		$access_url = "https://api.weixin.qq.com/sns/auth?access_token={$access_token}&openid={$open_id}";
+		$access_data = $this->http($access_url);
+		$access_info = json_decode($access_data[0], TRUE);
+		if($access_info['errmsg']!='ok'){
+			exit('页面过期');
+		}
+        $info_url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$open_id}&lang=zh_CN";
+        $info_data = $this->http($info_url);  		
+        if(!empty($info_data[0]))
+        {
+            return json_decode($info_data[0], TRUE);
+        }
+    }
+    
+    return FALSE;
+} 
+
+/**
+ * 判断用户是否已关注
+ * @return 1 已关注
+ * @return 2 没有关注
+ * @author 洛杉矶豪哥 2016年3月3日 16:17:43
+ */
+function is_follow($openid){
+	$token = get_token();
+    $info = get_token_appinfo ( $token );
+    $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$info['appid']}&secret={$info['secret']}";
+	$access_msg = json_decode(file_get_contents($access_token));
+	$token = $access_msg->access_token;
+	$subscribe_msg = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$token&openid={$openid}";
+	$subscribe = json_decode(file_get_contents($subscribe_msg));
+	$gzxx = $subscribe->subscribe;
+	if($gzxx === 1){
+	    return 1;
+	}else{
+	    return 0;       
+	}
+}
