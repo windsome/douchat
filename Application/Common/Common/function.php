@@ -1677,20 +1677,23 @@ function get_access_token_by_apppid($appid, $secret) {
 	if (empty ( $appid ) || empty ( $secret )) {
 		return 0;
 	}
+
+	$weObj = getWechatApiObj();
+	return $weObj->checkAuth();
 	
-	$key = 'access_token_apppid_' . $appid . '_' . $secret;
-	$res = S ( $key );
-	if ($res !== false)
-		return $res;
+	// $key = 'access_token_apppid_' . $appid . '_' . $secret;
+	// $res = S ( $key );
+	// if ($res !== false)
+	// 	return $res;
 	
-	$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $appid . '&secret=' . $secret;
-	$tempArr = json_decode ( file_get_contents ( $url ), true );
-	if (@array_key_exists ( 'access_token', $tempArr )) {
-		S ( $key, $tempArr ['access_token'], $tempArr ['expires_in'] - 60 );
-		return $tempArr ['access_token'];
-	} else {
-		return 0;
-	}
+	// $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $appid . '&secret=' . $secret;
+	// $tempArr = json_decode ( file_get_contents ( $url ), true );
+	// if (@array_key_exists ( 'access_token', $tempArr )) {
+	// 	S ( $key, $tempArr ['access_token'], $tempArr ['expires_in'] - 60 );
+	// 	return $tempArr ['access_token'];
+	// } else {
+	// 	return 0;
+	// }
 }
 
 function OAuthWeixin($callback, $token = '') { // echo '444';
