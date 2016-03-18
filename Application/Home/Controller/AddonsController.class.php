@@ -100,6 +100,7 @@ class AddonsController extends Controller {
 	 * @return void
 	 */
 	protected function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = '') {
+        error_log("\nwindsome ". __METHOD__. " templateFile=".$templateFile.",content=".$content.", prefix=".$prefix, 3, PHP_LOG_PATH);
 		$templateFile = $this->getAddonTemplate ( $templateFile );
 		$this->view->display ( $templateFile, $charset, $contentType, $content, $prefix );
 	}

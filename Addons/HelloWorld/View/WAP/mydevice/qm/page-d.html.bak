@@ -1,0 +1,88 @@
+<!-- <?php if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { ?> -->
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> -->
+    <!-- <meta http-equiv="Pragma" content="no-cache" /> -->
+    <!-- <meta http-equiv="Expires" content="0" /> -->
+	<title>Ajax optimized persistent toolbars - jQuery Mobile Demos</title>
+	<link rel="shortcut icon" href="{:CUSTOM_TEMPLATE_PATH}mydevice/favicon.ico">
+	<link rel="stylesheet" href="{:CUSTOM_TEMPLATE_PATH}mydevice/css/themes/default/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="{:CUSTOM_TEMPLATE_PATH}mydevice/_assets/css/jqm-demos.css">
+	<script src="{:CUSTOM_TEMPLATE_PATH}mydevice/js/jquery.js"></script>
+	<script src="{:CUSTOM_TEMPLATE_PATH}mydevice/_assets/js/index.js"></script>
+	<script src="{:CUSTOM_TEMPLATE_PATH}mydevice/js/jquery.mobile-1.4.5.min.js"></script>
+	<script>
+		$(function(){
+			$("[data-role='navbar']").navbar();
+			$("[data-role='footer']").toolbar();
+		});
+		// Update the contents of the toolbars
+		$( document ).on( "pagecontainerchange", function() {
+			// Each of the four pages in this demo has a data-title attribute
+			// which value is equal to the text of the nav button
+			// For example, on first page: <div data-role="page" data-title="Info">
+			var current = $( ".ui-page-active" ).jqmData( "title" );
+			// Change the heading
+			$( "[data-role='header'] h1" ).text( current );
+			// Remove active class from nav buttons
+			$( "[data-role='navbar'] a.ui-btn-active" ).removeClass( "ui-btn-active" );
+			// Add active class to current nav button
+			$( "[data-role='navbar'] a" ).each(function() {
+				if ( $( this ).text() === current ) {
+					$( this ).addClass( "ui-btn-active" );
+				}
+			});
+        });
+	</script>
+</head>
+<body>
+<!-- <?php } ?> -->
+
+<div data-role="page" data-title="Emails">
+
+  <div class="ui-content" role="main">
+
+	<ul data-role="listview" data-theme="a" data-dividertheme="b" data-filter="false">
+	  <li><a href="#">
+		  <h3>Stephen Weber</h3>
+		  <p><strong>You've been invited to a meeting at Filament Group in Boston, MA</strong></p>
+		  <p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+		  <p class="ui-li-aside"><strong>6:24</strong>PM</p>
+	  </a></li>
+	  <li><a href="#">
+		  <h3>jQuery Team</h3>
+		  <p><strong>Boston Conference Planning</strong></p>
+		  <p>In preparation for the upcoming conference in Boston, we need to start gathering a list of sponsors and speakers.</p>
+		  <p class="ui-li-aside"><strong>9:18</strong>AM</p>
+	  </a></li>
+	  <li data-role="list-divider">Thursday, October 7, 2010 <span class="ui-li-count">1</span></li>
+	  <li><a href="#">
+		  <h3>Avery Walker</h3>
+		  <p><strong>Re: Dinner Tonight</strong></p>
+		  <p>Sure, let's plan on meeting at Highland Kitchen at 8:00 tonight. Can't wait! </p>
+		  <p class="ui-li-aside"><strong>4:48</strong>PM</p>
+	  </a></li>
+	</ul>
+
+  </div><!-- /content -->
+
+</div><!-- /page -->
+
+<?php if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { ?>
+<div data-role="footer" data-position="fixed" data-theme="b">
+  <div data-role="navbar">
+	<ul>
+	  <li><a href="http://www.lancertech.net/weiphp3.0/index.php?s=/addon/HelloWorld/HelloWorld/index.html" 
+             data-prefetch="false" data-transition="fade">Albums</a></li>
+	  <li><a href="http://www.lancertech.net/weiphp3.0/index.php?s=/addon/HelloWorld/HelloWorld/index1.html" 
+             data-prefetch="true" data-transition="fade">Emails</a></li>
+	</ul>
+  </div><!-- /navbar -->
+</div><!-- /footer -->
+
+</body>
+</html>
+<?php } ?>

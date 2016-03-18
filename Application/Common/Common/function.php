@@ -1534,6 +1534,8 @@ function get_openid($openid = NULL) {
 	$openid = session ( 'openid_' . $token );
 	
 	$isWeixinBrowser = isWeixinBrowser ();
+        error_log("\nwindsome: get_openid, openid=".$openid.", isWeixinBrowser=".$isWeixinBrowser, 3, PHP_LOG_PATH);
+    //error_log("\nwindsome: stack:".print_r(debug_backtrace(), true), 3, PHP_LOG_PATH);
 	if ((empty ( $openid ) || $openid == '-1') && $isWeixinBrowser && $_REQUEST ['openid'] != '-2' && IS_GET && ! IS_AJAX) {
 		$callback = GetCurUrl ();
 		OAuthWeixin ( $callback, $token );
@@ -1591,6 +1593,7 @@ function getPaymentOpenid($appId = "", $serect = "") { // echo '444';
 function get_token($token = NULL) {
 	$stoken = session ( 'token' );
 	$domain = explode ( '.', SITE_DOMAIN );
+        //error_log("\nwindsome0: stoken=".$stoken.", token=".$token, 3, PHP_LOG_PATH);
 	
 	if ($token !== NULL && $token != '-1') {
 		session ( 'token', $token );
@@ -1722,6 +1725,7 @@ function OAuthWeixin($callback, $token = '') { // echo '444';
 		$param ['state'] = 123;
 		
 		$url = 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query ( $param ) . '#wechat_redirect';
+        error_log("\nwindsome1: OAuthWeixin,url1=".$url, 3, PHP_LOG_PATH);
 		redirect ( $url );
 	} elseif ($_GET ['state']) {
 		$param ['secret'] = $info ['secret'];

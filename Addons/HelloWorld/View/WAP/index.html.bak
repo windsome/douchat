@@ -1,0 +1,177 @@
+<?php
+   $signPackage = get_sign_package();
+   $openId = get_openid();
+?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{:CUSTOM_TEMPLATE_PATH}style.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+</head>
+<body id="wxdevice" style="background:#eee; background-size:100% 100%">
+  <div class="lbox_close wxapi_form">
+      <h3 id="menu-wxiot">WXIOT</h3>
+      <span class="desc">AirKiss</span>
+      <button class="btn btn_primary" id="callAirKiss">AirKiss</button>
+      <span class="desc">startScanWXDevice</span>
+      <button class="btn btn_primary" id="startScanWXDevice">startScanWXDevice</button>
+      <span class="desc">stopScanWXDevice</span>
+      <button class="btn btn_primary" id="stopScanWXDevice">stopScanWXDevice</button>
+      <span class="desc">getWXDeviceTicket</span>
+      <button class="btn btn_primary" id="getWXDeviceTicket">getWXDeviceTicket</button>
+  </div>
+  <h3>Mosquitto Websockets</h3>
+  <div>
+    <div>Subscribed to <input type='text' id='topic' disabled />
+      Status: <input type='text' id='status' size="30" disabled />
+	</br>
+	publish to <input type='text' id='sendtopic' /> text <input type='text' id='textsend' size="30"/>
+    Status: <input type='button' value="send" id='btn' onclick="button_onclick()"/></div>
+  <ul id='ws' style="font-family: 'Courier New', Courier, monospace;"></ul>
+  </div>
+</body>
+
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mqttws31.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}jquery.min.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}config.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  wx.config({
+      beta: true,
+      debug: false,
+      appId: '<?php echo $signPackage["appId"];?>',
+      timestamp: <?php echo $signPackage["timestamp"];?>,
+      nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+      signature: '<?php echo $signPackage["signature"];?>',
+      jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onVoiceRecordEnd',
+        'playVoice',
+        'onVoicePlayEnd',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard',
+        'openWXDeviceLib',
+        'closeWXDeviceLib',
+        'getWXDeviceInfos',
+        'sendDataToWXDevice',
+        'startScanWXDevice',
+        'stopScanWXDevice',
+        'connectWXDevice',
+        'disconnectWXDevice',
+        'getWXDeviceTicket',
+        'configWXDeviceWiFi',
+        'onWXDeviceBindStateChange',
+        'onWXDeviceStateChange',
+        'onReceiveDataFromWXDevice',
+        'onScanWXDeviceResult',
+        'onWXDeviceBluetoothStateChange'
+      ]
+  });
+</script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}zepto.min.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}demo.js"></script>
+
+<script type="text/javascript">
+  var mqtt;
+  var reconnectTimeout = 2000;
+
+  function MQTTconnect() {
+  mqtt = new Paho.MQTT.Client(
+  host,
+  port,
+  "web_" + parseInt(Math.random() * 100,10));
+        var options = {
+            timeout: 3,
+            useSSL: useTLS,
+            cleanSession: cleansession,
+            onSuccess: onConnect,
+            onFailure: function (message) {
+                $('#status').val("Connection failed: " + message.errorMessage + "Retrying");
+                setTimeout(MQTTconnect, reconnectTimeout);
+            }
+        };
+
+        mqtt.onConnectionLost = onConnectionLost;
+        mqtt.onMessageArrived = onMessageArrived;
+
+        if (username != null) {
+            options.userName = username;
+            options.password = password;
+        }
+        console.log("Host="+ host + ", port=" + port + " TLS = " + useTLS + " username=" + username + " password=" + password);
+        mqtt.connect(options);
+    }
+
+    function onConnect() {
+        $('#status').val('Connected to ' + host + ':' + port);
+        // Connection succeeded; subscribe to our topic
+        mqtt.subscribe(topic, {qos: 0});
+        $('#topic').val(topic);
+    }
+
+    function onConnectionLost(response) {
+        setTimeout(MQTTconnect, reconnectTimeout);
+        $('#status').val("connection lost: " + responseObject.errorMessage + ". Reconnecting");
+    };
+
+    function onMessageArrived(message) {
+        var topic = message.destinationName;
+        var payload = message.payloadString;
+
+        $('#ws').prepend('<li>' + topic + ' = ' + payload + '</li>');
+    };
+
+ 	function button_onclick(){
+		  //这里写你要执行的语句
+		var tp = $('#sendtopic').val();
+		var val = $('#textsend').val();
+		if(tp==''||val=='')
+		{
+			alert("no aaa");
+			return;
+		}
+		var message = new Paho.MQTT.Message(val);
+		message.destinationName = tp;
+		message.qos=0;
+		mqtt.send(message);
+//		mqtt.publish(tp, 0, val);
+        $('#ws').prepend('<li>' + tp + ' = ' + val+ '</li>');
+	};
+	
+    $(document).ready(function() {
+        MQTTconnect();
+    });
+</script>
+
+</html>
+

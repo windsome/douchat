@@ -1,0 +1,192 @@
+<?php 
+$signPackage = getSignPackage(); 
+$openId = get_openid();
+$accessToken = get_access_token ();
+?>
+<?php if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { ?>
+  <!DOCTYPE html>
+  <html>
+    <head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <meta http-equiv="Expires" content="0" />
+	  <title>My Devices</title>
+	  <link rel="shortcut icon" href="{:CUSTOM_TEMPLATE_PATH}mydevice/favicon.ico">
+	  <link rel="stylesheet" href="{:CUSTOM_TEMPLATE_PATH}mydevice/css/themes/default/jquery.mobile-1.4.5.min.css">
+	  <link rel="stylesheet" href="{:CUSTOM_TEMPLATE_PATH}mydevice/_assets/css/jqm-demos.css">
+	  <script src="{:CUSTOM_TEMPLATE_PATH}mydevice/js/jquery.js"></script>
+	  <script src="{:CUSTOM_TEMPLATE_PATH}mydevice/_assets/js/index.js"></script>
+	  <script src="{:CUSTOM_TEMPLATE_PATH}mydevice/js/jquery.mobile-1.4.5.min.js"></script>
+	  <script>
+	   $(function(){
+	     $("[data-role='navbar']").navbar();
+	     $("[data-role='footer']").toolbar();
+	   });
+	   // Update the contents of the toolbars
+	   $( document ).on( "pagecontainerchange", function() {
+	     // Each of the four pages in this demo has a data-title attribute
+	     // which value is equal to the text of the nav button
+	     // For example, on first page: <div data-role="page" data-title="Info">
+	     var current = $( ".ui-page-active" ).jqmData( "title" );
+	     // Change the heading
+	     $( "[data-role='header'] h1" ).text( current );
+	     // Remove active class from nav buttons
+	     $( "[data-role='navbar'] a.ui-btn-active" ).removeClass( "ui-btn-active" );
+	     // Add active class to current nav button
+	     $( "[data-role='navbar'] a" ).each(function() {
+		   if ( $( this ).text() === current ) {
+		     $( this ).addClass( "ui-btn-active" );
+		   }
+	     });
+         
+         //if (current == "control_page")
+         //MQTTconnect();
+       });
+
+       $( document ).on( "pagecontainertransition", function( event, ui ) {
+         //alert ( ui ['toPage'] );
+       });
+       
+	   $( document ).on( "pagecreate", function() {
+         var _openid = '<?php echo $openId ?>';
+         var _token = '<?php echo $accessToken ?>';
+         var url = "http://www.lancertech.net/weiphp3.0/index.php?s=/Device/Device/get_bind_device";
+         $.get (url, {
+           openid : _openid,
+           access_token : _token
+         }, function (data) {
+           if (data.device_list != null && data.device_list.length >0) {
+             $('#devices').empty ();
+             $.each(data.device_list,function(key,val){
+	           var item = "<li class='device_item' id='" + val.uuid + "'><a href='#control_page'>";
+	           item += "<img src='{:CUSTOM_TEMPLATE_PATH}mydevice/_assets/img/bmw-thumb.jpg'>";
+               item += "<p>UID:" + val.uuid +"</p>"; 
+               item += "<p>MAC:" + val.mac + "</p></a>";
+               item += "</li>";
+               $("#devices").append(item).listview ("refresh");
+             });
+           }
+         }, "json");
+       });
+	  </script>
+    </head>
+    <body>
+<?php } ?>
+<div id="device_page" data-role="page" data-title="Devices">
+  <div id="content" class="ui-content" role="main">
+	<ul id="devices" data-role="listview" data-theme="a" data-dividertheme="b" data-filter="false"></ul>    
+	<div data-role="popup" id="purchase" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+	  <h3>Purchase Album?</h3>
+	  <p>Your download will begin immediately on your mobile device when you purchase.</p>
+	  <a href="#" class="ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-shadow ui-btn-icon-left ui-icon-check" data-rel="back">Buy: $10.99</a>
+	  <a href="#" class="ui-btn ui-btn-inline ui-mini ui-corner-all ui-shadow" data-rel="back">Cancel</a>
+	</div>        
+  </div><!-- /content -->
+</div><!-- /page -->
+
+<div id="control_page" data-role="page" data-title="Control">
+  <div class="ui-content" role="main">
+    <H3>Mosquitto Websockets</h3> 
+    <div> 
+      <div>Subscribed to <input type='text' id='topic' disabled /> 
+        Status: <input type='text' id='status' size="30" disabled /> 
+       </br> 
+       publish to <input type='text' id='sendtopic' /> text <input type='text' id='textsend' size="30"/> 
+       Status: <input type='button' value="send" id='btn' onclick="button_onclick()"/></div> 
+      <ul id='ws' style="font-family: 'Courier New', Courier, monospace;"></ul> 
+	  <form>
+        <select name="led_switch" id="led_switch" data-role="slider" data-track-theme="b" data-theme="b">
+          <option value="off">Off</option>
+          <option value="on">On</option>
+        </select>
+	  </form>
+    </div>
+  </div><!-- /content -->
+</div><!-- /page -->
+
+<?php if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { ?>
+  <div data-role="footer" data-position="fixed" data-theme="b">
+    <div data-role="navbar">
+	  <ul>
+	    <li><a href="#device_page" 
+               data-prefetch="false" data-transition="fade">Devices</a></li>
+	    <li><a href="#control_page"
+               data-prefetch="true" data-transition="fade">Control</a></li>
+	  </ul>
+    </div><!-- /navbar -->
+  </div><!-- /footer -->      
+    </body>
+  </html>
+<?php } ?>
+
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mydevice/qm/mqttws31.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mydevice/qm/config.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+ wx.config({
+   beta: true,
+   debug: false,
+   appId: '<?php echo $signPackage["appId"];?>',
+   timestamp: <?php echo $signPackage["timestamp"];?>,
+   nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+   signature: '<?php echo $signPackage["signature"];?>',
+   jsApiList: [
+     'checkJsApi',
+     'onMenuShareTimeline',
+     'onMenuShareAppMessage',
+     'onMenuShareQQ',
+     'onMenuShareWeibo',
+     'onMenuShareQZone',
+     'hideMenuItems',
+     'showMenuItems',
+     'hideAllNonBaseMenuItem',
+     'showAllNonBaseMenuItem',
+     'translateVoice',
+     'startRecord',
+     'stopRecord',
+     'onVoiceRecordEnd',
+     'playVoice',
+     'onVoicePlayEnd',
+     'pauseVoice',
+     'stopVoice',
+     'uploadVoice',
+     'downloadVoice',
+     'chooseImage',
+     'previewImage',
+     'uploadImage',
+     'downloadImage',
+     'getNetworkType',
+     'openLocation',
+     'getLocation',
+     'hideOptionMenu',
+     'showOptionMenu',
+     'closeWindow',
+     'scanQRCode',
+     'chooseWXPay',
+     'openProductSpecificView',
+     'addCard',
+     'chooseCard',
+     'openCard',
+     'openWXDeviceLib',
+     'closeWXDeviceLib',
+     'getWXDeviceInfos',
+     'sendDataToWXDevice',
+     'startScanWXDevice',
+     'stopScanWXDevice',
+     'connectWXDevice',
+     'disconnectWXDevice',
+     'getWXDeviceTicket',
+     'configWXDeviceWiFi',
+     'onWXDeviceBindStateChange',
+     'onWXDeviceStateChange',
+     'onReceiveDataFromWXDevice',
+     'onScanWXDeviceResult',
+     'onWXDeviceBluetoothStateChange'
+   ]
+ });
+</script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mydevice/qm/zepto.min.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mydevice/qm/demo.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mydevice/qm/mqttclient.js"></script>

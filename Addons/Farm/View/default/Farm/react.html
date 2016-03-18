@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>设备扫描</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+  </head>
+  <style type="text/css">
+    .form-horizontal .control-label {
+        padding-top:7px;
+        margin-bottom:0;
+        text-align:right;
+    }
+    .no-padding-left {
+        padding-left:0;
+    }
+    .no-padding-right {
+        padding-right:0;
+    }
+    .no-padding-horizontal {
+        padding-left:0;
+        padding-right:0;
+    }
+    .text-wrap {
+        white-space:normal;
+    }
+    html, body {
+        overflow-x:hidden;
+    }
+    .text-indent {
+        text-indent:2em;
+    }
+  </style> 
+  <body>
+    <div id="content"></div>
+  </body>
+    <script type="text/babel">
+      // To get started with this tutorial running your own code, simply remove
+      // the script tag loading scripts/example.js and start writing code here.
+	var CommentBox = React.createClass({
+	  render: function() {
+	    return (
+	    <div>
+    	  <h1 className="text-center">设备扫描</h1>
+    	  <p className="text-indent">设备序号：点击扫描二维码，使用微信扫码，如果二维码模糊不清或丢失，可以手动输入id（为15位数字，中间不用加空格）</p>
+    	  <p className="text-indent">地理位置：是自动填充的，不能编辑，可以点击“进入地图手动选择位置”在地图上拖拽红点进行手动修改</p>
+   	      <form className="form-horizontal">
+    	    <div className="form-group">
+    	      <label htmlFor="deviceID" className="col-xs-3 control-label text-nowrap">设备序号</label>
+    	      <div className="col-xs-5 no-padding-horizontal">
+    	        <input type="text" className="form-control" id="deviceID" placeholder="0001 160302 00001"/>
+    	      </div>
+    	      <div className="col-xs-4">
+    	        <input type="button" className="btn btn-info" value="扫描二维码"/>
+    	      </div>
+    	    </div>
+    	    <div className="form-group">
+    	      <label htmlFor="longitude" className="col-xs-3 control-label text-nowrap">地理位置</label>
+    	      <div className="col-xs-5 no-padding-horizontal">
+    	        <input type="text" className="form-control" id="longitude" placeholder="121.419947" readOnly/>
+    	        <input type="text" className="form-control" id="latitude" placeholder="31.207947" readOnly/>
+    	      </div>
+    	      <div className="col-xs-4">
+    	        <input type="button" className="btn btn-info text-wrap" value="进入地图手动选择位置"/>
+    	      </div>
+    	    </div>
+    	    <div className="form-group">
+    	      <div className="col-xs-12 text-center">
+    	        <input type="button" className="btn btn-primary" value="填写完确认提交"/>
+    	      </div>
+    	    </div>
+    	    <div className="form-group">
+    	      <div className="col-xs-4 col-xs-push-8">
+    	        <a href="#" className="btn btn-primary btn-xs active" role="button">进入设备列表</a>
+    	      </div>
+    	    </div>
+    	    {/*<div className="form-group">
+    	      <label htmlFor="longitude" className="col-xs-3 control-label text-nowrap">GPS经纬度</label>
+    	      <div className="col-xs-4 no-padding-left">
+    	        <input type="text" className="form-control" id="longitude" placeholder="121.419947"/>
+    	      </div>
+    	      <div className="col-xs-4 no-padding-left">
+    	        <input type="text" className="form-control" id="latitude" placeholder="31.207947"/>
+    	      </div>
+    	      <div className="col-xs-offset-3 col-xs-9 no-padding-left">
+    	        <input type="button" className="btn btn-primary" value="进入地图手动选择位置"/>
+    	      </div>
+    	    </div>*/}
+    	  </form>
+	    </div>
+	    );
+	  }
+	});
+	var CommentList = React.createClass({
+	  render: function() {
+	    return (
+	    <div>
+    	  <h1 className="text-center">设备列表</h1>
+          <div className="container-fluid">
+            <div className="row">
+                <div className="col-xs-3"><strong>设备名称</strong></div>
+                <div className="col-xs-6"><strong>设备状态</strong></div>
+                <div className="col-xs-3"><strong>操作</strong></div>
+            </div>
+            <div className="row">
+                <div className="col-xs-3">大棚1</div>
+                <div className="col-xs-6">
+                    <span className="text-nowrap">温度：26C </span>
+                    <span className="text-nowrap">湿度：30% </span>
+                    <span className="text-nowrap">光照：34200LM </span>
+                    <span className="text-nowrap">CO2: 12223 </span>
+                </div>
+                <div className="col-xs-3"><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></div>
+            </div>
+            <div className="row">
+                <div className="col-xs-3">大棚1</div>
+                <div className="col-xs-6">
+                    <span className="text-nowrap">温度：26C </span>
+                    <span className="text-nowrap">湿度：30% </span>
+                    <span className="text-nowrap">光照：34200LM </span>
+                    <span className="text-nowrap">CO2: 12223 </span>
+                </div>
+                <div className="col-xs-3"><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></div>
+            </div>
+          </div>
+          <div className="table-reponsive">
+              <table className="table table-bordered table-striped">
+                  <thead>
+                    <th>#</th>
+                    <th className="text-nowrap">设备名称</th>
+                    <th className="text-nowrap">设备状态</th>
+                    <th>操作</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span className="text-nowrap">温度：26C </span>
+                            <br/>
+                            <span className="text-nowrap">湿度：30% </span>
+                            <br/>
+                            <span className="text-nowrap">光照：34200LM </span>
+                            <br/>
+                            <span className="text-nowrap">CO2: 12223 </span>
+                            <br/>
+                        </td>
+                        <td><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span className="text-nowrap">温度：26C </span>
+                            <span className="text-nowrap">湿度：30% </span>
+                            <span className="text-nowrap">光照：34200LM </span>
+                            <span className="text-nowrap">CO2: 12223 </span>
+                        </td>
+                        <td><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span>温度：26C </span>
+                            <br/>
+                            <span>湿度：30% </span>
+                            <br/>
+                            <span>光照：34200LM </span>
+                            <br/>
+                            <span>CO2: 12223 </span>
+                        </td>
+                        <td><a>删除</a><a>查看</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span>温度：26C </span>
+                            <span>湿度：30% </span>
+                            <span>光照：34200LM </span>
+                            <span>CO2: 12223 </span>
+                        </td>
+                        <td><a>删除</a><a>查看</a></td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+	    </div>
+	    );
+	  }
+	});
+	var DeviceDetail = React.createClass({
+	  render: function() {
+	    return (
+	    <div>
+            <ol className="breadcrumb">
+                <li><a href="#">设备列表</a></li>
+                <li className="active">设备详情（大棚1）</li>
+            </ol>
+            <div>
+                <img src="{:FARM_TEMPLETE_PATH}/images/1.jpg" className="img-responsive" alt="Responsive image"/>
+            </div>
+
+          <div className="container-fluid">
+            <div className="row">
+                <div className="col-xs-3"><strong>设备名称</strong></div>
+                <div className="col-xs-6"><strong>设备状态</strong></div>
+                <div className="col-xs-3"><strong>操作</strong></div>
+            </div>
+            <div className="row">
+                <div className="col-xs-3">大棚1</div>
+                <div className="col-xs-6">
+                    <span className="text-nowrap">温度：26C </span>
+                    <span className="text-nowrap">湿度：30% </span>
+                    <span className="text-nowrap">光照：34200LM </span>
+                    <span className="text-nowrap">CO2: 12223 </span>
+                </div>
+                <div className="col-xs-3"><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></div>
+            </div>
+            <div className="row">
+                <div className="col-xs-3">大棚1</div>
+                <div className="col-xs-6">
+                    <span className="text-nowrap">温度：26C </span>
+                    <span className="text-nowrap">湿度：30% </span>
+                    <span className="text-nowrap">光照：34200LM </span>
+                    <span className="text-nowrap">CO2: 12223 </span>
+                </div>
+                <div className="col-xs-3"><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></div>
+            </div>
+          </div>
+          <div className="table-reponsive">
+              <table className="table table-bordered table-striped">
+                  <thead>
+                    <th>#</th>
+                    <th className="text-nowrap">设备名称</th>
+                    <th className="text-nowrap">设备状态</th>
+                    <th>操作</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span className="text-nowrap">温度：26C </span>
+                            <br/>
+                            <span className="text-nowrap">湿度：30% </span>
+                            <br/>
+                            <span className="text-nowrap">光照：34200LM </span>
+                            <br/>
+                            <span className="text-nowrap">CO2: 12223 </span>
+                            <br/>
+                        </td>
+                        <td><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span className="text-nowrap">温度：26C </span>
+                            <span className="text-nowrap">湿度：30% </span>
+                            <span className="text-nowrap">光照：34200LM </span>
+                            <span className="text-nowrap">CO2: 12223 </span>
+                        </td>
+                        <td><a className="text-nowrap">删除</a><a className="text-nowrap">查看</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span>温度：26C </span>
+                            <br/>
+                            <span>湿度：30% </span>
+                            <br/>
+                            <span>光照：34200LM </span>
+                            <br/>
+                            <span>CO2: 12223 </span>
+                        </td>
+                        <td><a>删除</a><a>查看</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>大棚1</td>
+                        <td>
+                            <span>温度：26C </span>
+                            <span>湿度：30% </span>
+                            <span>光照：34200LM </span>
+                            <span>CO2: 12223 </span>
+                        </td>
+                        <td><a>删除</a><a>查看</a></td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+	    </div>
+	    );
+	  }
+	});
+	ReactDOM.render(
+	  <DeviceDetail />,
+	  document.body
+	);
+    </script>
+</html>
+

@@ -1,0 +1,156 @@
+<?php
+   $signPackage = get_sign_package();
+   $openId = get_openid();
+?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, hight=device-height, initial-scale=1.0">
+    <title>Device List</title>
+    <link href="{:CUSTOM_TEMPLATE_PATH}style.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+	<link rel="stylesheet" href="{:CUSTOM_TEMPLATE_PATH}_assets/css/jqm-demos.css">
+	<!-- <script src="{:CUSTOM_TEMPLATE_PATH}_assets/js/index.js"></script> -->
+	<style>
+		.nav-glyphish-example .ui-btn { padding-top: 40px !important; }
+		.nav-glyphish-example .ui-btn:after { height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+		#chat:after { background:  url("{:CUSTOM_TEMPLATE_PATH}_assets/img/glyphish-icons/09-chat2.png") 50% 50% no-repeat; background-size: 24px 22px; }
+		#email:after { background:  url("{:CUSTOM_TEMPLATE_PATH}_assets/img/glyphish-icons/18-envelope.png") 50% 50% no-repeat; background-size: 24px 16px;  }
+		#login:after { background:  url("{:CUSTOM_TEMPLATE_PATH}_assets/img/glyphish-icons/30-key.png") 50% 50% no-repeat;  background-size: 12px 26px; }
+		#beer:after { background:  url("{:CUSTOM_TEMPLATE_PATH}_assets/img/glyphish-icons/88-beermug.png") 50% 50% no-repeat;  background-size: 22px 27px; }
+		#coffee:after { background:  url("{:CUSTOM_TEMPLATE_PATH}_assets/img/glyphish-icons/100-coffee.png") 50% 50% no-repeat;  background-size: 20px 24px; }
+		#skull:after { background:  url("{:CUSTOM_TEMPLATE_PATH}_assets/img/glyphish-icons/21-skull.png") 50% 50% no-repeat;  background-size: 22px 24px; }
+	</style>
+</head>
+<body id="wxdevice" style="background:#eee; background-size:100% 100%">
+  <!-- Start of first page -->
+  <div data-role="page" id="foo">
+	<div role="main" class="ui-content">
+	  <p>I'm first in the source order so I'm shown as the page.</p>
+	  <p>View internal page called <a href="#bar">bar</a></p>
+      <a href="#bar" role="button" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" data-transition="flip">data-transition="slidedown"</a>
+	</div><!-- /content -->
+	<div data-role="footer" class="nav-glyphish-example" data-theme="b" data-position="fixed">
+	  <div data-role="navbar" class="nav-glyphish-example" data-grid="d">
+		<ul>
+		  <li><a href="#" id="chat" data-icon="custom">Chat</a></li>
+		  <li><a href="#" id="email" data-icon="custom">Email</a></li>
+		  <li><a href="#" id="skull" data-icon="custom">Danger</a></li>
+		</ul>
+	  </div>
+	</div>
+  </div><!-- /page -->
+
+  <!-- Start of second page -->
+  <div data-role="page" id="bar">
+	<div role="main" class="ui-content">
+	  <p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my id is beeing clicked.</p>
+	  <p><a href="#foo" data-transition="flip">Back to foo</a></p>
+	</div><!-- /content -->
+	<div data-role="footer" class="nav-glyphish-example" data-theme="b" data-position="fixed">
+	  <div data-role="navbar" class="nav-glyphish-example" data-grid="d">
+		<ul>
+		  <li><a href="#" id="skull" data-icon="custom">Danger</a></li>
+		  <li><a href="#" id="beer" data-icon="custom">Beer</a></li>
+		  <li><a href="#" id="coffee" data-icon="custom">Coffee</a></li>
+		</ul>
+	  </div>
+	</div>
+  </div><!-- /page -->
+  <!-- <div class="lbox_close wxapi_form"> -->
+  <!--     <h3 id="menu-wxiot">WXIOT</h3> -->
+  <!--     <span class="desc">AirKiss</span> -->
+  <!--     <button class="btn btn_primary" id="callAirKiss">AirKiss</button> -->
+  <!--     <span class="desc">startScanWXDevice</span> -->
+  <!--     <button class="btn btn_primary" id="startScanWXDevice">startScanWXDevice</button> -->
+  <!--     <span class="desc">stopScanWXDevice</span> -->
+  <!--     <button class="btn btn_primary" id="stopScanWXDevice">stopScanWXDevice</button> -->
+  <!--     <span class="desc">getWXDeviceTicket</span> -->
+  <!--     <button class="btn btn_primary" id="getWXDeviceTicket">getWXDeviceTicket</button> -->
+  <!-- </div> -->
+  <!-- <h3>Mosquitto Websockets</h3> -->
+  <!-- <div> -->
+  <!--   <div>Subscribed to <input type='text' id='topic' disabled /> -->
+  <!--     Status: <input type='text' id='status' size="30" disabled /> -->
+  <!--   </br> -->
+  <!--   publish to <input type='text' id='sendtopic' /> text <input type='text' id='textsend' size="30"/> -->
+  <!--   Status: <input type='button' value="send" id='btn' onclick="button_onclick()"/></div> -->
+  <!-- <ul id='ws' style="font-family: 'Courier New', Courier, monospace;"></ul> -->
+  <!-- </div> -->
+</body>
+
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mqttws31.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}jquery.min.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}config.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+wx.config({
+    beta: true,
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onVoiceRecordEnd',
+        'playVoice',
+        'onVoicePlayEnd',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard',
+        'openWXDeviceLib',
+        'closeWXDeviceLib',
+        'getWXDeviceInfos',
+        'sendDataToWXDevice',
+        'startScanWXDevice',
+        'stopScanWXDevice',
+        'connectWXDevice',
+        'disconnectWXDevice',
+        'getWXDeviceTicket',
+        'configWXDeviceWiFi',
+        'onWXDeviceBindStateChange',
+        'onWXDeviceStateChange',
+        'onReceiveDataFromWXDevice',
+        'onScanWXDeviceResult',
+        'onWXDeviceBluetoothStateChange'
+    ]
+});
+</script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}zepto.min.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}demo.js"></script>
+<script type="text/javascript" src="{:CUSTOM_TEMPLATE_PATH}mqttclient.js"></script>
+</html>
+

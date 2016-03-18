@@ -1,0 +1,336 @@
+<?php  $signPackage = getSignPackage();    // 获取jssdk配置包 ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>功能演示</title>
+        <link rel="stylesheet" href="__FUI__/css/frozen.css">
+    </head>
+    <body ontouchstart="">
+       
+        <section class="ui-selector">
+          <header class="ui-border-b">
+            <h3>功能列表</h3>
+          </header>
+          <div class="ui-selector-content" style="display:">
+            <ul>
+                <li class="ui-selector-item">
+                <h3 class="ui-border-b">
+                  <p>微信支付</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="wechat_pay_jsapi">JSAPI支付</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item">
+                <h3 class="ui-border-b">
+                  <p>基础接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4>判断是否支持指定JS接口</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item  active">
+                <h3 class="ui-border-b">
+                  <p>分享接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareTimeline">分享到朋友圈</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareAppMessage">分享给朋友</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareQQ">分享到手机QQ</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="onMenuShareQZone">分享到QQ空间</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item">
+                <h3 class="ui-border-b"><i class="arrow"></i>
+                  <p>图像接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="chooseImage">拍照或从手机相册中选图</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="previewImage">预览图片</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="uploadImage">上传图片</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="downloadImage">下载图片</h4></div>
+                  </li>
+                </ul>
+              </li>
+              <li class="ui-selector-item">
+                <h3 class="ui-border-b"><i class="arrow"></i>
+                  <p>其他接口</p><span class="ui-txt-info">11</span>
+                </h3>
+                <ul class="ui-list ui-border-b">
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="scanQRCode">扫描二维码</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="showOptionMenu">显示右上角菜单</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="hideOptionMenu">隐藏右上角菜单</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="getLocation">获取地理位置</h4></div>
+                  </li>
+                  <li>
+                    <div class="ui-avatar-s">
+                      <span style="background-image:url(../img/ava1.png)"></span>
+                    </div>
+                    <div class="ui-list-info ui-border-t"><h4 id="openLocation">打开地图选取地理位置</h4></div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+    </body>
+</html>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="__FUI__/lib/zepto.min.js"></script>
+<script src="__FUI__/js/frozen.js"></script>
+<script>
+  (function (){
+     $(".ui-selector-item").on("click",function(){
+          $(".ui-selector-item").removeClass("active");
+          if ($(this).hasClass("active")) {
+              $(this).removeClass("active");
+          } else {
+              $(this).addClass("active");
+          }
+     })
+  })();
+
+  $("#wechat_pay_jsapi").click(function(){
+      var price = 0.01; // 支付金额
+      var orderid = new Date().getTime();     // 订单号
+      var params = new Array();
+      params['price'] = price;
+      params['orderid'] = orderid;
+      params['content'] = '加油哦';
+      pay(price,orderid,params,payok,paycancel,payfail);                     // 发起支付
+  });
+
+
+  function payok(params){
+      alert("支付成功，订单号是："+params['orderid']);
+      // TODO
+  }
+
+  function paycancel(params){
+      alert("支付取消")
+  }
+
+  function payfail(params){
+      alert("支付失败");
+  }
+
+  function su(){
+      alert("ok");
+  }
+
+  function ca(){
+      alert("err");
+  }
+
+  // 下载图片成功
+  function downMediaSuccess(data) {
+    alert(data['cover_id']+data['picture_url']);
+    //$(".img").attr("src",data['picture_url']);
+  }
+
+  function downMediaError() {
+    alert("error");
+  }
+
+  /*
+   * 注意：
+   * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+   * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+   * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+   *
+   * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+   * 邮箱地址：weixin-open@qq.com
+   * 邮件主题：【微信JS-SDK反馈】具体问题
+   * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+   */
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+    'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ]
+  });
+
+  // jssdk注册成功后执行
+  wx.ready(function () {
+        $("#onMenuShareTimeline").on("click", function(){
+            onMenuShareTimeline('分享到朋友圈', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+            alert("注册分享到朋友圈")
+        });
+        
+        $("#onMenuShareAppMessage").on("click", function(){
+            onMenuShareAppMessage('分享给朋友', '这是发送给朋友的内容', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', 'music', '', su, ca);
+            alert("注册分享给朋友")
+        });
+
+        $("#onMenuShareQQ").on("click", function(){
+            onMenuShareQQ('分享到手机QQ', '这是从微信端分享过来的内容', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+            alert("注册分享到手机QQ")
+        });
+
+        $("#onMenuShareQZone").on("click", function(){
+            onMenuShareQZone('分享到QQ空间', '这是从微信端分享过来的内容', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+            alert("注册分享到QQ空间")
+        });
+
+        $("#chooseImage").on("click",function(){
+            
+           uploadImages(5, downMediaSuccess, downMediaError);
+        });
+
+        $("#scanQRCode").on("click",function(){
+            wx.scanQRCode({
+                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    alert ("result="+result);
+                }
+            });
+        });
+        $("#hideOptionMenu").on("click",function(){
+            wx.hideOptionMenu();
+        });
+        $("#showOptionMenu").on("click",function(){
+            wx.showOptionMenu();
+        });
+        $("#getLocation").on("click",function(){
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+                    alert("latitude="+latitude+", longitude="+longitude+", speed="+speed+", accuracy="+accuracy);
+                }
+            });
+        });
+        $("#openLocation").on("click",function(){
+            wx.openLocation({
+                latitude: 0, // 纬度，浮点数，范围为90 ~ -90
+                longitude: 0, // 经度，浮点数，范围为180 ~ -180。
+                name: 'where', // 位置名
+                address: 'info where', // 地址详情说明
+                scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+                infoUrl: 'http://www.baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
+            });
+        });
+  });
+
+  // jssdk注册失败时执行
+
+  wx.error(function(){
+      alert("error");
+  });
+
+</script>
