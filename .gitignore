@@ -1,5 +1,6 @@
-/Data/*
-/Runtime/*
-/Uploads/*
-/.gitignore
-/Application/Common/Conf/config.php
+Data
+Runtime
+Uploads
+.gitignore
+Application/Common/Conf/config.php
+PHP_LOG_PATH
