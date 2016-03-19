@@ -14,10 +14,10 @@
 return array(
 		// 数据库配置
         'DB_TYPE'   => 'mysql', // 数据库类型
-        'DB_HOST'   => '10.66.122.115', // 服务器地址
-        'DB_NAME'   => 'douchat_farm', // 数据库名
+        'DB_HOST'   => '127.0.0.1', // 服务器地址
+        'DB_NAME'   => 'douchat2', // 数据库名
         'DB_USER'   => 'root', // 用户名
-        'DB_PWD'    => 'Y50Tpwel',  // 密码
+        'DB_PWD'    => '123456',  // 密码
         'DB_PORT'   => '3306', // 端口
         'DB_PREFIX' => 'dc_', // 数据库表前缀
 		'DB_PARAMS' => array (
@@ -25,7 +25,7 @@ return array(
 		),
 		
 		// 系统数据加密设置
-		'DATA_AUTH_KEY' => 'rTcd<oSGI!?%~WytUs2*OeBD_&X3JF7/ba{"0ALm', // 默认数据加密KEY
+		'DATA_AUTH_KEY' => '=1?f!QZEkglSvIjNY3nio`Jrx2_wX84.|d,9BKA>', // 默认数据加密KEY
 		                                                               
 		// 调试配置
 		'SHOW_PAGE_TRACE' => false,

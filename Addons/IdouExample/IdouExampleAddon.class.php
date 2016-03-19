@@ -1,18 +1,18 @@
 <?php
 
-namespace Addons\HelloWorld;
+namespace Addons\IdouExample;
 use Common\Controller\Addon;
 
 /**
- * 欢迎世界插件
+ * 示列插件
  * @author 无名
  */
 
-    class HelloWorldAddon extends Addon{
+    class IdouExampleAddon extends Addon{
 
         public $info = array(
-            'name'=>'HelloWorld',
-            'title'=>'微信硬件',
+            'name'=>'IdouExample',
+            'title'=>'示列',
             'description'=>'这是一个临时描述',
             'status'=>1,
             'author'=>'无名',
@@ -21,14 +21,14 @@ use Common\Controller\Addon;
         );
 
 	public function install() {
-		$install_sql = './Addons/HelloWorld/install.sql';
+		$install_sql = './Addons/IdouExample/install.sql';
 		if (file_exists ( $install_sql )) {
 			execute_sql_file ( $install_sql );
 		}
 		return true;
 	}
 	public function uninstall() {
-		$uninstall_sql = './Addons/HelloWorld/uninstall.sql';
+		$uninstall_sql = './Addons/IdouExample/uninstall.sql';
 		if (file_exists ( $uninstall_sql )) {
 			execute_sql_file ( $uninstall_sql );
 		}
