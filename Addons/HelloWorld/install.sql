@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS `dc_wxdevice_devices` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+`productid`  int(10) NULL  COMMENT '设备编号',
+`deviceid`  varchar(255) NULL  COMMENT '设备ID',
+`uuid`  varchar(255) NULL  COMMENT '设备UID',
+`qrcode`  varchar(255) NULL  COMMENT '设备二维码',
+`mac`  varchar(255) NULL  COMMENT '设备MAC地址',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci CHECKSUM=0 ROW_FORMAT=DYNAMIC DELAY_KEY_WRITE=0;
+INSERT INTO `dc_model` (`name`,`title`,`extend`,`relation`,`need_pk`,`field_sort`,`field_group`,`attribute_list`,`template_list`,`template_add`,`template_edit`,`list_grid`,`list_row`,`search_key`,`search_list`,`create_time`,`update_time`,`status`,`engine_type`,`addon`) VALUES ('wxdevice_devices','微信设备','0','','1','["deviceid","uuid","qrcode","mac"]','1:基础','','','','','deviceid:设备ID\r\nqrcode|get_code_img:设备二维码\r\nuuid:设备UID\r\nmac:MAC地址','10','','','1458372178','1458372450','1','InnoDB','HelloWorld');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('productid','设备编号','int(10) NULL','num','','','0','','0','1','1','1458372237','1458372237','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('deviceid','设备ID','varchar(255) NULL','string','','','1','','0','1','1','1458372264','1458372264','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('uuid','设备UID','varchar(255) NULL','string','','','1','','0','0','1','1458372289','1458372289','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('qrcode','设备二维码','varchar(255) NULL','string','','','1','','0','0','1','1458372324','1458372324','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('mac','设备MAC地址','varchar(255) NULL','string','','','1','','0','0','1','1458372341','1458372341','','3','','regex','','3','function');
+UPDATE `dc_attribute` SET model_id= (SELECT MAX(id) FROM `dc_model`) WHERE model_id=0;
+CREATE TABLE IF NOT EXISTS `dc_wxdevice_products` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+`token`  varchar(255) NULL  COMMENT '公众号原始ID',
+`productid`  int(10) NULL  COMMENT '产品编号',
+`product_name`  varchar(255) NULL  COMMENT '设备名称',
+`product_model`  varchar(255) NULL  COMMENT '设备型号',
+`qrimage_id`  int(10) UNSIGNED NULL  COMMENT '型号二维码',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci CHECKSUM=0 ROW_FORMAT=DYNAMIC DELAY_KEY_WRITE=0;
+INSERT INTO `dc_model` (`name`,`title`,`extend`,`relation`,`need_pk`,`field_sort`,`field_group`,`attribute_list`,`template_list`,`template_add`,`template_edit`,`list_grid`,`list_row`,`search_key`,`search_list`,`create_time`,`update_time`,`status`,`engine_type`,`addon`) VALUES ('wxdevice_products','微信硬件产品','0','','1','["product_name","product_model","qrimage_id","productid"]','1:基础','','','','','productid:设备编号\r\nproduct_name:设备名称\r\nproduct_model:设备型号\r\nqrimage_id:型号二维码\r\nproduct_number:设备数量\r\nproduct_bind:已绑定\r\nproduct_online:在线\r\nids:操作:add_device&pid=[productid]|授权,list_device&pid=[productid]|查看,[EDIT]&productid=[productid]|编辑,[DELETE]|删除','10','','','1458371649','1458372053','1','InnoDB','HelloWorld');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('token','公众号原始ID','varchar(255) NULL','string','','','0','','0','1','1','1458371780','1458371780','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('productid','产品编号','int(10) NULL','num','','','1','','0','1','1','1458371837','1458371837','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('product_name','设备名称','varchar(255) NULL','string','','','1','','0','0','1','1458371886','1458371886','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('product_model','设备型号','varchar(255) NULL','string','','','1','','0','0','1','1458371921','1458371921','','3','','regex','','3','function');
+INSERT INTO `dc_attribute` (`name`,`title`,`field`,`type`,`value`,`remark`,`is_show`,`extra`,`model_id`,`is_must`,`status`,`update_time`,`create_time`,`validate_rule`,`validate_time`,`error_info`,`validate_type`,`auto_rule`,`auto_time`,`auto_type`) VALUES ('qrimage_id','型号二维码','int(10) UNSIGNED NULL','picture','','','1','','0','0','1','1458371969','1458371969','','3','','regex','','3','function');
+UPDATE `dc_attribute` SET model_id= (SELECT MAX(id) FROM `dc_model`) WHERE model_id=0;
