@@ -114,7 +114,7 @@ class HelloWorldController extends AddonsController{
             $d ['product_online'] = $this->_get_device_number ($d ['productid']);
 		}
         
-		$model = $this->getModel ( 'wxdevice_products' );
+		//$model = $this->getModel ( 'wxdevice_products' );
 
 		$this->assign ( $list_data );	
 		$this->display ();

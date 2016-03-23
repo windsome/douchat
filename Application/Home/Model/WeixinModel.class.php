@@ -118,6 +118,14 @@ class WeixinModel extends Model {
 		
 		$this->_replyData ( $msg, 'news' );
 	}
+
+ 	public function replyDeviceStatus($device_type, $device_id, $status) {
+		$msg ['DeviceType'] = $device_type;
+		$msg ['DeviceID'] = $device_id;
+		$msg ['DeviceStatus'] = $status;
+		$this->_replyData ( $msg, 'device_status' );
+	}
+
 	/* 发送回复消息到微信平台 */
 	private function _replyData($msg, $msgType) {
 		$msg ['ToUserName'] = $this->data ['FromUserName'];

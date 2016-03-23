@@ -66,7 +66,9 @@ class App {
 		$addon_type = 0;
 		$controller_name = CONTROLLER_NAME;
 		$action_name = ACTION_NAME;
-		
+
+        error_log ("\nwindsome:[".date("h:i:s")."] method=".$_SERVER["REQUEST_METHOD"].",request= ".$_SERVER["REQUEST_URI"]." ,POST_DATA=\n".file_get_contents("php://input"), 3, PHP_LOG_PATH);		
+
 		// 插件调用 weiphp新增加功能 20150109
 		if (strtolower ( MODULE_NAME . '/' . $controller_name . '/' . $action_name ) == 'home/addons/execute') {
 			$_addons = $_REQUEST ['_addons'];

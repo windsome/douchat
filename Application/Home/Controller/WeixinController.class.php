@@ -72,6 +72,7 @@ class WeixinController extends HomeController
 		$this->init_follow ( $data );
 
 		// 回复数据
+        error_log("\nwindsome ". __METHOD__. ": MsgType=".$data['MsgType'].", msg=".$data, 3, PHP_LOG_PATH);
 		$this->reply ( $data, $weixin );
 		
 		// 客服接口群发消息：未发送成功的消息给用户重新发
@@ -122,6 +123,8 @@ class WeixinController extends HomeController
 			} else {
 				$key = $data ['Content'] = $event;
 			}
+        } else if ($data ['MsgType'] == 'device_event') {
+            $event = 'device_'. strtolower ($data ['Event']);
 		} else {
 
 			/**
