@@ -31,9 +31,14 @@ class FarmController extends AddonsController{
     }
 
     function deviceScan () {
+        $this->display ();
     }
 
     function deviceList () {
+        $this->display ();
+    }
+
+    function detail () {
         $this->display ();
     }
 

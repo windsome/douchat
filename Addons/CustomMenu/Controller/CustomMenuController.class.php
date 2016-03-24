@@ -117,6 +117,7 @@ class CustomMenuController extends BaseController {
 		$res ['name'] = str_replace ( '├──', '', $d ['title'] );
 		
 		if ($d ['type'] == 'view') {
+            $map ['token'] = get_token ();
 			$search = array (
 					'[website]',
 					'[publicid]',

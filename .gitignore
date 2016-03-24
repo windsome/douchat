@@ -4,3 +4,5 @@ Uploads
 Application/Common/Conf/config.php
 PHP_LOG_PATH
 cscope*
+*~
+*.bak

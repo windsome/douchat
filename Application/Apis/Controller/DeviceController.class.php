@@ -76,6 +76,13 @@ class DeviceController extends Controller {
         $device_mac  = $post['device_mac'];
         $product_id  = $post['product_id'];        
         
+        /*
+        $device_type = 'gh_9e62dd855eff';
+        $device_uuid = '123123123123';
+        $device_mac  = '112233445566';
+        $product_id  = '1550';        
+        */
+
         $access_token = get_access_token($device_type);
         $data['access_token'] = $access_token;
 
@@ -84,9 +91,11 @@ class DeviceController extends Controller {
         $cond1['uuid'] = $device_uuid;
         $exist_device = $Model->where($cond1)->find();
         if ($exist_device == null) {
+            error_log("\nwindsome ". __METHOD__. ", no device", 3, PHP_LOG_PATH);
             $cond['productid'] = $product_id;
             $cond['uuid'] = '';
             $new_device = $Model->where($cond)->find();
+            //var_dump ($Model);            
             
             $cond['id'] = $new_device['id'];
             $Model->uuid = $device_uuid;
@@ -100,6 +109,7 @@ class DeviceController extends Controller {
             $data['device_qrcode'] = $new_device['qrcode'];
             //var_dump ($new_device);            
         } else {
+            error_log("\nwindsome ". __METHOD__. ", get device", 3, PHP_LOG_PATH);
             $data['device_id'] = $exist_device['deviceid'];
             $data['device_qrcode'] = $exist_device['qrcode'];
             //var_dump ($exist_device);     

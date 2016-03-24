@@ -1,9 +1,20 @@
 <?php  $signPackage = getSignPackage();    // 获取jssdk配置包 ?>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="__FUI__/lib/zepto.min.js"></script>
-<script src="__FUI__/js/frozen.js"></script>
-<script src="__PUBLIC__/Home/js/geo.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Stiw5Qs3emDlkkPsg5easwov"></script>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>扫描设备</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script src="{:FARM_TEMPLETE_PATH}/DeviceScan.js"></script>
+
 <script>
   /*
    * 注意：
@@ -23,8 +34,8 @@
     nonceStr: '<?php echo $signPackage["nonceStr"];?>',
     signature: '<?php echo $signPackage["signature"];?>',
     jsApiList: [
-      // 所有要调用的 API 都要加到这个列表中
-    'checkJsApi',
+        // 所有要调用的 API 都要加到这个列表中
+        'checkJsApi',
         'onMenuShareTimeline',
         'onMenuShareAppMessage',
         'onMenuShareQQ',
@@ -61,6 +72,21 @@
     ]
   });
 
+  // jssdk注册成功后执行
+  wx.ready(function () {
+    console.log ("jssdk register ok!");
+
+    $("#onMenuShareTimeline").on("click", function(){
+      onMenuShareTimeline('分享到朋友圈', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
+      alert("注册分享到朋友圈")
+    });
+  });
+
+  // jssdk注册失败时执行
+  wx.error(function(){
+    console.log ("jssdk register fail!");
+      alert('<?php echo ("aa=". $signPackage["appId"] ."---". $signPackage["timestamp"] ."---". $signPackage["nonceStr"] ."===". $signPackage["signature"]);?>');
+    //alert("error");
+  });
 
 </script>
-<block name="html"></block>

@@ -1168,12 +1168,14 @@ class Wechat
 		}
 		if ($token) { //手动指定token，优先使用
 		    $this->access_token=$token;
+        error_log("\nwindsome ". __METHOD__. ' '. __LINE__, 3, PHP_LOG_PATH);
 		    return $this->access_token;
 		}
 
 		$authname = 'wechat_access_token'.$appid;
 		if ($rs = $this->getCache($authname))  {
 			$this->access_token = $rs;
+        error_log("\nwindsome ". __METHOD__. ' '. __LINE__, 3, PHP_LOG_PATH);
 			return $rs;
 		}
 
@@ -1184,13 +1186,16 @@ class Wechat
 			if (!$json || isset($json['errcode'])) {
 				$this->errCode = $json['errcode'];
 				$this->errMsg = $json['errmsg'];
+        error_log("\nwindsome ". __METHOD__. ' '. __LINE__, 3, PHP_LOG_PATH);
 				return false;
 			}
 			$this->access_token = $json['access_token'];
 			$expire = $json['expires_in'] ? intval($json['expires_in'])-100 : 3600;
 			$this->setCache($authname,$this->access_token,$expire);
+        error_log("\nwindsome ". __METHOD__. ' '. __LINE__, 3, PHP_LOG_PATH);
 			return $this->access_token;
 		}
+        error_log("\nwindsome ". __METHOD__. ' '. __LINE__, 3, PHP_LOG_PATH);
 		return false;
 	}
 
