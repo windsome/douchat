@@ -8,14 +8,26 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>设备详情</title>
+    <title>设备列表</title>
     <link rel="stylesheet" href="{:FARM_TEMPLETE_PATH}/bootstrap.min.css"/>
     <link rel="stylesheet" href="{:FARM_TEMPLETE_PATH}/charts.css"/>
     <script src="{:FARM_TEMPLETE_PATH}/jquery.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
-    <div id="test"></div>
-    <script src="{:FARM_TEMPLETE_PATH}/detail.js"></script>
+  <script>
+    var page_config = {
+      pageDetail:'<?php echo $FARM_URL_DETAIL1; ?>',
+      token:'<?php echo $token; ?>',
+      appId: '<?php echo $signPackage["appId"];?>',
+      timestamp: <?php echo $signPackage["timestamp"];?>,
+      nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+      signature: '<?php echo $signPackage["signature"];?>'
+    };
+  
+  </script>
+  <script src="{:FARM_TEMPLETE_PATH}/mqttws31.js"></script>
+  <script src="{:FARM_TEMPLETE_PATH}/IotPage.js?v=6"></script>
 </body>
 </html>
+

@@ -1,4 +1,6 @@
-<?php  $signPackage = getSignPackage();    // 获取jssdk配置包 ?>
+<?php
+  $signPackage = getSignPackage();    // 获取jssdk配置包 
+?>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -13,7 +15,6 @@
 <body>
 </body>
 </html>
-<script src="{:FARM_TEMPLETE_PATH}/DeviceScan.js"></script>
 
 <script>
   /*
@@ -27,66 +28,12 @@
    * 邮件主题：【微信JS-SDK反馈】具体问题
    * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
    */
-  wx.config({
-    debug: false,
+  var page_config = {
     appId: '<?php echo $signPackage["appId"];?>',
     timestamp: <?php echo $signPackage["timestamp"];?>,
     nonceStr: '<?php echo $signPackage["nonceStr"];?>',
-    signature: '<?php echo $signPackage["signature"];?>',
-    jsApiList: [
-        // 所有要调用的 API 都要加到这个列表中
-        'checkJsApi',
-        'onMenuShareTimeline',
-        'onMenuShareAppMessage',
-        'onMenuShareQQ',
-        'onMenuShareWeibo',
-        'hideMenuItems',
-        'showMenuItems',
-        'hideAllNonBaseMenuItem',
-        'showAllNonBaseMenuItem',
-        'translateVoice',
-        'startRecord',
-        'stopRecord',
-        'onRecordEnd',
-        'playVoice',
-        'pauseVoice',
-        'stopVoice',
-        'uploadVoice',
-        'downloadVoice',
-        'chooseImage',
-        'previewImage',
-        'uploadImage',
-        'downloadImage',
-        'getNetworkType',
-        'openLocation',
-        'getLocation',
-        'hideOptionMenu',
-        'showOptionMenu',
-        'closeWindow',
-        'scanQRCode',
-        'chooseWXPay',
-        'openProductSpecificView',
-        'addCard',
-        'chooseCard',
-        'openCard'
-    ]
-  });
-
-  // jssdk注册成功后执行
-  wx.ready(function () {
-    console.log ("jssdk register ok!");
-
-    $("#onMenuShareTimeline").on("click", function(){
-      onMenuShareTimeline('分享到朋友圈', 'http://idouly.com', 'http://www.baidu.com/img/baidu_jgylogo3.gif', su, ca);
-      alert("注册分享到朋友圈")
-    });
-  });
-
-  // jssdk注册失败时执行
-  wx.error(function(){
-    console.log ("jssdk register fail!");
-      alert('<?php echo ("aa=". $signPackage["appId"] ."---". $signPackage["timestamp"] ."---". $signPackage["nonceStr"] ."===". $signPackage["signature"]);?>');
-    //alert("error");
-  });
+    signature: '<?php echo $signPackage["signature"];?>'
+  };
 
 </script>
+<script src="{:FARM_TEMPLETE_PATH}/DeviceScan.js?v=3"></script>

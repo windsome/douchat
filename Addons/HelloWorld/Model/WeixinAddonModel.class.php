@@ -13,7 +13,7 @@ class WeixinAddonModel extends WeixinModel{
         $access_token = get_access_token ();				
 		$this->replyText ( '欢迎您来到Fucker的世界-_- <'.$ticket.'> <' .$access_token . '> <' . json_encode ($sign) . '>');
 	}
-    
+/*    
     public function device_subscribe_status ($data) {
         $this->replyDeviceStatus($data['DeviceType'], $data['DeviceID'], '1');
     }
@@ -75,5 +75,6 @@ class WeixinAddonModel extends WeixinModel{
 			return false;
 		}
 	}
+*/
 }
         	

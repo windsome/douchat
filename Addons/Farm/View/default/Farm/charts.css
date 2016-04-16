@@ -91,3 +91,8 @@
 .xml .hljs-cdata {
   opacity: 0.5;
 }
+
+.wordbreak {
+  word-break: break-all;
+  word-wrap: break-word;
+}

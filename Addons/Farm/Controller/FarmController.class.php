@@ -6,6 +6,10 @@ use Home\Controller\AddonsController;
 class FarmController extends AddonsController{
     function _initialize() {
         define ('FARM_TEMPLETE_PATH', ONETHINK_ADDON_PATH . 'Farm/View/default/Farm');
+        
+        $url_detail = U('addon/Farm/Farm/detail', array('token'=>get_token()), '');
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,url='.$url_detail, 3, PHP_LOG_PATH);
+        $this->assign ('FARM_URL_DETAIL1', $url_detail);
     }
 
     function latestNews () {
@@ -24,12 +28,6 @@ class FarmController extends AddonsController{
         $this->display ();
     }
 
-    function buyer () {
-    }
-
-    function seller () {
-    }
-
     function deviceScan () {
         $this->display ();
     }
@@ -42,6 +40,8 @@ class FarmController extends AddonsController{
         $this->display ();
     }
 
-    function deviceAlert () {
+    function iotPage () {
+        $this->display ();
     }
+
 }

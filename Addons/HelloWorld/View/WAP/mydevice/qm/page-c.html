@@ -52,7 +52,7 @@ $accessToken = get_access_token ();
 	   $( document ).on( "pagecreate", function() {
          var _openid = '<?php echo $openId ?>';
          var _token = '<?php echo $accessToken ?>';
-         var url = "http://www.lancertech.net/weiphp3.0/index.php?s=/Device/Device/get_bind_device";
+         var url = "http://lancertech.net/farm/douchat/index.php?s=/Home/Device/get_bind_device";
          $.get (url, {
            openid : _openid,
            access_token : _token
@@ -68,6 +68,7 @@ $accessToken = get_access_token ();
                $("#devices").append(item).listview ("refresh");
              });
            }
+           //$("#devices").listview ("refresh");
          }, "json");
        });
 	  </script>
