@@ -44,4 +44,16 @@ class FarmController extends AddonsController{
         $this->display ();
     }
 
+    function iotPage2 () {
+        $this->display ();
+    }
+
+    function iotPage3 () {
+        $this->display ();
+    }
+
+    function testPage () {
+        $this->display ();
+    }
+
 }

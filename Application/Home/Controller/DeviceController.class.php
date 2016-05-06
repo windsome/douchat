@@ -23,7 +23,7 @@ class DeviceController extends Controller {
 	}
     
 	public function get_bind_device () {
-        $param ['openid'] = I ('openid');        
+        $param ['openid'] = I ('openid');
         $param ['access_token'] = I ('access_token');
         $url = 'https://api.weixin.qq.com/device/get_bind_device?' . http_build_query ( $param );
   		
@@ -164,7 +164,7 @@ class DeviceController extends Controller {
             $postOb['device_id'] = $exist_device['deviceid'];
             $postOb['openid'] = $openid;
             //error_log("\nwindsome ". __METHOD__." ".__LINE__.", url=".$url.", postOb=".json_encode($postOb), 3, PHP_LOG_PATH);
-            list($retcode, $content) = $this->http_post_json ($url, json_encode($postOb));
+            list($retcode, $content) = $this->_http_post_json ($url, json_encode($postOb));
             
             error_log("\nwindsome ". __METHOD__." ".__LINE__.", url=".$url.", postOb=".json_encode($postOb).", \nretcode=".$retcode.",content=".$content, 3, PHP_LOG_PATH);
             
@@ -181,10 +181,66 @@ class DeviceController extends Controller {
         $this->ajaxReturn($result);        
 	}
 
+	public function bindToUser2 () {
+        // 是否判断用户权限？得到用户openid，具有权限后才进行后续操作。
+        $post = wp_file_get_contents ( 'php://input' );        
+        $post = json_decode ($post, true);
+
+        $device = $post['device'];
+        $device_ticket = $post['ticket'];
+
+        $openid = get_openid();
+        $access_token = get_access_token();
+
+        $retcode = 0;
+        if ($device == null) {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! device=".$device, 3, PHP_LOG_PATH);
+            $retcode = -1;
+        } else if ($openid == '-1' || $openid == '-2' || $openid == '') {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! openid=".$openid, 3, PHP_LOG_PATH);
+            $retcode = -2;
+        } else if ($device_ticket == '') {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! device_ticket=".$device_ticket, 3, PHP_LOG_PATH);
+            $retcode = -3;
+        } else if ($access_token == '') {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! access_token=".$access_token, 3, PHP_LOG_PATH);
+            $retcode = -4;
+        }
+
+        if ($retcode == 0) {
+            // post to weixin.
+            $url = "https://api.weixin.qq.com/device/bind?access_token=".$access_token;
+            $postOb['ticket'] = $device_ticket;
+            $postOb['device_id'] = $device['deviceid'];
+            $postOb['openid'] = $openid;
+            $retcode = $this->_wx_post_json ("https://api.weixin.qq.com/device/bind?access_token=".$access_token, json_encode($postOb));
+            if ($retcode == 0) {
+                // bind user success! then save device info to database.
+                $device['info'] = json_encode($device['info']);
+                $Model = M('wxdevice_devices');
+                $count = $Model->save ($device);
+                $cond1['id']=$device['id'];
+                //$count = $Model->where($cond1)->save ($device);
+                //$count = $Model->where($cond1)->data($device)->save();
+                if ($count) {
+                    error_log("\nwindsome ". __METHOD__." ".__LINE__.", success! update ".$count." records", 3, PHP_LOG_PATH);
+                } else {
+                    error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! update device fail!", 3, PHP_LOG_PATH);
+                    $retcode = 1000;
+                }
+            } else {
+                error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! bind device to user fail!", 3, PHP_LOG_PATH);
+            }
+        }
+
+        $result['errcode'] = $retcode;
+        $this->ajaxReturn($result);        
+	}
+
 	public function getDeviceByQrcode () {
         // 是否判断用户权限？得到用户openid，具有权限后才进行后续操作。
         //$openid = get_openid ();
-        //error_log("\nwindsome ". __METHOD__." ".__LINE__.", openid=".$openid, 3, PHP_LOG_PATH);
+        error_log("\nwindsome ". __METHOD__." ".__LINE__, 3, PHP_LOG_PATH);
 
         $result['errcode'] = 0;
         $result['msg'] = 'no error';
@@ -197,6 +253,14 @@ class DeviceController extends Controller {
         $cond1['qrcode'] = $device_qrcode;
         $exist_device = $Model->where($cond1)->find();
         if ($exist_device != null) {
+            /*error_log("\nwindsome ". __METHOD__." ".__LINE__." size=".sizeof($exist_device), 3, PHP_LOG_PATH);
+            $count=sizeof($exist_device);
+            for ($i = 0; $i < $count; $i++) {
+                error_log("\nwindsome ". __METHOD__." ".__LINE__." $i=".$i." ".print_r($exist_device[$i],true), 3, PHP_LOG_PATH);
+                $exist_device[$i]['info'] = json_decode($exist_device[$i]['info']);
+                }*/
+            $exist_device['info'] = json_decode($exist_device['info'],true);
+            
             $result['devices'] = array($exist_device);
             error_log("\nwindsome ".__METHOD__." ".__LINE__.", find device:".print_r($exist_device,true), 3, PHP_LOG_PATH);
             $result['errcode'] = 0;
@@ -210,59 +274,69 @@ class DeviceController extends Controller {
         $this->ajaxReturn($result);
 	}
 
-	public function get_bind_device_1 ($openid = '', $access_token = '') {
-        // 是否判断用户权限？得到用户openid，具有权限后才进行后续操作。
-        if ($openid == '')
-            $openid = get_openid ();
-        if ($access_token == '')
-            $access_token = get_access_token ();
-        //error_log("\nwindsome ".__METHOD__." ".__LINE__.", openid:".$openid.",access_token=".$access_token, 3, PHP_LOG_PATH);
-
-        $param ['openid'] = $openid;        
-        $param ['access_token'] = $access_token;
-        $url = 'https://api.weixin.qq.com/device/get_bind_device?' . http_build_query ( $param );
-  		
-        $content = file_get_contents ( $url );
-        error_log("\nwindsome ".__METHOD__." ".__LINE__.", url:".$url.",\ncontent=".$content, 3, PHP_LOG_PATH);
-		$content = json_decode ( $content, true );
-        $devices = $content ['device_list'];
-        return $devices;
-    }
-
 	public function get_device_list () {
         // 是否判断用户权限？得到用户openid，具有权限后才进行后续操作。
+        $retcode = 0;
+
         $openid = get_openid ();
         if ($openid == '-1' || $openid == '-2' || $openid == '')
             $openid = "ornMov9SNy74EZxq-UL5ZPTXQrhc"; //I('openid');
         $access_token = get_access_token ();
         error_log("\nwindsome ".__METHOD__." ".__LINE__.", openid:".$openid.",access_token=".$access_token, 3, PHP_LOG_PATH);
 
-        $devices = $this->get_bind_device_1 ($openid, $access_token); 
-
-        $Model = M('wxdevice_devices');
-        
-        $arr = array();
-        foreach ( $devices as $device ) {
-            error_log("\nwindsome ".__METHOD__." ".__LINE__.", device=".json_encode($device), 3, PHP_LOG_PATH);
-            $cond1['deviceid'] = $device ['device_id'];
-            //$cond1['type'] = $device ['type'];
-            $exist_device = $Model->where($cond1)->find();
-            // check device type, return device tree.
-            if ($exist_device != null) {
-                error_log("\nwindsome ".__METHOD__." ".__LINE__.", exist_device=".json_encode($exist_device), 3, PHP_LOG_PATH);
-                //$device ['mac'] = $exist_device ['mac'];
-                //$device ['uid'] = $exist_device ['uuid'];
-                //var_dump ($device);
-                $arr[] = $exist_device;
+        $param ['openid'] = $openid;
+        $param ['access_token'] = $access_token;
+        $url = 'https://api.weixin.qq.com/device/get_bind_device?' . http_build_query ( $param );
+        $content = file_get_contents ( $url );
+        error_log("\nwindsome ".__METHOD__." ".__LINE__.", url:".$url.",\ncontent=".$content, 3, PHP_LOG_PATH);
+		$content = json_decode ( $content, true );
+        if ($content['errcode']) $retcode = (int)$content['errcode'];
+        if ($retcode == 0) {
+            $resp_msg = $content ['resp_msg'];
+            if ($resp_msg) {
+                $retcode = (int) $resp_msg['ret_code'];
+                if ($retcode != 0) {
+                    $retdata ['retcode'] = $retcode;
+                    $retdata ['response_str'] = $resp_msg['error_info'];
+                }
             }
-		}
+        } else {
+            $retdata ['retcode'] = $retcode;
+            $retdata ['response_str'] = $content['errmsg'];
+        }
+        if ($retcode == 0) {
+            $devices = $content ['device_list'];
+
+            $Model = M('wxdevice_devices');
+            $arr = array();
+            foreach ( $devices as $device ) {
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", try to find device=".json_encode($device), 3, PHP_LOG_PATH);
+                $cond1['deviceid'] = $device ['device_id'];
+                //$original_id = $device ['device_type']; //gh_9e62dd855eff
+                $exist_device = $Model->where($cond1)->find();
+                // check device type, return device tree.
+                if ($exist_device) {
+                    //error_log("\nwindsome ".__METHOD__." ".__LINE__.", ok! find device=".json_encode($exist_device), 3, PHP_LOG_PATH);
+                    $exist_device['info'] = json_decode ($exist_device['info'], true);
+                    $arr[] = $exist_device;
+                } else if ($exist_device == null) {
+                    // no device.
+                    error_log("\nwindsome ".__METHOD__." ".__LINE__.", warning! not find device: ".json_encode($device), 3, PHP_LOG_PATH);
+                } else {
+                    // false. sql query fail.
+                    error_log("\nwindsome ".__METHOD__." ".__LINE__.", error! sql fail!  ".json_encode($device), 3, PHP_LOG_PATH);
+                }
+            }
         
-        $content ['response'] = 'success';
-        $content ['device_list'] = $arr;
-        error_log("\nwindsome ".__METHOD__." ".__LINE__.", device_list:".json_encode($content), 3, PHP_LOG_PATH);
+            $retdata ['response'] = 'success';
+            $retdata ['device_list'] = $arr;
+        } else {
+            $retdata ['response'] = 'fail';
+        }
         
-        //var_dump ($content);
-        $this->ajaxReturn($content, 'json');
+        //var_dump ($retdata);
+        error_log("\nwindsome ".__METHOD__." ".__LINE__.", device_list:".json_encode($retdata), 3, PHP_LOG_PATH);
+        $this->ajaxReturn($retdata, 'json');
     }
 
 	public function datax () {
@@ -309,9 +383,8 @@ class DeviceController extends Controller {
           {"deviceid":"12345678901234567890123456789032", "sensors":[{"subid":"1","type":"temp","data":[[1460707899000,20.33],[1460707945000,21.0]]},{"subid":"2","type":"humi","data":[[1460707899000,20.33],[1460707945000,21.0]]},{"subid":"3","type":"co2","data":[[1460707899000,20.33],[1460707945000,21.0]]},{"subid":"4","type":"lm","data":[[1460707899000,20.33],[1460707945000,21.0]]}]}
          */
         $deviceid = I ('deviceid', '');        
-        $begintime = I ('begintime', -1);
-        $endtime = I ('endtime', -1);
-        $current_time = time();
+        $begintime = (int) I ('begintime', -1);
+        $endtime = (int) I ('endtime', time());
 
         if ($deviceid == '' || $begintime < 0) {
             $content ['response'] = 'fail';
@@ -325,18 +398,11 @@ class DeviceController extends Controller {
             $this->ajaxReturn($content);
             return;
         }
-        if ($endtime < 0 && (($current_time-$begintime)>60*60*24*366)) {
-            $content ['response'] = 'fail';
-            $content ['msg'] = 'parameter error! time should not across one year! begintime='.$begintime.',current_time='.$current_time;
-            $this->ajaxReturn($content);
-            return;
-        }
 
         $condition['deviceid'] = $deviceid;
-        $condition['time'] = array('gt',$begintime);
-        if ($endtime > 0) {
-            $condition['time'] = array('lt',$endtime);
-        }
+        //$condition['time'] = array('gt',$begintime);
+        //$condition['time'] = array('lt',$endtime);
+        $condition['time'] = array(array('gt',$begintime),array('lt',$endtime));
 
         $sensors = array();
         $Model = M('wxdevice_datax');
@@ -354,7 +420,8 @@ class DeviceController extends Controller {
                     $sensor['name'] = $data['type'].$data['subid'];
                     $sensor['data'] = array();
                 }
-                $sensor['data'][] = array($data['time']*1000, $data['val']);
+                $sensor['data'][] = array((int)$data['time'], (double)$data['val']);
+                //$sensor['data'][] = array($data['time']*1000, $data['val']);
             }
             if ($sensor != null)
                 $sensors[] = $sensor;
@@ -362,6 +429,8 @@ class DeviceController extends Controller {
 
         $content['deviceid'] = $deviceid;
         $content['sensors'] = $sensors;
+        $content['begintime'] = $begintime;
+        $content['endtime'] = $endtime;
 
         $content ['response'] = 'success';
         $content ['datax_count'] = count($datas);
@@ -376,8 +445,7 @@ class DeviceController extends Controller {
           {"deviceid":"12345678901234567890123456789032", "sensors":[{"subid":"1","type":"temp","data":[[1460707899000,20.33]]},{"subid":"2","type":"humi","data":[[1460707899000,20.33]]},{"subid":"3","type":"co2","data":[[1460707899000,20.33]]},{"subid":"4","type":"lm","data":[[1460707899000,20.33]]}]}
          */
         $deviceid = I ('deviceid', '');        
-        $begintime = I ('begintime', -1);
-        $current_time = time();
+        $begintime = (int)I ('begintime', -1);
 
         if ($deviceid == '') {
             $content ['response'] = 'fail';
@@ -405,7 +473,8 @@ class DeviceController extends Controller {
                     $sensor['type'] = $data['type'];
                     $sensor['name'] = $data['type'].$data['subid'];
                     $sensor['data'] = array();
-                    $sensor['data'][] = array($data['time']*1000, $data['val']);
+                    //$sensor['data'][] = array($data['time']*1000, $data['val']);
+                    $sensor['data'][] = array((int)$data['time'], (double)$data['val']);
                     $sensors[] = $sensor;
                 }
             }
@@ -413,13 +482,91 @@ class DeviceController extends Controller {
 
         $content['deviceid'] = $deviceid;
         $content['sensors'] = $sensors;
+        $content['begintime'] = $begintime;
+        $content['endtime'] = time();
 
         $content ['response'] = 'success';
         $content ['datax_count'] = count($sensors);
         $this->ajaxReturn($content);
 	}
 
-    function http_post_json($url, $jsonStr) {
+	public function getDataxLatestList () {
+        /*
+          params: 
+          $deviceid: device's id.
+          $begintime: data's begin time.
+          {"deviceid":"12345678901234567890123456789032", "sensors":[{"subid":"1","type":"temp","data":[[1460707899000,20.33]]},{"subid":"2","type":"humi","data":[[1460707899000,20.33]]},{"subid":"3","type":"co2","data":[[1460707899000,20.33]]},{"subid":"4","type":"lm","data":[[1460707899000,20.33]]}]}
+
+          sql: select a.* from dc_wxdevice_datax a, (SELECT *,max(time) as mtime FROM `dc_wxdevice_datax` where time>1460690690 group by deviceid,subid) b where a.time=b.time and a.deviceid=b.deviceid and a.subid=b.subid;
+         */
+        $deviceid = I ('deviceid', '');
+        if($begintime = (int)I ('begintime', -1) == -1) {
+            $begintime = (int)I('get.begintime', -1);
+        }
+        $endtime = (int) I ('endtime', time());
+
+        $post = wp_file_get_contents ( 'php://input' );        
+        error_log("\nwindsome ".__METHOD__." ".__LINE__.", post:".$post.",db_PREFIX=".C('__WXDEVICE_DEVICES__'), 3, PHP_LOG_PATH);
+        $post = json_decode ($post, true);
+
+        $cond = array();
+        if ($begintime >= 0) {
+            $cond[] = '(time>'.$begintime.')';
+        }
+        if ($endtime >= 0) {
+            $cond[] = '(time<'.$endtime.')';
+        }
+
+        if ($deviceid != '') {
+            $cond[] = "(deviceid=\'".$deviceid."\')";
+        } else {
+            if ($post && $post['devices'] && count($post['devices']) > 0) {
+                $devices = "'".implode("','",$post['devices'])."'";
+                $cond[] = "deviceid in (".$devices.")";
+            }
+        }
+
+        $cond1 = implode(" and ", $cond);
+        $str = "select a.* from __PREFIX__wxdevice_datax a, (SELECT *,max(time) as mtime FROM __PREFIX__wxdevice_datax where ".$cond1." group by deviceid,subid) b where a.time=b.mtime and a.deviceid=b.deviceid and a.subid=b.subid";
+        $str = "select a.* from dc_wxdevice_datax a, (SELECT *,max(time) as mtime FROM dc_wxdevice_datax where ".$cond1." group by deviceid,subid) b where a.time=b.mtime and a.deviceid=b.deviceid and a.subid=b.subid";
+        error_log("\nwindsome ".__METHOD__." ".__LINE__.", sql: ".$str, 3, PHP_LOG_PATH);
+        $Model = new \Think\Model(); // 实例化一个model对象 没有对应任何数据表
+        $datax = $Model->query($str);
+        if ($datax) {
+            $content['datax'] = $datax;
+            $content['begintime'] = $begintime;
+            $content['endtime'] = $endtime;
+            $content ['response'] = 'success';
+            $content ['datax_count'] = count($datax);
+        } else if ($datax == null){
+            error_log("\nwindsome ".__METHOD__." ".__LINE__.", get no record", 3, PHP_LOG_PATH);
+            $content['datax'] = array();
+            $content['begintime'] = $begintime;
+            $content['endtime'] = $endtime;
+            $content ['response'] = 'success';
+            $content ['datax_count'] = 0;
+        } else {
+            error_log("\nwindsome ".__METHOD__." ".__LINE__.", get datax fail", 3, PHP_LOG_PATH);
+            $content ['response'] = 'fail';
+        }
+        $this->ajaxReturn($content);
+	}
+
+	public function _wx_post_json ($url, $body) {
+        // post to weixin.
+        list($retcode, $content) = $this->_http_post_json ($url, $body);
+        error_log("\nwindsome ". __METHOD__." ".__LINE__.", url=".$url.", body=".$body.", \nretcode=".$retcode.",content=".$content, 3, PHP_LOG_PATH);
+        if ($retcode == '200') {
+            // curl request ok.
+            $content = json_decode ( $content, true );
+            return (int)$content['errcode']; 
+        } else {
+            // curl request fail.
+            return -1;
+        }
+	}
+
+    function _http_post_json($url, $jsonStr) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_URL, $url);

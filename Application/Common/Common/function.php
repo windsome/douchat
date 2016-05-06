@@ -1532,12 +1532,28 @@ function get_openid($openid = NULL) {
 		session ( 'openid_' . $token, $_REQUEST ['openid'] );
 	}
 	$openid = session ( 'openid_' . $token );
-	
+	debugtrace();
 	$isWeixinBrowser = isWeixinBrowser ();
     error_log("\nwindsome ".__METHOD__.' '.__LINE__.' openid='.$openid.',token='.$token.',isWeixinBrowser='.$isWeixinBrowser, 3, PHP_LOG_PATH);
     //error_log("\nwindsome: stack:".print_r(debug_backtrace(), true), 3, PHP_LOG_PATH);
 	if ((empty ( $openid ) || $openid == '-1') && $isWeixinBrowser && $_REQUEST ['openid'] != '-2' && IS_GET && ! IS_AJAX) {
 		$callback = GetCurUrl ();
+/*
+        $traceStr = "";
+        $index = 0;
+        $traces = debug_backtrace();
+        foreach ($traces as $trace){
+            $args = $trace['args'];
+            $argsStr = "";
+            foreach ($args as $arg) {
+                $argsStr = $argsStr.' '.$arg;
+            }
+            $traceStr = $traceStr."\n".$index."\t".$trace['function'].'('.$argsStr.")\t".$trace['file'].':'.$trace['line'];
+            $index = $index+1;
+        }
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' stack='.$traceStr, 3, PHP_LOG_PATH);
+*/        
+        //error_log("\nwindsome ".__METHOD__.' '.__LINE__.' stack='.print_r(debug_backtrace(), true), 3, PHP_LOG_PATH);
         error_log("\nwindsome ".__METHOD__.' '.__LINE__.' callback='.$callback.',token='.$token, 3, PHP_LOG_PATH);
 		OAuthWeixin ( $callback, $token );
 	}
@@ -1595,10 +1611,10 @@ function getPaymentOpenid($appId = "", $serect = "") { // echo '444';
 function get_token($token = NULL) {
 	$stoken = session ( 'token' );
 	$domain = explode ( '.', SITE_DOMAIN );
-    error_log("\nwindsome ". __METHOD__. ',stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
+    error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
     	
 	if ($token !== NULL && $token != '-1') {
-        error_log("\nwindsome ". __METHOD__. ', 1'.$token, 3, PHP_LOG_PATH);
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
 		session ( 'token', $token );
 	} elseif (empty ( $stoken ) && C ( 'DIV_DOMAIN' ) && ! is_numeric ( $domain [0] ) && SITE_DOMAIN != 'localhost') { // 泛域名支持
 		$domain = explode ( '.', SITE_DOMAIN );
@@ -1606,15 +1622,15 @@ function get_token($token = NULL) {
 		! $GLOBALS ['is_wap'] && $GLOBALS ['mid'] && $map ['uid'] = $GLOBALS ['uid'];
 		$token = D ( 'Common/Public' )->where ( $map )->getField ( 'token' );
 		$token && session ( 'token', $token );
-        error_log("\nwindsome ". __METHOD__. ', 2'.$token, 3, PHP_LOG_PATH);
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
 	} elseif (! empty ( $_REQUEST ['token'] ) && $_REQUEST ['token'] != '-1') {
 		session ( 'token', $_REQUEST ['token'] );
-        error_log("\nwindsome ". __METHOD__. ', 3'.$token, 3, PHP_LOG_PATH);
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
 	} elseif (! empty ( $_REQUEST ['publicid'] )) {
 		$publicid = I ( 'publicid' );
 		$token = D ( 'Common/Public' )->getInfo ( $publicid, 'token' );
 		$token && session ( 'token', $token );
-        error_log("\nwindsome ". __METHOD__. ', 4'.$token, 3, PHP_LOG_PATH);
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
 	}
 	$token = session ( 'token' );
 	
@@ -1625,10 +1641,10 @@ function get_token($token = NULL) {
 			
 			$token = $user ['has_public'] ? D ( 'Common/Public' )->where ( $map )->getField ( 'token' ) : DEFAULT_TOKEN;
 			isset ( $user ['has_public'] ) && $token && session ( 'token', $token );
-            error_log("\nwindsome ". __METHOD__. ', 5'.$token, 3, PHP_LOG_PATH);
+            error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
 		} else {
 			$token = DEFAULT_TOKEN;
-            error_log("\nwindsome ". __METHOD__. ', 6'.$token, 3, PHP_LOG_PATH);
+            error_log("\nwindsome ".__METHOD__.' '.__LINE__.' ,stoken='.$stoken.',token='.$token, 3, PHP_LOG_PATH);
 		}
 	}
 	
@@ -1658,7 +1674,8 @@ function getWeixinUserInfo($openid) {
 function get_token_appinfo($token = '', $field = '') {
 	empty ( $token ) && $token = get_token ();
 	$info = D ( 'Common/Public' )->getInfoByToken ( $token, $field );
-    error_log("\nwindsome ". __METHOD__. ',token='.$token.',info='. print_r($info, true), 3, PHP_LOG_PATH);
+    error_log("\nwindsome ".__METHOD__.' '.__LINE__.' token='.$token, 3, PHP_LOG_PATH);
+    //error_log("\nwindsome ". __METHOD__. ',token='.$token.',info='. print_r($info, true), 3, PHP_LOG_PATH);
 	return $info;
 }
 // 兼容旧方法
@@ -1714,9 +1731,11 @@ function get_access_token_by_apppid($appid, $secret) {
 }
 
 function OAuthWeixin($callback, $token = '') { // echo '444';
-	if ((defined ( 'IN_WEIXIN' ) && IN_WEIXIN) || isset ( $_GET ['is_stree'] ))
+	if ((defined ( 'IN_WEIXIN' ) && IN_WEIXIN) || isset ( $_GET ['is_stree'] )) {
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' IN_WEIXIN='.IN_WEIXIN.',is_stree='.$_GET['is_stree'], 3, PHP_LOG_PATH);
 		return false;
-	
+	}
+
 	$callback = urldecode ( $callback );
 	$isWeixinBrowser = isWeixinBrowser (); // echo '555';die();
 	$info = get_token_appinfo ( $token );
@@ -1728,6 +1747,7 @@ function OAuthWeixin($callback, $token = '') { // echo '444';
 	}
 	
 	if (! $isWeixinBrowser || ! C ( 'USER_OAUTH' ) || empty ( $info ['appid'] )) {
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' callback='.$callback.'openid=-2', 3, PHP_LOG_PATH);
 		redirect ( $callback . 'openid=-2' );
 	}
 	$param ['appid'] = $info ['appid'];
@@ -1739,7 +1759,7 @@ function OAuthWeixin($callback, $token = '') { // echo '444';
 		$param ['state'] = 123;
 		
 		$url = 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query ( $param ) . '#wechat_redirect';
-        error_log("\nwindsome1: OAuthWeixin,url1=".$url, 3, PHP_LOG_PATH);
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' url='.$url, 3, PHP_LOG_PATH);
 		redirect ( $url );
 	} elseif ($_GET ['state']) {
 		$param ['secret'] = $info ['secret'];
@@ -1749,6 +1769,7 @@ function OAuthWeixin($callback, $token = '') { // echo '444';
 		$url = 'https://api.weixin.qq.com/sns/oauth2/access_token?' . http_build_query ( $param );
 		$content = file_get_contents ( $url );
 		$content = json_decode ( $content, true );
+        error_log("\nwindsome ".__METHOD__.' '.__LINE__.' callback='.$callback.'openid='.$content['openid'], 3, PHP_LOG_PATH);
 		redirect ( $callback . 'openid=' . $content ['openid'] );
 	}
 }
@@ -4108,6 +4129,7 @@ function getJsApiParameters($data=array()){
 	$price= $data['price'];
 	// $orderid='4534545343';
 	// $price=0.01;
+    error_log("\nwindsome ".__METHOD__.' '.__LINE__.' openid='.get_openid().', token='.get_token(), 3, PHP_LOG_PATH);
 	
 	//=========步骤1：使用统一支付接口，获取prepay_id============
 	//使用统一支付接口
@@ -4416,4 +4438,20 @@ function is_follow($openid){
 	}else{
 	    return 0;       
 	}
+}
+
+function debugtrace ($header = '') {
+    $traceStr = $header;
+    $index = 0;
+    $traces = debug_backtrace();
+    foreach ($traces as $trace){
+        $args = $trace['args'];
+        $argsStr = "";
+        foreach ($args as $arg) {
+            $argsStr = $argsStr.' '.$arg;
+        }
+        $traceStr = $traceStr."\n".$index."\t".$trace['function'].'('.$argsStr.")\t".$trace['file'].':'.$trace['line'];
+        $index = $index+1;
+    }
+    error_log("\nwindsome ".__METHOD__.' '.__LINE__.' stack='.$traceStr, 3, PHP_LOG_PATH);
 }

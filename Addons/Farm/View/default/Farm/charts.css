@@ -133,3 +133,84 @@
   color: #fff;
   font-weight: 700
 }
+
+
+.d3 {
+  font: 10px sans-serif;
+  border: 1px solid #555;
+}
+
+.d3-point {
+  fill: #2B8FF3;
+  stroke: #1D5FA2;
+  stroke-width: 2;
+}
+
+.d3-tooltip-rect {
+  fill: #fff;
+  stroke: #555;
+  stroke-width: 1;
+}
+
+.d3-tooltip-text {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+.Chart {}
+.ChartLine {
+    width:100%;
+    padding-bottom:76%;
+}
+.ChartLine > svg {
+    position:absolute;
+}
+
+  .node circle {
+    cursor: pointer;
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
+
+  .node text {
+    font-size: 12px;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
+
+
+  .axis path,
+  .axis line{
+    fill: none;
+    stroke: black;
+  }
+
+  .line{
+    fill: none;
+    stroke: blue;
+    stroke-width: 2px;
+  }
+
+  .tick text{
+    font-size: 12px;
+  }
+
+  .tick line{
+    opacity: 0.2;
+  }
+  
+
+.qrcode {
+    width:160px;
+    height:160px;
+}
+
+.text-content{
+    text-indent: 2em; /*em是相对单位，2em即现在一个字大小的两倍*/
+}
