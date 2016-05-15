@@ -360,7 +360,7 @@ class DeviceController extends Controller {
             //$val = $sensor['val'];
             $data = $sensor;
             $data['deviceid'] = $deviceid;
-            $data['time']=time();
+            $data['time']=NOW_TIME;
             $data = $Model->create($data);
             if ($data) {
                 $Model->add();
@@ -369,8 +369,26 @@ class DeviceController extends Controller {
             }
         }
 
-        $content ['response'] = 'success';
-        $content ['datax_count'] = $count;
+        $Model2 = M('wxdevice_cmd');
+        $cond1['deviceid']=$deviceid;
+        $cond1['_string'] = 'pTime is null OR pTime=""';
+        $exist = $Model->where($cond1)->find();
+        if ($exist) {
+            $exist['cmd'] = json_encode($db_cmd);
+            $exist['pTime'] = NOW_TIME;
+            $content = json_decode($exist['cmd']);
+            $cond2['id'] = $exist['id'];
+            $ret2 = $Model2->where($cond2)->save($exist);
+            if ($ret2 === false) {
+                error_log("\nwindsome ".__METHOD__." ".__LINE__.", sql updated fail!", 3, PHP_LOG_PATH);
+            } else if ($ret2 == 0) {
+                error_log("\nwindsome ".__METHOD__." ".__LINE__.", warning: sql updated none record! should not go here!", 3, PHP_LOG_PATH);
+            }
+        } else {
+            $content ['response'] = 'success';
+            $content ['datax_count'] = $count;
+        }
+        error_log("\nwindsome ".__METHOD__." ".__LINE__.", content=".json_encode($content), 3, PHP_LOG_PATH);
         $this->ajaxReturn($content);
 	}
 
@@ -596,5 +614,197 @@ class DeviceController extends Controller {
 		/* 用户登录检测 */
 		is_login() || $this->error('您还没有登录，请先登录！', U('User/login'));
 	}
+
+    public function firmwareUpload() {
+        error_log("\nwindsome ". __METHOD__." ".__LINE__, 3, PHP_LOG_PATH);
+        $result['errcode'] = 0;
+        $result['msg'] = 'no error';
+
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize   = 10*1024*1024;// 设置附件上传大小
+        $upload->exts      = array('bin', 'BIN', 'hex', 'jpg', 'JPG', 'png', 'PNG', 'txt', 'TXT', 'doc', 'DOC', 'PDF' );// 设置附件上传类型
+        $upload->rootPath  = './Uploads/'; // 设置附件上传根目录
+        $upload->savePath  = 'Firmware/'; // 设置附件上传（子）目录
+        $upload->saveName = time().'_'.mt_rand();
+        // 上传文件 
+        $info = $upload->upload();
+        if (!$info) {// 上传错误提示错误信息
+            $result['errcode'] = 10003;
+            $result['msg'] = 'upload firmware fail: '.$upload->getError();
+            //$this->error ($upload->getError());
+        } else {// 上传成功
+            $Model = M('wxdevice_firmware');
+            $count = 0;
+            foreach($info as $file){
+                $count++;
+                $data['cTime'] = NOW_TIME;
+                $data['filepath'] = $file['savepath'].$file['savename'];
+                $data['desc'] = $file['name'];
+                $data['manager_id'] = $this->mid;
+                $Model->add ($data);
+            }
+
+            $result['errcode'] = 0;
+            $result['msg'] = 'upload firmware ok';
+            $result['firmware_count'] = $count;
+            //$this->success('上传成功！');
+        }
+        error_log("\nwindsome ". __METHOD__." ".__LINE__.":".json_encode($result), 3, PHP_LOG_PATH);
+        
+        $this->ajaxReturn($result);
+    }
+
+    public function firmwareDelete() {
+        error_log("\nwindsome ". __METHOD__." ".__LINE__, 3, PHP_LOG_PATH);
+        $result['errcode'] = 0;
+        $result['msg'] = 'no error';
+        $post = wp_file_get_contents ( 'php://input' );        
+        $post = json_decode ($post, true);
+        $firmware_id = $post['id'];
+
+        $Model = M('wxdevice_firmware');
+        $cond1['id'] = $firmware_id;
+        $data = $Model->where($cond1)->find();
+        if ($data) {
+            $path = SITE_PATH . '/Uploads/' . $data['filepath'];
+            $db_ret = $Model->delete($firmware_id);
+            $res = unlink($path);//删除文件
+
+            if($db_ret && $res){
+                $result['errcode'] = 0;
+                $result['msg'] = 'delete firmware ok!';
+                //$this->success('文件成功删除！！',U('Upload/fileList'));
+            } else if ($db_ret) {
+                $result['errcode'] = 10005;
+                $result['msg'] = 'delete firmware database record ok, but delete file fail! id='. $firmware_id.', file='.$path;
+                //$this->error('文件删除失败或者文件不存在！！',U('Upload/fileList'));
+            } else {
+                $result['errcode'] = 10006;
+                $result['msg'] = 'delete firmware database record fail, but delete file ok! id='. $firmware_id.', file='.$path;
+            }
+        } else {
+            $result['errcode'] = 10004;
+            $result['msg'] = 'not find firmware which id = '.$firmware_id;
+        }
+        $this->ajaxReturn($result);
+    }
+
+	public function firmwareList () {
+        // 是否判断用户权限？得到用户openid，具有权限后才进行后续操作。
+        //$openid = get_openid ();
+        error_log("\nwindsome ". __METHOD__." ".__LINE__.",SITE_PATH=".SITE_PATH.",SITE_URL=".SITE_URL.", __ROOT__=".__ROOT__.",APP_PATH=".APP_PATH, 3, PHP_LOG_PATH);
+
+        $result['errcode'] = 0;
+        $result['msg'] = 'no error';
+        $post = wp_file_get_contents ( 'php://input' );        
+        $post = json_decode ($post, true);
+        
+        $name = $post['name'];
+
+        $Model = M('wxdevice_firmware');
+        if ($name)
+            $cond1['desc'] = array('like','%'.$name.'%');
+        else
+            $cond1['1'] = '1';
+
+        $datas = $Model->where($cond1)->order(array('cTime'=>'desc'))->select();
+        if ($datas) {
+            $datas2 = array();
+            foreach ($datas as $data) {
+                if ($data) {
+                    $data['filepath'] = SITE_URL.'/Uploads/'.$data['filepath'];
+                    //$data['filepath'] = __ROOT__.'/Uploads/'.$data['filepath'];
+                    $datas2[] = $data;
+                }
+            }
+
+            $result['datas'] = $datas2;
+            $result['errcode'] = 0;
+            $result['msg'] = 'no error';
+            error_log("\nwindsome ".__METHOD__." ".__LINE__.", find firmware list:".json_encode($datas2), 3, PHP_LOG_PATH);
+        } else {
+            $result['errcode'] = 10002;
+            $result['msg'] = 'no firmware';
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", no firmware in db.", 3, PHP_LOG_PATH);
+        }
+
+        $this->ajaxReturn($result);
+	}
+
+    public function updateCmd() {
+        /************************
+         * { devices:['deviceid1', 'deviceid2'], 
+         *   cmds:{update:"http://www.what.net/file/path.bin", setuuid:'uuid'}}
+         ************************/
+        error_log("\nwindsome ". __METHOD__." ".__LINE__, 3, PHP_LOG_PATH);
+        $result['errcode'] = 0;
+        $result['msg'] = 'no error';
+        $post = wp_file_get_contents ( 'php://input' );        
+        $post = json_decode ($post, true);
+
+        $devices = $post['devices'];
+        $cmds = $post['cmds'];
+
+        $Model = M('wxdevice_cmd');
+        $failcount = 0;
+
+        foreach ( $devices as $deviceid ) {
+            $cond1['deviceid'] = $deviceid;
+            //$cond1['pTime']  = array('exp',' is NULL');
+            $cond1['_string'] = 'pTime is null OR pTime=""';
+            $exist = $Model->where($cond1)->find();
+            if ($exist) {
+                error_log("\nwindsome ".__METHOD__." ".__LINE__.", exist=".json_encode($exist), 3, PHP_LOG_PATH);
+                $db_cmd = json_decode($exist['cmd']);
+                error_log("\nwindsome ".__METHOD__." ".__LINE__.", $db_cmd=".print_r($db_cmd,true), 3, PHP_LOG_PATH);
+                
+                foreach($cmds as $k=>$v){ 
+                    error_log("\nwindsome ".__METHOD__." ".__LINE__.", k=".$k.",v=".$v, 3, PHP_LOG_PATH);
+                    //echo $k."=>".$v."<br />"; 
+                    //$db_cmd[$k+""] = $v;
+                    $db_cmd->{$k} = $v;
+                }
+                $exist['cmd'] = json_encode($db_cmd);
+                $exist['cTime'] = NOW_TIME;
+                error_log("\nwindsome ".__METHOD__." ".__LINE__.", updated=".$exist['cmd'], 3, PHP_LOG_PATH);
+                $cond2['id'] = $exist['id'];
+                $ret2 = $Model->where($cond2)->save($exist);
+                if ($ret2 === false) {
+                    error_log("\nwindsome ".__METHOD__." ".__LINE__.", sql updated fail!", 3, PHP_LOG_PATH);
+                    $failcount++;
+                    //fail
+                } else if ($ret2 == 0) {
+                    error_log("\nwindsome ".__METHOD__." ".__LINE__.", warning: sql updated none record! should not reach here!", 3, PHP_LOG_PATH);
+                    $failcount++;
+                }
+            } else if ($exist == null) {
+                // null cmd.
+                $exist['cTime'] = NOW_TIME;
+                $exist['deviceid'] = $deviceid;
+                $exist['cmd'] = json_encode($cmds);
+                $exist = $Model->create($exist);
+                if ($exist) {
+                    $ret2 = $Model->add();
+                    if (!$ret2) {
+                        error_log("\nwindsome ".__METHOD__." ".__LINE__.", sql add fail!", 3, PHP_LOG_PATH);
+                        $failcount++;
+                    }
+                } else {
+                    error_log("\nwindsome ".__METHOD__." ".__LINE__.", sql create fail!", 3, PHP_LOG_PATH);
+                }
+            } else {
+                error_log("\nwindsome ".__METHOD__." ".__LINE__.", sql query fail!", 3, PHP_LOG_PATH);
+                // fail
+                $failcount++;
+            }
+		}
+
+        if ($failcount > 0) {
+            $result['errcode'] = 10007;
+            $result['msg'] = 'there are some error, please lookup error log.';
+        }
+
+        $this->ajaxReturn($result);
+    }
 
 }
