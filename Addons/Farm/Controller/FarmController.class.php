@@ -56,4 +56,8 @@ class FarmController extends AddonsController{
         $this->display ();
     }
 
+    function testPage2 () {
+        $this->display ();
+    }
+
 }

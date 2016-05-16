@@ -372,11 +372,13 @@ class DeviceController extends Controller {
         $Model2 = M('wxdevice_cmd');
         $cond1['deviceid']=$deviceid;
         $cond1['_string'] = 'pTime is null OR pTime=""';
-        $exist = $Model->where($cond1)->find();
+        $exist = $Model2->where($cond1)->find();
         if ($exist) {
-            $exist['cmd'] = json_encode($db_cmd);
-            $exist['pTime'] = NOW_TIME;
             $content = json_decode($exist['cmd']);
+            //error_log("\nwindsome ".__METHOD__." ".__LINE__.", content=".print_r($content,true), 3, PHP_LOG_PATH);
+
+            //$content = json_encode($content,JSON_UNESCAPED_SLASHES);
+            $exist['pTime'] = NOW_TIME;
             $cond2['id'] = $exist['id'];
             $ret2 = $Model2->where($cond2)->save($exist);
             if ($ret2 === false) {
@@ -388,8 +390,10 @@ class DeviceController extends Controller {
             $content ['response'] = 'success';
             $content ['datax_count'] = $count;
         }
-        error_log("\nwindsome ".__METHOD__." ".__LINE__.", content=".json_encode($content), 3, PHP_LOG_PATH);
-        $this->ajaxReturn($content);
+        $content2 = stripslashes(json_encode($content));
+        error_log("\nwindsome ".__METHOD__." ".__LINE__.", content2=".$content2, 3, PHP_LOG_PATH);
+        //$this->ajaxReturn($content, 'JSON', JSON_UNESCAPED_SLASHES);
+        exit ($content2);
 	}
 
 	public function getDataxHistory () {
@@ -754,10 +758,18 @@ class DeviceController extends Controller {
             $cond1['_string'] = 'pTime is null OR pTime=""';
             $exist = $Model->where($cond1)->find();
             if ($exist) {
-                error_log("\nwindsome ".__METHOD__." ".__LINE__.", exist=".json_encode($exist), 3, PHP_LOG_PATH);
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", exist=".print_r($exist, true), 3, PHP_LOG_PATH);
                 $db_cmd = json_decode($exist['cmd']);
-                error_log("\nwindsome ".__METHOD__." ".__LINE__.", $db_cmd=".print_r($db_cmd,true), 3, PHP_LOG_PATH);
-                
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", tttt1: db_cmd=".print_r($db_cmd,true), 3, PHP_LOG_PATH);
+                //$db_cmd2 = json_encode($db_cmd, JSON_UNESCAPED_SLASHES);
+                //$db_cmd3 = json_encode($db_cmd);
+                //$db_cmd4 = str_replace('\\/', '/', json_encode($db_cmd));
+                //$db_cmd5 = stripslashes(json_encode($db_cmd));
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", tttt2: db_cmd2=".$db_cmd2, 3, PHP_LOG_PATH);
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", tttt3: db_cmd3=".$db_cmd3, 3, PHP_LOG_PATH);
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", tttt4: db_cmd4=".$db_cmd4, 3, PHP_LOG_PATH);
+                //error_log("\nwindsome ".__METHOD__." ".__LINE__.", tttt5: db_cmd5=".$db_cmd5, 3, PHP_LOG_PATH);
+
                 foreach($cmds as $k=>$v){ 
                     error_log("\nwindsome ".__METHOD__." ".__LINE__.", k=".$k.",v=".$v, 3, PHP_LOG_PATH);
                     //echo $k."=>".$v."<br />"; 

@@ -78,9 +78,13 @@
 
 	var ReactDOM = _interopRequireWildcard(_reactDom);
 
-	var _TestDatax = __webpack_require__(254);
+	var _TestDatax = __webpack_require__(245);
 
 	var _TestDatax2 = _interopRequireDefault(_TestDatax);
+
+	var _TestFirmware = __webpack_require__(249);
+
+	var _TestFirmware2 = _interopRequireDefault(_TestFirmware);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -146,8 +150,8 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { type: 'button', className: 'btn btn-default' },
-	          '测试2'
+	          { type: 'button', className: 'btn btn-default', onClick: this.invokeTest.bind(this, 'firmware') },
+	          '升级文件管理'
 	        ),
 	        _react2.default.createElement(
 	          'button',
@@ -160,7 +164,7 @@
 	    key: 'renderAction',
 	    value: function renderAction() {
 	      var comp;
-	      if (this.state.action == 'datax') comp = _react2.default.createElement(_TestDatax2.default, null);
+	      if (this.state.action == 'datax') comp = _react2.default.createElement(_TestDatax2.default, null);else if (this.state.action == 'firmware') comp = _react2.default.createElement(_TestFirmware2.default, null);
 
 	      return comp;
 	    }
@@ -189,11 +193,11 @@
 
 	ReactDOM.render(_react2.default.createElement(TestPage, null), document.body);
 
-	__webpack_require__(255);
 	__webpack_require__(250);
 	__webpack_require__(251);
 	__webpack_require__(252);
 	__webpack_require__(253);
+	__webpack_require__(254);
 
 /***/ },
 /* 1 */
@@ -21349,72 +21353,6 @@
 
 /***/ },
 /* 245 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var URL_BASE = 'http://lancertech.net/farm/douchat/index.php';
-
-	var URL_BASE_API = URL_BASE + '?s=/Home';
-	var URL_API_DEVICE_BIND = exports.URL_API_DEVICE_BIND = URL_BASE_API + '/Device/device_bind';
-	var URL_API_DEVICE_UNBIND = exports.URL_API_DEVICE_UNBIND = URL_BASE_API + '/Device/device_unbind';
-	var URL_API_DEVICE_BINDTOUSER = exports.URL_API_DEVICE_BINDTOUSER = URL_BASE_API + '/Device/bindToUser';
-	var URL_API_DEVICE_BINDTOUSER2 = exports.URL_API_DEVICE_BINDTOUSER2 = URL_BASE_API + '/Device/bindToUser2';
-	var URL_API_DEVICE_GETBYQRCODE = exports.URL_API_DEVICE_GETBYQRCODE = URL_BASE_API + '/Device/getDeviceByQrcode';
-	var URL_API_DEVICE_GETBINDDEVICE = exports.URL_API_DEVICE_GETBINDDEVICE = URL_BASE_API + '/Device/get_bind_device';
-	var URL_API_DEVICE_GETDEVICELIST = exports.URL_API_DEVICE_GETDEVICELIST = URL_BASE_API + '/Device/get_device_list';
-	var URL_API_DEVICE_DATAX = exports.URL_API_DEVICE_DATAX = URL_BASE_API + '/Device/datax';
-	var URL_API_DEVICE_GETDATAXHISTORY = exports.URL_API_DEVICE_GETDATAXHISTORY = URL_BASE_API + '/Device/getDataxHistory';
-	var URL_BASE_ADDON = URL_BASE + '?s=/addon';
-	var URL_ADDON_DEVICE = exports.URL_ADDON_DEVICE = URL_BASE_ADDON + '/HelloWorld';
-
-/***/ },
-/* 246 */,
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(248), __esModule: true };
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var core  = __webpack_require__(14)
-	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
-	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-	  return $JSON.stringify.apply($JSON, arguments);
-	};
-
-/***/ },
-/* 249 */,
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "charts.css";
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "mqttws31.js";
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "bootstrap.min.css";
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "jquery.min.js";
-
-/***/ },
-/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21423,7 +21361,7 @@
 	  value: true
 	});
 
-	var _stringify = __webpack_require__(247);
+	var _stringify = __webpack_require__(246);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -21455,7 +21393,7 @@
 
 	var ReactDOM = _interopRequireWildcard(_reactDom);
 
-	var _Constants = __webpack_require__(245);
+	var _Constants = __webpack_require__(248);
 
 	var ApiUrl = _interopRequireWildcard(_Constants);
 
@@ -21733,10 +21671,479 @@
 	exports.default = TestDatax;
 
 /***/ },
-/* 255 */
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(247), __esModule: true };
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var core  = __webpack_require__(14)
+	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+/***/ },
+/* 248 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var URL_BASE = 'http://lancertech.net/farm/douchat/index.php';
+
+	var URL_BASE_API = URL_BASE + '?s=/Home';
+	var URL_API_DEVICE_BIND = exports.URL_API_DEVICE_BIND = URL_BASE_API + '/Device/device_bind';
+	var URL_API_DEVICE_UNBIND = exports.URL_API_DEVICE_UNBIND = URL_BASE_API + '/Device/device_unbind';
+	var URL_API_DEVICE_BINDTOUSER = exports.URL_API_DEVICE_BINDTOUSER = URL_BASE_API + '/Device/bindToUser';
+	var URL_API_DEVICE_BINDTOUSER2 = exports.URL_API_DEVICE_BINDTOUSER2 = URL_BASE_API + '/Device/bindToUser2';
+	var URL_API_DEVICE_GETBYQRCODE = exports.URL_API_DEVICE_GETBYQRCODE = URL_BASE_API + '/Device/getDeviceByQrcode';
+	var URL_API_DEVICE_GETBINDDEVICE = exports.URL_API_DEVICE_GETBINDDEVICE = URL_BASE_API + '/Device/get_bind_device';
+	var URL_API_DEVICE_GETDEVICELIST = exports.URL_API_DEVICE_GETDEVICELIST = URL_BASE_API + '/Device/get_device_list';
+	var URL_API_DEVICE_DATAX = exports.URL_API_DEVICE_DATAX = URL_BASE_API + '/Device/datax';
+	var URL_API_DEVICE_GETDATAXHISTORY = exports.URL_API_DEVICE_GETDATAXHISTORY = URL_BASE_API + '/Device/getDataxHistory';
+	var URL_API_DEVICE_GETDATAXLATESTLIST = exports.URL_API_DEVICE_GETDATAXLATESTLIST = URL_BASE_API + '/Device/getDataxLatestList';
+	var URL_API_DEVICE_FW_UPLOAD = exports.URL_API_DEVICE_FW_UPLOAD = URL_BASE_API + '/Device/firmwareUpload';
+	var URL_API_DEVICE_FW_DELETE = exports.URL_API_DEVICE_FW_DELETE = URL_BASE_API + '/Device/firmwareDelete';
+	var URL_API_DEVICE_FW_LIST = exports.URL_API_DEVICE_FW_LIST = URL_BASE_API + '/Device/firmwareList';
+	var URL_API_DEVICE_CMD_UPDATE = exports.URL_API_DEVICE_CMD_UPDATE = URL_BASE_API + '/Device/updateCmd';
+
+	var URL_BASE_ADDON = URL_BASE + '?s=/addon';
+	var URL_ADDON_DEVICE = exports.URL_ADDON_DEVICE = URL_BASE_ADDON + '/HelloWorld';
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _stringify = __webpack_require__(246);
+
+	var _stringify2 = _interopRequireDefault(_stringify);
+
+	var _getPrototypeOf = __webpack_require__(1);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(27);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(28);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(32);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(75);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(87);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(244);
+
+	var ReactDOM = _interopRequireWildcard(_reactDom);
+
+	var _Constants = __webpack_require__(248);
+
+	var ApiUrl = _interopRequireWildcard(_Constants);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var TestFirmware = function (_Component) {
+	  (0, _inherits3.default)(TestFirmware, _Component);
+
+	  function TestFirmware(props) {
+	    (0, _classCallCheck3.default)(this, TestFirmware);
+
+	    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(TestFirmware).call(this, props));
+
+	    _this.state = {
+	      deviceArray: [],
+	      devices: {},
+	      selectedDeviceArray: [],
+
+	      firmwareArray: [],
+	      firmwares: {}
+	    };
+	    return _this;
+	  }
+
+	  (0, _createClass3.default)(TestFirmware, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log("window.location=" + window.location);
+	      this.getFirmwareList(0);
+	      this.getDeviceList(0);
+	    }
+	  }, {
+	    key: 'getDeviceList',
+	    value: function getDeviceList(pageIndex) {
+	      //alert ("try to get devices");
+	      console.log("try to get devices");
+	      this.serverRequest = $.ajax({
+	        type: "POST",
+	        url: ApiUrl.URL_API_DEVICE_GETDEVICELIST,
+	        data: (0, _stringify2.default)({ page: pageIndex }),
+	        contentType: "application/json; charset=utf-8",
+	        dataType: "json",
+	        success: function (data) {
+	          //console.log ("getDeviceList ok:"+JSON.stringify(data));
+	          //alert ("getDeviceList ok:"+JSON.stringify(data));
+	          var devices = data.device_list;
+	          if (devices !== null && devices !== undefined && devices.length > 0) {
+	            console.log("got devices:" + devices.length);
+	            console.log(devices);
+	            //this.setState({devices:devices});
+
+	            var device_array = new Array();
+	            var device_data = {};
+	            for (var i in devices) {
+	              var device = devices[i];
+	              device_array.push(device.id);
+	              device_data[device.id] = device;
+	            }
+	            console.log(device_array);
+	            console.log(device_data);
+	            this.setState({ deviceArray: device_array, devices: device_data });
+	          } else {
+	            console.log("got none device");
+	          }
+	        }.bind(this),
+	        failure: function (errMsg) {
+	          //alert(JSON.stringify(errMsg));
+	          console.log("getDeviceList failure: " + (0, _stringify2.default)(errMsg));
+	        }.bind(this)
+	      });
+	    }
+	  }, {
+	    key: 'getFirmwareList',
+	    value: function getFirmwareList(pageIndex) {
+	      try {
+	        //alert ("try to get firmwares");
+	        console.log("try to get firmwares");
+	        this.serverRequest = $.ajax({
+	          type: "POST",
+	          url: ApiUrl.URL_API_DEVICE_FW_LIST,
+	          data: (0, _stringify2.default)({ page: pageIndex }),
+	          contentType: "application/json; charset=utf-8",
+	          dataType: "json",
+	          success: function (data) {
+	            //console.log ("getFirmwareList ok:"+JSON.stringify(data));
+	            //alert ("getFirmwareList ok:"+JSON.stringify(data));
+	            var firmwares = data.datas;
+	            if (firmwares !== null && firmwares !== undefined && firmwares.length > 0) {
+	              console.log("got firmwares:" + firmwares.length);
+	              console.log(firmwares);
+	              //this.setState({firmwares:firmwares});
+
+	              var firmware_array = new Array();
+	              var firmware_data = {};
+	              for (var i in firmwares) {
+	                var firmware = firmwares[i];
+	                firmware_array.push(firmware.id);
+	                firmware_data[firmware.id] = firmware;
+	              }
+	              console.log(firmware_array);
+	              console.log(firmware_data);
+	              this.setState({ firmwareArray: firmware_array, firmwares: firmware_data });
+	            } else {
+	              console.log("got none firmware");
+	            }
+	          }.bind(this),
+	          failure: function (errMsg) {
+	            //alert(JSON.stringify(errMsg));
+	            console.log("getFirmwareList failure: " + (0, _stringify2.default)(errMsg));
+	          }.bind(this)
+	        });
+	      } catch (e) {
+	        console.log(e);
+	      }
+	    }
+	  }, {
+	    key: 'uploadFile',
+	    value: function uploadFile() {
+	      try {
+	        console.log("uploadFile:");
+	        var self = this;
+	        var formData = new FormData();
+	        //formData.append('file', $('#file')[0].files[0]);
+	        formData.append('file', this.refs.file.files[0]);
+	        console.log(formData);
+	        $.ajax({
+	          url: ApiUrl.URL_API_DEVICE_FW_UPLOAD,
+	          type: 'POST',
+	          cache: false,
+	          data: formData,
+	          processData: false,
+	          contentType: false,
+	          success: function success(res) {
+	            alert("result: " + (0, _stringify2.default)(res));
+	            self.getFirmwareList(0);
+	          },
+	          failure: function failure(res) {
+	            alert("result: " + (0, _stringify2.default)(res));
+	          }
+	        });
+	      } catch (e) {
+	        console.log(e);
+	      }
+	    }
+	  }, {
+	    key: 'deleteFirmware',
+	    value: function deleteFirmware(id) {
+	      try {
+	        var self = this;
+	        $.ajax({
+	          type: "POST",
+	          url: ApiUrl.URL_API_DEVICE_FW_DELETE,
+	          data: (0, _stringify2.default)({ id: id }),
+	          contentType: "application/json; charset=utf-8",
+	          dataType: "json",
+
+	          success: function success(res) {
+	            alert("result: " + (0, _stringify2.default)(res));
+	            self.getFirmwareList(0);
+	          },
+	          failure: function failure(res) {
+	            alert("result: " + (0, _stringify2.default)(res));
+	            self.getFirmwareList(0);
+	          }
+	        });
+	      } catch (e) {
+	        console.log(e);
+	      }
+	    }
+	  }, {
+	    key: 'handleUpgrade',
+	    value: function handleUpgrade(url) {
+	      var _this2 = this;
+
+	      console.log("selectedDeviceArray:" + (0, _stringify2.default)(this.state.selectedDeviceArray) + ", url = " + url);
+	      try {
+	        var self = this;
+	        var devices = this.state.selectedDeviceArray.map(function (id, index) {
+	          var device = _this2.state.devices[id];
+	          return device && device.deviceid;
+	        });
+	        $.ajax({
+	          type: "POST",
+	          url: ApiUrl.URL_API_DEVICE_CMD_UPDATE,
+	          data: (0, _stringify2.default)({ devices: devices, cmds: { update: url } }),
+	          //data: JSON.stringify({devices:devices, cmds:{update:url, setinterval:300} }),
+	          contentType: "application/json; charset=utf-8",
+	          dataType: "json",
+
+	          success: function success(res) {
+	            alert("result: " + (0, _stringify2.default)(res));
+	          },
+	          failure: function failure(res) {
+	            alert("result: " + (0, _stringify2.default)(res));
+	          }
+	        });
+	      } catch (e) {
+	        console.log(e);
+	      }
+	    }
+	  }, {
+	    key: 'handleDeviceChange',
+	    value: function handleDeviceChange(e) {
+	      console.log("handleDeviceChange:");
+	      console.log(e);
+	      var id = e && e.target && e.target.id;
+	      var checked = e && e.target && e.target.checked;
+
+	      var updated = null;
+	      if (checked) {
+	        if (this.state.selectedDeviceArray.indexOf(id) < 0) {
+	          updated = this.state.selectedDeviceArray.slice(0);
+	          updated.push(id);
+	        }
+	      } else {
+	        updated = this.state.selectedDeviceArray.reduce(function (previous, current, index, array) {
+	          if (current != id) {
+	            previous.push(current);
+	          }
+	          return previous;
+	        }, []);
+	        /*updated = this.state.selectedDeviceArray.map ((item, index) => {
+	          if (item != id)
+	            return item;
+	        });*/
+	      }
+	      if (updated != null) {
+	        console.log("updated:" + (0, _stringify2.default)(updated));
+	        this.setState({ selectedDeviceArray: updated });
+	      }
+	    }
+	  }, {
+	    key: 'renderFirmwareCheckBox',
+	    value: function renderFirmwareCheckBox(firmware) {
+	      return _react2.default.createElement(
+	        'tr',
+	        { key: firmware.id },
+	        _react2.default.createElement(
+	          'td',
+	          { scope: 'row' },
+	          firmware.id
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'wordbreak' },
+	          _react2.default.createElement(
+	            'a',
+	            { href: firmware.filepath },
+	            firmware.desc
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'button', className: 'btn btn-default', onClick: this.deleteFirmware.bind(this, firmware.id) },
+	            '删除'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'button', className: 'btn btn-default', onClick: this.handleUpgrade.bind(this, firmware.filepath) },
+	            '升级'
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'renderDeviceCheckBox',
+	    value: function renderDeviceCheckBox(device) {
+	      var checked = this.state.selectedDeviceArray.indexOf(device.id) >= 0;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'input-group', key: device.id },
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'input-group-addon' },
+	          _react2.default.createElement('input', { type: 'checkbox', id: device.id, checked: checked, onChange: this.handleDeviceChange.bind(this) })
+	        ),
+	        _react2.default.createElement('input', { type: 'text', className: 'form-control', disable: 'true', value: device.info && device.info.name || device.deviceid })
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      try {
+	        var list = this.state.firmwareArray.map(function (id) {
+	          var firmware = _this3.state.firmwares[id];
+	          return _this3.renderFirmwareCheckBox(firmware);
+	        });
+
+	        var device_list = this.state.deviceArray.map(function (id) {
+	          var device = _this3.state.devices[id];
+	          return _this3.renderDeviceCheckBox(device);
+	        });
+
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement('input', { ref: 'file', type: 'file', name: 'file' }),
+	            _react2.default.createElement('input', { type: 'button', onClick: this.uploadFile.bind(this), value: '上传' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              '升级文件列表'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'table-responsive' },
+	            _react2.default.createElement(
+	              'table',
+	              { className: 'table table-bordered table-striped' },
+	              _react2.default.createElement(
+	                'tbody',
+	                null,
+	                list
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              '设备列表'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            device_list
+	          )
+	        );
+	      } catch (e) {
+	        console.log(e);
+	      }
+	    }
+	  }]);
+	  return TestFirmware;
+	}(_react.Component);
+
+	exports.default = TestFirmware;
+
+/***/ },
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "testPage.html";
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "charts.css";
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "mqttws31.js";
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "bootstrap.min.css";
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "jquery.min.js";
 
 /***/ }
 /******/ ]);
