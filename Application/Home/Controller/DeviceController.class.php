@@ -213,7 +213,7 @@ class DeviceController extends Controller {
             $postOb['ticket'] = $device_ticket;
             $postOb['device_id'] = $device['deviceid'];
             $postOb['openid'] = $openid;
-            $retcode = $this->_wx_post_json ("https://api.weixin.qq.com/device/bind?access_token=".$access_token, json_encode($postOb));
+            $retcode = $this->_wx_post_json ($url, json_encode($postOb));
             if ($retcode == 0) {
                 // bind user success! then save device info to database.
                 $device['info'] = json_encode($device['info']);
@@ -228,6 +228,62 @@ class DeviceController extends Controller {
                     error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! update device fail!", 3, PHP_LOG_PATH);
                     $retcode = 1000;
                 }
+            } else {
+                error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! bind device to user fail!", 3, PHP_LOG_PATH);
+            }
+        }
+
+        $result['errcode'] = $retcode;
+        $this->ajaxReturn($result);        
+	}
+
+	public function unbindToUser2 () {
+        // 是否判断用户权限？得到用户openid，具有权限后才进行后续操作。
+        $post = wp_file_get_contents ( 'php://input' );        
+        $post = json_decode ($post, true);
+
+        $device = $post['device'];
+        $device_ticket = $post['ticket'];
+
+        $openid = get_openid();
+        $access_token = get_access_token();
+
+        $retcode = 0;
+        if ($device == null) {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! device=".$device, 3, PHP_LOG_PATH);
+            $retcode = -1;
+        } else if ($openid == '-1' || $openid == '-2' || $openid == '') {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! openid=".$openid, 3, PHP_LOG_PATH);
+            $retcode = -2;
+        } else if ($device_ticket == '') {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! device_ticket=".$device_ticket, 3, PHP_LOG_PATH);
+            $retcode = -3;
+        } else if ($access_token == '') {
+            error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! access_token=".$access_token, 3, PHP_LOG_PATH);
+            $retcode = -4;
+        }
+
+        if ($retcode == 0) {
+            // post to weixin.
+            $url = "https://api.weixin.qq.com/device/unbind?access_token=".$access_token;
+            $postOb['ticket'] = $device_ticket;
+            $postOb['device_id'] = $device['deviceid'];
+            $postOb['openid'] = $openid;
+            $retcode = $this->_wx_post_json ($url, json_encode($postOb));
+            if ($retcode == 0) {
+                // unbind user success! then save device info to database.
+                /*
+                $device['info'] = json_encode($device['info']);
+                $Model = M('wxdevice_devices');
+                $count = $Model->save ($device);
+                $cond1['id']=$device['id'];
+                if ($count) {
+                    error_log("\nwindsome ". __METHOD__." ".__LINE__.", success! update ".$count." records", 3, PHP_LOG_PATH);
+                } else {
+                    error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! update device fail!", 3, PHP_LOG_PATH);
+                    $retcode = 1000;
+                }
+                */
             } else {
                 error_log("\nwindsome ". __METHOD__." ".__LINE__.", error! bind device to user fail!", 3, PHP_LOG_PATH);
             }
@@ -581,7 +637,8 @@ class DeviceController extends Controller {
         if ($retcode == '200') {
             // curl request ok.
             $content = json_decode ( $content, true );
-            return (int)$content['errcode']; 
+            $base_resp = $content['base_resp'];
+            return (int)$base_resp['errcode']; 
         } else {
             // curl request fail.
             return -1;
