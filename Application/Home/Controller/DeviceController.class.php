@@ -81,7 +81,9 @@ class DeviceController extends Controller {
         $device_uuid = $post['device_uuid'];
         $device_mac  = $post['device_mac'];
         $product_id  = $post['product_id'];        
-        
+        $swver = $post['swver'];
+        $hwver = $post['hwver'];
+
         /*
         $device_type = 'gh_9e62dd855eff';
         $device_uuid = '123123123123';
@@ -96,8 +98,22 @@ class DeviceController extends Controller {
         $cond1['productid'] = $product_id;
         $cond1['uuid'] = $device_uuid;
         $exist_device = $Model->where($cond1)->find();
-        if ($exist_device == null) {
-            error_log("\nwindsome ". __METHOD__. ", no device", 3, PHP_LOG_PATH);
+        if ($exist_device) {
+            // find a device.
+            error_log("\nwindsome ". __METHOD__. " get device: ".print_r($exist_device, true), 3, PHP_LOG_PATH);
+            $data['device_id'] = $exist_device['deviceid'];
+            $data['device_qrcode'] = $exist_device['qrcode'];
+
+            $cond['id'] = $exist_device['id'];
+            $Model->swver = $swver;
+            $Model->hwver = $hwver;
+            $Model->where($cond)->save();
+            error_log("\nwindsome ". __METHOD__. " swver=".$swver.", hwver=".$hwver."Model".print_r($Model,true), 3, PHP_LOG_PATH);
+            
+            //var_dump ($exist_device);     
+            
+        } else if ($exist_device == null) {
+            error_log("\nwindsome ". __METHOD__. " no device", 3, PHP_LOG_PATH);
             $cond['productid'] = $product_id;
             $cond['uuid'] = '';
             $new_device = $Model->where($cond)->find();
@@ -106,6 +122,8 @@ class DeviceController extends Controller {
             $cond['id'] = $new_device['id'];
             $Model->uuid = $device_uuid;
             $Model->mac = $device_mac;
+            $Model->swver = $swver;
+            $Model->hwver = $hwver;
             $Model->where($cond)->save();
             
             unset ($cond);
@@ -115,10 +133,10 @@ class DeviceController extends Controller {
             $data['device_qrcode'] = $new_device['qrcode'];
             //var_dump ($new_device);            
         } else {
-            error_log("\nwindsome ". __METHOD__. ", get device", 3, PHP_LOG_PATH);
-            $data['device_id'] = $exist_device['deviceid'];
-            $data['device_qrcode'] = $exist_device['qrcode'];
-            //var_dump ($exist_device);     
+            // false.
+            error_log("\nwindsome ". __METHOD__. " sql query fail!", 3, PHP_LOG_PATH);
+            $data['errcode'] = -1;
+            $data['errstr'] = 'sql query fail';
         }
 
         $this->ajaxReturn($data);        
