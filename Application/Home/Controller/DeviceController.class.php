@@ -100,15 +100,15 @@ class DeviceController extends Controller {
         $exist_device = $Model->where($cond1)->find();
         if ($exist_device) {
             // find a device.
-            error_log("\nwindsome ". __METHOD__. " get device: ".print_r($exist_device, true), 3, PHP_LOG_PATH);
+            //error_log("\nwindsome ". __METHOD__. " get device: ".print_r($exist_device, true), 3, PHP_LOG_PATH);
             $data['device_id'] = $exist_device['deviceid'];
-            $data['device_qrcode'] = $exist_device['qrcode'];
+            $data['device_qrcode'] = stripslashes($exist_device['qrcode']);
 
             $cond['id'] = $exist_device['id'];
             $Model->swver = $swver;
             $Model->hwver = $hwver;
             $Model->where($cond)->save();
-            error_log("\nwindsome ". __METHOD__. " swver=".$swver.", hwver=".$hwver."Model".print_r($Model,true), 3, PHP_LOG_PATH);
+            //error_log("\nwindsome ". __METHOD__. " swver=".$swver.", hwver=".$hwver."Model".print_r($Model,true), 3, PHP_LOG_PATH);
             
             //var_dump ($exist_device);     
             
@@ -130,7 +130,7 @@ class DeviceController extends Controller {
             $cond['uuid'] = $device_uuid;
             $new_device = $Model->where($cond)->find();
             $data['device_id'] = $new_device['deviceid'];            
-            $data['device_qrcode'] = $new_device['qrcode'];
+            $data['device_qrcode'] = stripslashes($new_device['qrcode']);
             //var_dump ($new_device);            
         } else {
             // false.
@@ -139,7 +139,10 @@ class DeviceController extends Controller {
             $data['errstr'] = 'sql query fail';
         }
 
-        $this->ajaxReturn($data);        
+        $content2 = stripslashes(json_encode($data));
+        exit ($content2);
+
+        //$this->ajaxReturn($data);
 	}
 
 	public function bindToUser () {
